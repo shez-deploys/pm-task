@@ -1,0 +1,584 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Contacts Impact Matrix</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: Proton-style app shell. Header + tabs, matrix canvas with quadrant zones, grouped table, side drawer for detail. Single dark theme (Proton Dark). */
+:root {
+  color-scheme: dark;
+  --bg-canvas: #0e0d12; --bg-norm: #16141b; --bg-raised: #292732; --bg-strong: #312f3a; --bg-elevated: #3f3d4d;
+  --border-weak: #24242d; --border-norm: #3f3d4d; --border-input: #494656;
+  --text: #ffffff; --text-weak: #a7a4b5; --text-hint: #6d6b78;
+  --primary: #6d4aff; --primary-hover: #7c5cff; --primary-soft: #947ff7; --primary-tint: rgba(109,74,255,.16);
+  --success: #1ea885; --warning: #ff9900; --danger: #f5385a; --info: #239ece;
+  --success-tint: rgba(30,168,133,.10); --warning-tint: rgba(255,153,0,.12); --danger-tint: rgba(245,56,90,.09); --info-tint: rgba(35,158,206,.08);
+  --q-qw: rgba(30,168,133,.09); --q-bb: rgba(109,74,255,.11); --q-in: rgba(35,158,206,.05); --q-mp: rgba(245,56,90,.07);
+  --font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --r-sm: 6px; --r-md: 8px; --r-lg: 12px; --r-pill: 999px;
+  --shadow-pop: 0 8px 24px rgba(0,0,0,.45); --shadow-modal: 0 16px 48px rgba(0,0,0,.6);
+}
+*, *::before, *::after { box-sizing: border-box; }
+html, body { background: var(--bg-canvas); }
+body { font-family: var(--font); font-size: 14px; line-height: 1.45; color: var(--text); -webkit-font-smoothing: antialiased; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--primary-soft); outline-offset: 2px; }
+
+.wrap { max-width: 1240px; margin: 0 auto; padding-inline: 24px; padding-block: 28px 64px; }
+@media (max-width: 600px) { .wrap { padding-inline: 16px; padding-block: 20px 48px; } }
+
+/* Header */
+.head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px 24px; }
+.eyebrow { font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--primary-soft); display: flex; align-items: center; gap: 8px; }
+.eyebrow .logo { width: 18px; height: 18px; border-radius: 5px; background: linear-gradient(135deg, #8a6bff, #5b3cf0); display: inline-grid; place-items: center; font-size: 10px; color: #fff; font-weight: 700; letter-spacing: 0; }
+h1 { font-size: 28px; font-weight: 700; margin: 6px 0 4px; text-wrap: balance; letter-spacing: -.01em; }
+.sub { color: var(--text-weak); margin: 0; max-width: 62ch; }
+
+/* Tabs */
+.tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--border-norm); margin-top: 24px; }
+.tab { background: none; border: 0; padding: 10px 14px; font-weight: 600; color: var(--text-weak); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; display: inline-flex; gap: 8px; align-items: center; }
+.tab:hover { color: var(--text); }
+.tab[aria-selected="true"] { color: var(--text); border-bottom-color: var(--primary); }
+.tab .count { font-size: 11px; font-weight: 600; padding: 1px 7px; border-radius: var(--r-pill); background: var(--bg-raised); color: var(--text-weak); font-variant-numeric: tabular-nums; }
+
+/* Toolbar + filter chips */
+.toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; margin: 20px 0 16px; }
+.toolbar .label { font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--text-hint); }
+.filters { display: flex; flex-wrap: wrap; gap: 6px; }
+.fchip { display: inline-flex; align-items: center; gap: 8px; height: 32px; padding: 0 12px; border-radius: var(--r-pill); border: 1px solid var(--border-input); background: transparent; cursor: pointer; font-size: 12px; font-weight: 600; letter-spacing: .03em; color: var(--text-weak); transition: background .15s, border-color .15s, color .15s; }
+.fchip:hover { border-color: var(--primary-soft); color: var(--text); }
+.fchip[aria-pressed="true"] { background: var(--primary-tint); border-color: var(--primary); color: var(--text); }
+.fchip .n { font-variant-numeric: tabular-nums; color: var(--text-hint); font-weight: 500; }
+.fchip[aria-pressed="true"] .n { color: var(--primary-soft); }
+.fchip .sw { width: 10px; height: 10px; border-radius: 3px; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 12px; color: var(--text-weak); margin-left: auto; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+
+/* Prio swatches (shared by chips, legend, table) */
+.p-MVP    { --pc: var(--primary); --pc-bg: var(--primary); --pc-fg: #fff; --pc-bd: var(--primary); }
+.p-NEXT   { --pc: var(--primary-soft); --pc-bg: rgba(109,74,255,.22); --pc-fg: #fff; --pc-bd: rgba(148,127,247,.55); }
+.p-LATER  { --pc: #8b889a; --pc-bg: var(--bg-strong); --pc-fg: #e4e2ec; --pc-bd: var(--border-input); }
+.p-VISION { --pc: #6d6b78; --pc-bg: transparent; --pc-fg: var(--text-weak); --pc-bd: #6d6b78; }
+.sw { background: var(--pc-bg); border: 1px solid var(--pc-bd); }
+.p-VISION .sw, .sw.p-VISION { border-style: dashed; }
+
+/* Matrix */
+.card { background: var(--bg-norm); border: 1px solid var(--border-weak); border-radius: var(--r-lg); padding: 20px; }
+.matrix-scroll { overflow-x: auto; margin: 0 -4px; padding: 4px; }
+.matrix { display: grid; grid-template-columns: 44px repeat(10, minmax(0, 1fr)); grid-template-rows: repeat(10, minmax(56px, auto)) 34px; min-width: 760px; position: relative; }
+.zone { position: relative; z-index: 0; }
+.zone .zl { position: absolute; font-size: 11px; font-weight: 700; letter-spacing: .1em; display: flex; flex-direction: column; gap: 2px; pointer-events: none; }
+.zone .zl small { font-size: 10px; font-weight: 500; letter-spacing: .02em; text-transform: none; color: var(--text-weak); }
+.z-qw { grid-column: 2 / 7; grid-row: 1 / 6; background: var(--q-qw); border-radius: var(--r-md) 0 0 0; }
+.z-bb { grid-column: 7 / 12; grid-row: 1 / 6; background: var(--q-bb); border-radius: 0 var(--r-md) 0 0; }
+.z-in { grid-column: 2 / 7; grid-row: 6 / 11; background: var(--q-in); border-radius: 0 0 0 var(--r-md); }
+.z-mp { grid-column: 7 / 12; grid-row: 6 / 11; background: var(--q-mp); border-radius: 0 0 var(--r-md) 0; }
+.z-qw .zl { top: 10px; left: 12px; color: #4fd1ad; }
+.z-bb .zl { top: 10px; right: 12px; text-align: right; align-items: flex-end; color: #b3a3ff; }
+.z-in .zl { bottom: 10px; left: 12px; color: #5cc0e6; }
+.z-mp .zl { bottom: 10px; right: 12px; text-align: right; align-items: flex-end; color: #ff7a92; }
+.divider-v { grid-column: 7; grid-row: 1 / 11; border-left: 2px solid var(--border-input); z-index: 1; pointer-events: none; }
+.divider-h { grid-column: 2 / 12; grid-row: 6; border-top: 2px solid var(--border-input); z-index: 1; pointer-events: none; }
+.cell { position: relative; z-index: 2; border-right: 1px dashed rgba(255,255,255,.045); border-bottom: 1px dashed rgba(255,255,255,.045); padding: 4px 3px; display: flex; flex-direction: column; justify-content: center; gap: 4px; min-width: 0; }
+.ax { display: grid; place-items: center; font-size: 12px; color: var(--text-hint); font-variant-numeric: tabular-nums; }
+.ax-y { grid-column: 1; border-right: 1px solid var(--border-norm); justify-items: end; padding-right: 10px; }
+.ax-x { grid-row: 11; border-top: 1px solid var(--border-norm); }
+.axis-titles { display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 11px; font-weight: 600; letter-spacing: .08em; color: var(--text-weak); text-transform: uppercase; padding: 10px 0 0 44px; min-width: 760px; }
+.axis-titles .hint { text-transform: none; letter-spacing: 0; font-weight: 400; color: var(--text-hint); }
+.y-title { font-size: 11px; font-weight: 600; letter-spacing: .08em; color: var(--text-weak); text-transform: uppercase; margin: 0 0 8px; }
+
+.chip { display: block; max-width: 100%; text-align: left; border-radius: var(--r-sm); padding: 5px 6px; font-size: 10.5px; line-height: 1.2; font-weight: 600; letter-spacing: 0; background: var(--pc-bg); color: var(--pc-fg); border: 1px solid var(--pc-bd); cursor: pointer; transition: transform .12s, box-shadow .12s; overflow-wrap: break-word; hyphens: auto; box-shadow: 0 2px 6px rgba(0,0,0,.25); }
+.chip.p-VISION { border-style: dashed; }
+.chip:hover { transform: translateY(-1px); box-shadow: 0 6px 14px rgba(0,0,0,.45); }
+.chip[aria-current="true"] { outline: 2px solid #fff; outline-offset: 1px; }
+.chip.al-start { align-self: flex-start; } .chip.al-center { align-self: center; } .chip.al-end { align-self: flex-end; }
+.cell.multi { justify-content: space-evenly; }
+
+.note { font-size: 12px; color: var(--text-hint); margin: 14px 0 0; }
+
+/* Tables */
+.section-h { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin: 32px 0 12px; flex-wrap: wrap; }
+.section-h h2 { font-size: 18px; font-weight: 700; margin: 0; }
+.section-h p { margin: 0; color: var(--text-weak); font-size: 13px; }
+.table-scroll { overflow-x: auto; border: 1px solid var(--border-weak); border-radius: var(--r-lg); background: var(--bg-norm); }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { text-align: left; font-size: 10.5px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--text-hint); padding: 10px 12px; border-bottom: 1px solid var(--border-norm); white-space: nowrap; background: var(--bg-norm); position: sticky; top: 0; }
+td { padding: 11px 12px; border-bottom: 1px solid var(--border-weak); vertical-align: middle; color: var(--text-weak); }
+tbody tr.row { cursor: pointer; transition: background .12s; }
+tbody tr.row:hover { background: var(--bg-raised); }
+tbody tr.row:hover td.t-title { color: #fff; }
+td.t-id { font-variant-numeric: tabular-nums; color: var(--text-hint); font-weight: 600; white-space: nowrap; }
+td.t-title { color: var(--text); }
+td.t-title b { display: block; font-size: 11px; letter-spacing: .04em; font-weight: 600; color: var(--primary-soft); margin-bottom: 2px; }
+td.t-num { font-variant-numeric: tabular-nums; text-align: center; color: var(--text); font-weight: 600; }
+th.t-num { text-align: center; }
+td.t-long { min-width: 240px; max-width: 360px; font-size: 12.5px; }
+tr.group td { background: var(--bg-canvas); padding: 9px 12px; font-size: 11px; font-weight: 700; letter-spacing: .1em; color: var(--qc); border-bottom: 1px solid var(--border-norm); }
+tr.group td span { color: var(--text-hint); font-weight: 500; letter-spacing: 0; margin-left: 8px; text-transform: none; }
+.q-QW { --qc: #4fd1ad; } .q-BB { --qc: #b3a3ff; } .q-IN { --qc: #5cc0e6; } .q-MP { --qc: #ff7a92; }
+.empty td { text-align: center; color: var(--text-hint); padding: 28px; }
+
+.pill { display: inline-flex; align-items: center; gap: 6px; height: 22px; padding: 0 9px; border-radius: var(--r-pill); font-size: 10.5px; font-weight: 700; letter-spacing: .06em; white-space: nowrap; background: var(--pc-bg); color: var(--pc-fg); border: 1px solid var(--pc-bd); }
+.pill.p-VISION { border-style: dashed; }
+.qpill { display: inline-flex; align-items: center; gap: 6px; font-size: 10.5px; font-weight: 700; letter-spacing: .08em; color: var(--qc); white-space: nowrap; }
+.qpill::before { content: ""; width: 7px; height: 7px; border-radius: 2px; background: var(--qc); }
+.tag { display: inline-flex; align-items: center; height: 22px; padding: 0 8px; border-radius: var(--r-sm); background: var(--bg-raised); color: var(--text-weak); font-size: 10.5px; font-weight: 600; letter-spacing: .05em; white-space: nowrap; }
+.yes { color: var(--success); font-weight: 700; } .no { color: var(--text-hint); }
+.pips { display: inline-flex; gap: 3px; vertical-align: middle; }
+.pips i { width: 7px; height: 7px; border-radius: 2px; background: var(--bg-elevated); }
+.pips i.on { background: var(--warning); }
+
+/* Backlog controls */
+.search { display: flex; align-items: center; gap: 8px; height: 36px; padding: 0 12px; border-radius: var(--r-md); background: var(--bg-raised); border: 1px solid transparent; min-width: 0; flex: 0 1 280px; }
+.search:focus-within { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-tint); }
+.search input { background: none; border: 0; outline: 0; color: var(--text); font: inherit; width: 100%; min-width: 0; }
+.search input::placeholder { color: var(--text-hint); }
+.select { height: 36px; border-radius: var(--r-md); background: var(--bg-raised); border: 1px solid var(--border-input); color: var(--text); font: inherit; font-size: 13px; padding: 0 10px; }
+th.sortable { cursor: pointer; user-select: none; }
+th.sortable:hover { color: var(--text); }
+th .arr { opacity: .4; margin-left: 4px; }
+th[aria-sort="ascending"] .arr, th[aria-sort="descending"] .arr { opacity: 1; color: var(--primary-soft); }
+
+/* Drawer */
+.scrim { position: fixed; inset: 0; background: rgba(8,7,12,.55); z-index: 40; opacity: 0; transition: opacity .2s; }
+.scrim.open { opacity: 1; }
+.drawer { position: fixed; top: 0; right: 0; bottom: 0; width: min(480px, 100%); background: var(--bg-norm); border-left: 1px solid var(--border-norm); box-shadow: var(--shadow-modal); z-index: 50; display: flex; flex-direction: column; transform: translateX(100%); transition: transform .22s ease; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+.drawer.open { transform: none; }
+.d-head { padding: 20px 22px 16px; border-bottom: 1px solid var(--border-weak); display: flex; flex-direction: column; gap: 10px; }
+.d-top { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.d-top .id { font-size: 12px; font-weight: 700; color: var(--text-hint); font-variant-numeric: tabular-nums; }
+.icon-btn { margin-left: auto; width: 32px; height: 32px; border-radius: var(--r-md); border: 0; background: transparent; color: var(--text-weak); cursor: pointer; display: grid; place-items: center; }
+.icon-btn:hover { background: var(--bg-raised); color: var(--text); }
+.d-short { font-size: 11px; font-weight: 700; letter-spacing: .08em; color: var(--primary-soft); }
+.d-title { font-size: 20px; font-weight: 700; line-height: 1.25; margin: 0; text-wrap: balance; }
+.d-body { overflow-y: auto; padding: 18px 22px 28px; display: flex; flex-direction: column; gap: 20px; }
+.stats { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 8px; }
+.stat { background: var(--bg-canvas); border: 1px solid var(--border-weak); border-radius: var(--r-md); padding: 10px 12px; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.stat .k { font-size: 10px; font-weight: 600; letter-spacing: .08em; color: var(--text-hint); text-transform: uppercase; }
+.stat .v { font-size: 18px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.stat .v small { font-size: 12px; color: var(--text-hint); font-weight: 500; }
+.meter { height: 4px; border-radius: 2px; background: var(--bg-elevated); overflow: hidden; }
+.meter i { display: block; height: 100%; border-radius: 2px; }
+@media (max-width: 420px) { .stats { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+.flags { display: flex; flex-wrap: wrap; gap: 6px; }
+.flag { display: inline-flex; align-items: center; gap: 6px; height: 26px; padding: 0 10px; border-radius: var(--r-pill); font-size: 11px; font-weight: 600; letter-spacing: .04em; border: 1px solid var(--border-input); color: var(--text-hint); }
+.flag.on { border-color: rgba(30,168,133,.5); background: var(--success-tint); color: #4fd1ad; }
+.flag svg { width: 12px; height: 12px; }
+.field h3 { font-size: 10.5px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--text-hint); margin: 0 0 6px; }
+.field p { margin: 0; color: #e7e5ef; line-height: 1.55; }
+.callout { background: var(--primary-tint); border-left: 3px solid var(--primary); border-radius: 0 var(--r-md) var(--r-md) 0; padding: 12px 14px; }
+.callout p { color: #fff; }
+.pc { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+@media (max-width: 420px) { .pc { grid-template-columns: 1fr; } }
+.pc > div { border-radius: var(--r-md); padding: 12px; background: var(--bg-canvas); border: 1px solid var(--border-weak); border-top: 2px solid var(--c); }
+.pc h3 { color: var(--c); }
+.pc p { font-size: 13px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.privacy { display: flex; gap: 10px; align-items: flex-start; padding: 12px; border-radius: var(--r-md); background: var(--c-tint); border: 1px solid var(--c-bd); }
+.privacy svg { flex: none; width: 16px; height: 16px; color: var(--c); margin-top: 2px; }
+.privacy p { font-size: 13px; }
+.privacy b { color: var(--c); font-weight: 700; letter-spacing: .04em; font-size: 11px; display: block; margin-bottom: 2px; }
+.kv { display: grid; grid-template-columns: auto 1fr; gap: 6px 16px; font-size: 12.5px; }
+.kv dt { color: var(--text-hint); } .kv dd { margin: 0; color: var(--text-weak); }
+.d-nav { display: flex; gap: 8px; padding: 12px 22px; border-top: 1px solid var(--border-weak); }
+.btn { height: 34px; padding: 0 14px; border-radius: var(--r-md); border: 1px solid var(--border-input); background: transparent; color: var(--text); font-weight: 500; font-size: 13px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+.btn:hover { background: var(--bg-raised); }
+.btn:disabled { opacity: .4; cursor: default; background: transparent; }
+.btn.right { margin-left: auto; }
+
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; } }
+</style>
+
+</head>
+<body>
+<script src="assets/site-nav.js"></script>
+<div class="wrap">
+  <header class="head">
+    <div>
+      <div class="eyebrow"><span class="logo" aria-hidden="true">P</span>Proton Contacts for Business</div>
+      <h1>Impact / Effort Matrix</h1>
+      <p class="sub">25 feature ideas scored 1–10 on impact and effort. Pick a feature to see its full brief, or open the backlog for everything in one table.</p>
+    </div>
+  </header>
+
+  <nav class="tabs" role="tablist" aria-label="Views">
+    <button class="tab" role="tab" id="tab-matrix" aria-controls="view-matrix" aria-selected="true">Matrix <span class="count" id="c-matrix">0</span></button>
+    <button class="tab" role="tab" id="tab-backlog" aria-controls="view-backlog" aria-selected="false">Backlog <span class="count">25</span></button>
+  </nav>
+
+  <!-- MATRIX VIEW -->
+  <section id="view-matrix" role="tabpanel" aria-labelledby="tab-matrix">
+    <div class="toolbar">
+      <span class="label">Show</span>
+      <div class="filters" id="m-filters"></div>
+      <div class="legend" aria-hidden="true">
+        <span><i class="sw p-MVP" style="width:10px;height:10px;border-radius:3px;display:inline-block"></i>MVP</span>
+        <span><i class="sw p-NEXT" style="width:10px;height:10px;border-radius:3px;display:inline-block"></i>NEXT</span>
+        <span><i class="sw p-LATER" style="width:10px;height:10px;border-radius:3px;display:inline-block"></i>LATER</span>
+        <span><i class="sw p-VISION" style="width:10px;height:10px;border-radius:3px;display:inline-block;border-style:dashed"></i>VISION</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="matrix-scroll">
+        <p class="y-title">Impact ↑</p>
+        <div class="matrix" id="matrix"></div>
+        <div class="axis-titles"><span class="hint">Impact 6+ is high · effort 5 or less is low</span><span>Effort →</span></div>
+      </div>
+      <p class="note">Features that share a score sit in the same cell, ordered by their relative impact (higher sits on top) and nudged left or right by relative effort.</p>
+    </div>
+
+    <div class="section-h">
+      <h2>Features on the matrix</h2>
+      <p>Grouped by quadrant, highest impact first.</p>
+    </div>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>ID</th><th>Prio</th><th>Feature</th><th>Rationale</th><th>What it does</th><th class="t-num">Impact</th><th class="t-num">Effort</th></tr></thead>
+        <tbody id="m-table"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- BACKLOG VIEW -->
+  <section id="view-backlog" role="tabpanel" aria-labelledby="tab-backlog" hidden>
+    <div class="toolbar">
+      <label class="search" for="b-search">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" style="color:var(--text-hint)"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="b-search" type="search" placeholder="Search features" autocomplete="off">
+      </label>
+      <div class="filters" id="b-filters"></div>
+      <select class="select" id="b-theme" aria-label="Theme"><option value="">All themes</option></select>
+    </div>
+    <div class="table-scroll">
+      <table>
+        <thead><tr id="b-head"></tr></thead>
+        <tbody id="b-table"></tbody>
+      </table>
+    </div>
+  </section>
+</div>
+
+<div class="scrim" id="scrim" hidden></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="d-title" aria-hidden="true">
+  <div class="d-head" id="d-head"></div>
+  <div class="d-body" id="d-body"></div>
+  <div class="d-nav">
+    <button class="btn" id="d-prev">← Previous</button>
+    <button class="btn right" id="d-next">Next →</button>
+  </div>
+</aside>
+
+<script>
+const F = [
+ {id:1,short:"ORG DIRECTORY",theme:"DIRECTORY",title:"Org directory V1: Every colleague, added automatically",strong:1,diff:0,prio:"MVP",i:8,e:8,size:"L",wow:1,personas:["EMPLOYEE","ADMIN/SOC"],metrics:["Directory coverage","Time to find a colleague","Weekly active seats"],privacy:"Strong if zero-access encrypted",
+  what:"Every employee appears automatically from the admin panel or identity provider, with name, role, team, manager and location.",problem:"Finding the right colleague; empty address books for new joiners.",pros:"Table stakes vs Google and Microsoft; foundation for every other feature.",cons:"Encrypted search at scale; key management for a shared dataset.",why:"Foundation for every other feature and the biggest gap vs Google and Microsoft. Costly: encrypted shared directory, key management, SCIM sync."},
+ {id:2,short:"PROFILE CARD",theme:"COLLABORATION",title:"Profile card for any colleague, in every app",strong:1,diff:0,prio:"MVP",i:8,e:5,size:"M",wow:4,personas:["EMPLOYEE"],metrics:["Profile card opens","Time to find a colleague"],privacy:"Strong",
+  what:"Hover over or tap anyone in Mail, Calendar, Drive, Docs or Meet to see their role, team and what you share.",problem:"Context switching to find out who someone is.",pros:"Very visible; unifies the suite; easy to show in a wireframe.",cons:"Needs consistent UI across many apps.",why:"Used by every employee, every day, in every app. One shared component, but it has to ship in Mail, Calendar, Drive, Docs and Meet."},
+ {id:3,short:"TEAM GROUPS",theme:"COLLABORATION",title:"Groups V1: Admin-managed teams usable across apps",strong:0,diff:0,prio:"MVP",i:7,e:5,size:"M",wow:3,personas:["EMPLOYEE","ADMIN/SOC"],metrics:["Group usage in shares","Share completion time"],privacy:"Strong",
+  what:"Admin-created teams such as Legal work as recipients, invitees, share targets and Pass vault members in every app.",problem:"Sharing friction; re-adding the same people in every app.",pros:"Big time saver; strong admin story.",cons:"Group sprawl; permissions edge cases when membership changes.",why:"Removes repeated sharing work for every team. Contact groups exist today; the work is making them org-wide and usable in every share dialog.",
+  nudge:{di:.2,de:-.2,note:"Sits above Relationship context: it removes sharing work for every team, and extends contact groups that already exist."}},
+ {id:4,short:"DYNAMIC GROUPS",theme:"ADMIN & GOVERNANCE",title:"Groups V2: Teams that update themselves from directory fields",strong:1,diff:0,prio:"MVP",i:7,e:4,size:"M",wow:3,personas:["ADMIN/SOC","EMPLOYEE"],metrics:["Group usage in shares","Admin setup time","Offboarding time"],privacy:"Strong",
+  what:"Groups build and maintain themselves from department, location, role or manager, e.g. 'Legal – Geneva' or 'My direct reports'. Joiners are added and leavers removed automatically.",problem:"Groups going stale; admins maintaining lists by hand; leavers staying on distribution lists.",pros:"Zero maintenance; joiners and leavers handled automatically; makes teams usable in every share dialog.",cons:"Only as good as the directory data; broad rules can over-include people (e.g. sharing a sensitive doc with 'All staff').",why:"Zero-maintenance groups and automatic joiner/leaver handling; strong admin story. Rules on fields that the directory already holds."},
+ {id:5,short:"RECIPIENT SAFETY CHECK",theme:"SECURITY & TRUST",title:"Recipient safety V1: Warnings for external and look-alike recipients",strong:1,diff:1,prio:"MVP",i:9,e:5,size:"M",wow:5,personas:["EMPLOYEE","ADMIN/SOC"],metrics:["Recipient warnings acted on","Misdirected sends prevented"],privacy:"Strong (on-device)",
+  what:"Warns before you send or share to someone outside the organisation or with a look-alike name.",problem:"Misdirected emails and shares leaking data.",pros:"Memorable signature feature; on-brand for privacy; measurable.",cons:"False positives cause warning fatigue.",why:"Signature feature: prevents data leaks, on-brand for privacy, easy to measure. On-device checks are moderate work; tuning false positives is the main cost."},
+ {id:6,short:"FIELD VISIBILITY CONTROLS",theme:"ADMIN & GOVERNANCE",title:"Admin control over which directory fields colleagues can see",strong:0,diff:1,prio:"MVP",i:6,e:3,size:"S",wow:1,personas:["ADMIN/SOC"],metrics:["Admin setup time","Support tickets"],privacy:"Strong",
+  what:"Admins decide which profile fields are published and to whom, so the directory shares only what each organisation is comfortable with.",problem:"Over-sharing employee data inside the organisation.",pros:"Answers GDPR and works-council concerns; enterprise-ready.",cons:"More settings to design and support.",why:"Unblocks regulated buyers (GDPR, works councils) more than it delights users. Mostly settings in the existing admin panel.",
+  nudge:{di:-.2,de:-.2,note:"Sits below Expired address check (it unblocks buyers more than it helps users) and further left, since it is mostly settings in the existing admin panel."}},
+ {id:7,short:"RELATIONSHIP CONTEXT",theme:"COLLABORATION",title:"Relationship context: Your recent history with a person",strong:1,diff:0,prio:"MVP",i:7,e:5,size:"M",wow:4,personas:["EMPLOYEE","SALES"],metrics:["Profile card opens","Feature adoption"],privacy:"Strong (on-device, your own data only)",
+  what:"The profile card shows your latest emails, past and upcoming meetings, and shared files with that person, built on your device from your own data.",problem:"Losing the thread with colleagues: digging through Mail, Calendar and Drive to remember what you last discussed or shared.",pros:"Useful every day, even in small teams where everyone already knows each other; no new data collected; turns the profile card into a working tool.",cons:"Needs on-device aggregation across Mail, Calendar and Drive; Microsoft and Google offer similar cards, so it is parity unless the privacy angle is made clear.",why:"Daily value even in small teams: picks up the thread with a colleague in one click. Moderate effort: on-device aggregation of your own Mail, Calendar and Drive history, with no new data collected.",
+  nudge:{di:-.2,de:.2,note:"Sits below and right of Team groups: on-device aggregation across three apps is a little more work, and it is closer to parity with Google and Microsoft."}},
+ {id:8,short:"EXTERNAL ENRICHMENT",theme:"DATA QUALITY",title:"Contact enrichment V1: Fill in external contacts from email signatures",strong:1,diff:1,prio:"NEXT",i:6,e:6,size:"M",wow:4,personas:["EMPLOYEE","SALES"],metrics:["Contact completeness","Suggestion acceptance rate"],privacy:"Strong if on-device and suggest-only",
+  what:"Suggests name, title and company for external contacts from their email signatures and domain, worked out on your device. Suggests, never overwrites.",problem:"Vague external contacts nobody has time to fill in.",pros:"No manual data entry; private alternative to cloud enrichment tools.",cons:"Signature parsing can be wrong; touches the brief's out-of-scope external area.",why:"Valuable for client-facing teams and a private alternative to cloud enrichment, but external scope. Reliable on-device signature parsing is hard.",
+  nudge:{di:0,de:.25,note:"Sits below Suggested collaborators (external scope limits its reach) and to the right, since reliable on-device signature parsing is hard."}},
+ {id:9,short:"DIRECTORY MERGE",theme:"DATA QUALITY",title:"Merge personal contacts with their directory entries",strong:0,diff:0,prio:"NEXT",i:4,e:3,size:"S",wow:2,personas:["EMPLOYEE"],metrics:["Duplicate contacts","Contact completeness"],privacy:"Strong (on-device)",
+  what:"Spots personal contacts that match a directory entry and offers to merge or update them.",problem:"Stale and duplicate contacts.",pros:"Builds on today's 'contacts look identical' banner; quick win.",cons:"Merge mistakes are hard to undo.",why:"Tidies address books but is rarely a top pain point. Builds on the existing duplicate-merge banner.",
+  nudge:{di:.2,de:-.2,note:"Sits above and left of LinkedIn paste-to-fill: it helps every employee, is internal scope, and builds on the existing merge banner."}},
+ {id:10,short:"SUGGESTED COLLABORATORS",theme:"AI/ML",title:"Suggested people to share with, based on your past sharing",strong:1,diff:0,prio:"NEXT",i:6,e:6,size:"M",wow:4,personas:["EMPLOYEE"],metrics:["Suggestion acceptance rate","Share completion time"],privacy:"Strong if on-device",
+  what:"Share dialogs suggest the colleagues you usually share similar files with, worked out on your device.",problem:"Slow sharing; forgetting someone.",pros:"Visible AI-lite feature without generating content.",cons:"Needs usage signals; must stay on-device.",why:"Visible AI-lite win in high-frequency flows. Needs on-device usage signals across Drive, Docs and Sheets without breaking zero-access.",
+  nudge:{di:.25,de:0,note:"Sits on top of its cell: it lives in high-frequency share flows used by every employee."}},
+ {id:11,short:"OFFBOARDING HANDOVER",theme:"ADMIN & GOVERNANCE",title:"Handover of a leaver's shared files, groups and vaults",strong:0,diff:0,prio:"NEXT",i:7,e:8,size:"L",wow:3,personas:["ADMIN/SOC"],metrics:["Offboarding time","Support tickets"],privacy:"Strong",
+  what:"When someone leaves, everything they owned or shared is listed for the admin to reassign, so nothing is orphaned or left open.",problem:"Orphaned files and access after people leave.",pros:"Strong security story; saves admin time.",cons:"Touches many apps' permission models.",why:"Real security and admin pain at every company. Touches the permission models of every app and encrypted ownership transfer."},
+ {id:12,short:"VERIFIED BADGES",theme:"SECURITY & TRUST",title:"Verified badge for colleagues with trusted encryption keys",strong:0,diff:1,prio:"NEXT",i:5,e:4,size:"M",wow:3,personas:["EMPLOYEE"],metrics:["Verified contacts","Misdirected sends prevented"],privacy:"Strong",
+  what:"Shows a verified mark next to colleagues whose encryption keys are confirmed, so you know it's really them.",problem:"Uncertainty about who you're really talking to.",pros:"Unique to an end-to-end encrypted suite.",cons:"Users may not understand key verification.",why:"Unique trust signal, but most users won't notice or understand it. Builds on Proton's existing key-verification features.",
+  nudge:{di:0,de:0,note:"Sits between Company briefing and Device sync: a unique trust signal most users won't notice, built on existing key verification."}},
+ {id:13,short:"NETWORK GRAPH",theme:"AI/ML",title:"Network graph: A personal map of who you work with",strong:1,diff:1,prio:"NEXT",i:6,e:4,size:"M",wow:4,personas:["EMPLOYEE","SALES"],metrics:["Feature adoption","Profile card opens"],privacy:"Strong (on-device, your own data only)",
+  what:"A visual map of your contacts, grouped by company and built on your device from your own email threads. Shows how strong and recent each connection is.",problem:"Seeing your clients and partners by company; spotting relationships that have gone quiet.",pros:"Strong visual for the doc and demos; reuses the groundwork for Relationship context and External enrichment; only your own data, so no privacy issue.",cons:"The graph view is new interface work; limited value for people with few external contacts.",why:"Strong visual that turns your own email history into a map of clients and partners. Moderate effort: data is already on the device; the graph view is the new work."},
+ {id:14,short:"LUMO DIRECTORY Q&A",theme:"AI/ML",title:"Ask Lumo who in the company knows about a topic",strong:0,diff:1,prio:"LATER",i:6,e:7,size:"L",wow:5,personas:["EMPLOYEE"],metrics:["Time to find a colleague","Premium upgrades"],privacy:"Medium (zero-access processing)",
+  what:"Answers questions like 'Who in Legal handles Swiss contracts?' using only the directory fields your organisation publishes.",problem:"Finding expertise in large organisations.",pros:"Showcases private AI; ties to Lumo for Business.",cons:"Hallucination risk; Premium-only.",why:"Strong in larger organisations, less so in small ones. Needs a reliable directory first and zero-access AI processing."},
+ {id:15,short:"MEETING PREP",theme:"AI/ML",title:"Summarised threads prior to scheduled calendar meetings",strong:0,diff:0,prio:"LATER",i:6,e:6,size:"M",wow:5,personas:["EMPLOYEE"],metrics:["Feature adoption","Premium upgrades"],privacy:"Medium",
+  what:"Before a meeting, summarises your recent emails and shared files with each attendee, so you walk in with context.",problem:"Walking into meetings without context.",pros:"Strong demo moment.",cons:"Needs cross-app data access.",why:"Useful before external and cross-team meetings. Much cheaper once Relationship context (F7) exists.",
+  nudge:{di:-.25,de:-.25,note:"Sits at the bottom left of its cell: it reuses Relationship context, so it is cheaper, but it is a LATER bet with less proven demand."}},
+ {id:16,short:"PRESENCE STATUS",theme:"COLLABORATION",title:"Colleague availability from Calendar and Meet",strong:0,diff:0,prio:"LATER",i:5,e:5,size:"M",wow:3,personas:["EMPLOYEE"],metrics:["Feature adoption","Weekly active seats"],privacy:"Medium",
+  what:"Shows whether a colleague is free, in a meeting or away. Opt-in.",problem:"Wasted time reaching unavailable people.",pros:"Makes the suite feel connected.",cons:"Presence data is sensitive; must be opt-in.",why:"Nice to have rather than a pain point. Presence data is sensitive, so it must be opt-in."},
+ {id:17,short:"SHARED ADDRESS BOOKS",theme:"COLLABORATION",title:"External contacts V1: Shared team address books",strong:0,diff:0,prio:"LATER",i:4,e:4,size:"M",wow:1,personas:["EMPLOYEE","SALES"],metrics:["Duplicate contacts","Feature adoption"],privacy:"Strong",
+  what:"One shared address book per team for clients and suppliers, instead of everyone keeping their own copy.",problem:"Each person keeping their own copy of client contacts.",pros:"Common request; bridge to external scope.",cons:"Brief says external is likely out of scope.",why:"Common request, but external scope. Straightforward extension of shared groups."},
+ {id:18,short:"ORG CHART",theme:"DIRECTORY",title:"Org directory V3: Org chart",strong:0,diff:0,prio:"LATER",i:4,e:5,size:"M",wow:3,personas:["EMPLOYEE"],metrics:["Profile card opens","Time to find a colleague"],privacy:"Medium (exposes structure)",
+  what:"A visual chart of reporting lines, built from directory data.",problem:"Understanding who's who in larger organisations.",pros:"Easy to grasp; popular in Microsoft.",cons:"Needs reliable manager data; less valuable for small orgs.",why:"Matters less in small businesses where everyone knows the structure. Depends on reliable manager data."},
+ {id:19,short:"HRIS SYNC",theme:"INTEGRATION",title:"Org directory V2: Sync people data from HR tools",strong:0,diff:0,prio:"LATER",i:4,e:7,size:"L",wow:1,personas:["ADMIN/SOC"],metrics:["Directory coverage","Contact completeness","Admin setup time"],privacy:"Medium (third-party data)",
+  what:"Keeps titles, teams and managers up to date from HR systems such as Personio or BambooHR.",problem:"Directory data going stale.",pros:"Single source of truth for people data.",cons:"Many connectors to maintain.",why:"Keeps data fresh for larger customers only. Many HR connectors to build and maintain."},
+ {id:20,short:"DEVICE SYNC",theme:"INTEGRATION",title:"Directory on phones and desktop apps (CardDAV)",strong:0,diff:0,prio:"LATER",i:5,e:4,size:"M",wow:1,personas:["EMPLOYEE"],metrics:["Feature adoption","Weekly active seats"],privacy:"Weak-medium",
+  what:"Makes colleagues available in the phone's native contacts and in desktop mail apps.",problem:"Colleagues missing from the phone dialler.",pros:"Practical everyday value.",cons:"Data leaves Proton's encrypted apps on device.",why:"Practical everyday value, but data leaves Proton's encrypted apps on the device.",
+  nudge:{di:-.25,de:.25,note:"Sits at the bottom right of its cell: CardDAV clients vary a lot, and data leaving the encrypted apps limits who can turn it on."}},
+ {id:21,short:"CRM INTEGRATION",theme:"INTEGRATION",title:"External contacts V2: CRM account history",strong:0,diff:1,prio:"VISION",i:4,e:9,size:"L",wow:3,personas:["SALES"],metrics:["Feature adoption","Seat retention"],privacy:"Weak",
+  what:"Shows account and conversation history from Salesforce or HubSpot next to a contact.",problem:"Sales context scattered across tools.",pros:"Strong for sales-heavy customers.",cons:"Out of scope per brief; sends data to third parties.",why:"Out of scope per the brief and sends data to third parties. Heavy integration work for a narrow audience."},
+ {id:22,short:"LINKEDIN PASTE-TO-FILL",theme:"DATA QUALITY",title:"Contact enrichment V2: Fill in a contact from a pasted LinkedIn profile",strong:0,diff:0,prio:"LATER",i:4,e:3,size:"S",wow:2,personas:["SALES","EMPLOYEE"],metrics:["Contact completeness","Feature adoption"],privacy:"Medium (paste-only, on-device, no fetching)",
+  what:"Paste a LinkedIn profile's text and Proton suggests name, title, company and links, parsed on your device. Proton never fetches LinkedIn itself.",problem:"Typing in details by hand for new external contacts.",pros:"Fast way to build rich contacts for clients and partners; easy to demo.",cons:"External scope per the brief; fetching LinkedIn would breach its terms and reveal who you are researching, so it must be paste-only; storing third-party profile data raises GDPR questions for the person being added.",why:"Helps client-facing staff only; external scope and GDPR questions for the person added. Simple paste-and-parse on the device.",
+  nudge:{di:-.2,de:.2,note:"Sits below and right of Directory merge: it only helps client-facing staff, and parsing varied profile text is a little more work."}},
+ {id:23,short:"COMPANY BRIEFING",theme:"AI/ML",title:"Lumo briefing on a contact's company and recent news",strong:1,diff:1,prio:"NEXT",i:5,e:4,size:"S",wow:4,personas:["SALES","EMPLOYEE"],metrics:["Feature adoption","Premium upgrades"],privacy:"Strong (company name only, sent to zero-log Lumo)",
+  what:"One click on a contact's company returns a short, sourced brief: what the business does, its size and recent news. Only the company name is sent.",problem:"Walking into calls with clients, partners or suppliers without context; switching to a search engine that tracks you.",pros:"Builds on Lumo 2.0's existing web search with citations; strong demo moment; gives a visible reason to upgrade to Workspace Premium (Lumo); no logs, no training on queries.",cons:"Mostly external contacts, which the brief puts largely out of scope; answers can be outdated or wrong, so citations must be shown; Premium-only.",why:"Showcases private AI on top of Lumo's existing web search and drives Premium upgrades. Low effort since Lumo does the work; impact capped because it mainly serves client-facing staff and external contacts.",
+  nudge:{di:.25,de:-.25,note:"Sits at the top left of its cell: it is the only small-effort item there, since Lumo already does the work, and it drives Premium upgrades."}},
+ {id:24,short:"MISDIRECTION PROTECTION",theme:"SECURITY & TRUST",title:"Recipient safety V2: Catch the wrong recipient before you send",strong:1,diff:1,prio:"NEXT",i:8,e:7,size:"L",wow:5,personas:["EMPLOYEE","ADMIN/SOC"],metrics:["Misdirected sends prevented","Recipient warnings acted on"],privacy:"Strong (on-device, your own data only)",
+  what:"Flags a recipient who doesn't fit the thread, topic or attachment, such as the wrong Anna from autocomplete. Learns on your device from your own sending history.",problem:"Misdirected emails and shares, regularly reported as one of the most common causes of data breaches.",pros:"Catches the mistakes V1 can't see; strong security story for regulated buyers; measurable.",cons:"Needs a per-user model of who usually gets what; false positives cause warning fatigue; must stay on-device.",why:"Catches the misdirection mistakes that cause many real breaches. High effort: a per-user model of who usually receives what, run on-device and tuned to avoid warning fatigue."},
+ {id:25,short:"EXPIRED ADDRESS CHECK",theme:"SECURITY & TRUST",title:"Flag expired addresses in your address book",strong:1,diff:1,prio:"NEXT",i:6,e:3,size:"S",wow:3,personas:["EMPLOYEE","ADMIN/SOC"],metrics:["Misdirected sends prevented","Contact completeness"],privacy:"Strong (bounce and leaver data stay on-device; only domain checks leave it)",
+  what:"Regularly flags addresses that are probably dead: bounced addresses, leavers, and company domains that no longer receive email. Suggests updating or removing them.",problem:"Sending to dead addresses; mail to an expired company domain that someone else has since bought and now receives.",pros:"Quiet, low-effort protection against a real leak path; keeps autocomplete clean; builds on data Proton already has.",cons:"Can't reliably test whether a mailbox exists without sending to it, so it relies on bounce, leaver and domain signals.",why:"Closes a quiet leak path (expired or re-registered domains) and keeps autocomplete clean. Low effort: bounce, leaver and domain signals already exist.",
+  nudge:{di:.2,de:.2,note:"Sits above Field visibility controls: it closes a real leak path for every user, while the domain checks add a little more work."}}
+];
+
+const PRIOS = ["MVP","NEXT","LATER","VISION"];
+const QUADS = [
+  {key:"QW",name:"QUICK WIN",desc:"High impact · low effort"},
+  {key:"BB",name:"BIG BETS",desc:"High impact · high effort"},
+  {key:"IN",name:"INCREMENTAL",desc:"Low impact · low effort"},
+  {key:"MP",name:"MONEY PIT",desc:"Low impact · high effort"}
+];
+const quad = f => f.i >= 6 ? (f.e <= 5 ? "QW" : "BB") : (f.e <= 5 ? "IN" : "MP");
+const qName = k => QUADS.find(q => q.key === k).name;
+const cellRef = f => String.fromCharCode(64 + f.e + 2) + (11 - f.i);
+F.forEach(f => { f.q = quad(f); f.cell = cellRef(f); });
+const byId = Object.fromEntries(F.map(f => [f.id, f]));
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const pill = p => `<span class="pill p-${p}">${p}</span>`;
+const qpill = k => `<span class="qpill q-${k}">${qName(k)}</span>`;
+const pips = n => `<span class="pips" aria-label="${n} of 5">${[1,2,3,4,5].map(x => `<i class="${x<=n?"on":""}"></i>`).join("")}</span>`;
+
+let store = {}; try { store = JSON.parse(localStorage.getItem("cim-state") || "{}"); } catch (e) {}
+const save = () => { try { localStorage.setItem("cim-state", JSON.stringify(state)); } catch (e) {} };
+const state = {
+  mPrio: new Set(store.mPrio || ["MVP","NEXT"]),
+  bPrio: new Set(store.bPrio || PRIOS),
+  sort: store.sort || {key:"id", dir:1},
+  open: null, list: []
+};
+const toJSON = () => ({mPrio:[...state.mPrio], bPrio:[...state.bPrio], sort: state.sort});
+const persist = () => { try { localStorage.setItem("cim-state", JSON.stringify(toJSON())); } catch (e) {} };
+
+/* ---------- Filters ---------- */
+function renderFilters(el, set, onChange) {
+  el.innerHTML = PRIOS.map(p => {
+    const n = F.filter(f => f.prio === p).length;
+    return `<button class="fchip" data-p="${p}" aria-pressed="${set.has(p)}"><span class="sw p-${p}"></span>${p}<span class="n">${n}</span></button>`;
+  }).join("");
+  el.onclick = e => {
+    const b = e.target.closest(".fchip"); if (!b) return;
+    const p = b.dataset.p; set.has(p) ? set.delete(p) : set.add(p);
+    b.setAttribute("aria-pressed", set.has(p)); persist(); onChange();
+  };
+}
+
+/* ---------- Matrix ---------- */
+const matrixEl = document.getElementById("matrix");
+function renderMatrix() {
+  const shown = F.filter(f => state.mPrio.has(f.prio));
+  document.getElementById("c-matrix").textContent = shown.length;
+  let h = "";
+  QUADS.forEach(q => {
+    const n = shown.filter(f => f.q === q.key).length;
+    h += `<div class="zone z-${q.key.toLowerCase()}"><div class="zl">${q.name} · ${n}<small>${q.desc}</small></div></div>`;
+  });
+  h += `<div class="divider-v"></div><div class="divider-h"></div>`;
+  for (let impact = 10; impact >= 1; impact--) {
+    const r = 11 - impact;
+    h += `<div class="ax ax-y" style="grid-row:${r}">${impact}</div>`;
+    for (let effort = 1; effort <= 10; effort++) {
+      const items = shown.filter(f => f.i === impact && f.e === effort)
+        .sort((a, b) => ((b.nudge?.di || 0) - (a.nudge?.di || 0)) || a.id - b.id);
+      const chips = items.map(f => {
+        const de = items.length > 1 ? (f.nudge?.de || 0) : 0;
+        const al = de < -.1 ? "al-start" : de > .1 ? "al-end" : "al-center";
+        return `<button class="chip p-${f.prio} ${al}" data-id="${f.id}" title="F${f.id}: ${esc(f.title)}" ${state.open === f.id ? 'aria-current="true"' : ""}>${esc(f.short)}</button>`;
+      }).join("");
+      h += `<div class="cell${items.length > 1 ? " multi" : ""}" style="grid-row:${r};grid-column:${effort + 1}">${chips}</div>`;
+    }
+  }
+  h += `<div class="ax" style="grid-row:11;grid-column:1"></div>`;
+  for (let effort = 1; effort <= 10; effort++) h += `<div class="ax ax-x" style="grid-column:${effort + 1}">${effort}</div>`;
+  matrixEl.innerHTML = h;
+  renderMatrixTable(shown);
+}
+matrixEl.onclick = e => { const c = e.target.closest(".chip"); if (c) openDrawer(+c.dataset.id, matrixOrder()); };
+const matrixOrder = () => QUADS.flatMap(q => F.filter(f => state.mPrio.has(f.prio) && f.q === q.key).sort((a,b) => b.i - a.i || a.e - b.e || a.id - b.id)).map(f => f.id);
+
+function renderMatrixTable(shown) {
+  const tb = document.getElementById("m-table");
+  if (!shown.length) { tb.innerHTML = `<tr class="empty"><td colspan="7">Choose at least one priority above to show features.</td></tr>`; return; }
+  tb.innerHTML = QUADS.map(q => {
+    const rows = shown.filter(f => f.q === q.key).sort((a,b) => b.i - a.i || a.e - b.e || a.id - b.id);
+    if (!rows.length) return "";
+    return `<tr class="group q-${q.key}"><td colspan="7">${q.name}<span>${q.desc} · ${rows.length}</span></td></tr>` +
+      rows.map(f => `<tr class="row" data-id="${f.id}" tabindex="0">
+        <td class="t-id">F${f.id}</td><td>${pill(f.prio)}</td>
+        <td class="t-title"><b>${esc(f.short)}</b>${esc(f.title)}</td>
+        <td class="t-long">${esc(f.why)}</td><td class="t-long">${esc(f.what)}</td>
+        <td class="t-num">${f.i}</td><td class="t-num">${f.e}</td></tr>`).join("");
+  }).join("");
+}
+
+/* ---------- Backlog ---------- */
+const COLS = [
+  {key:"id",label:"ID",get:f=>f.id},
+  {key:"title",label:"Feature",get:f=>f.short},
+  {key:"theme",label:"Theme",get:f=>f.theme},
+  {key:"prio",label:"Prio",get:f=>PRIOS.indexOf(f.prio)},
+  {key:"q",label:"Quadrant",get:f=>QUADS.findIndex(q=>q.key===f.q)},
+  {key:"i",label:"Impact",get:f=>f.i,num:1},
+  {key:"e",label:"Effort",get:f=>f.e,num:1},
+  {key:"size",label:"Size",get:f=>"SML".indexOf(f.size),num:1},
+  {key:"wow",label:"Wow",get:f=>f.wow},
+  {key:"strong",label:"Strong",get:f=>f.strong,num:1},
+  {key:"diff",label:"Differentiator",get:f=>f.diff,num:1},
+  {key:"personas",label:"Personas",get:f=>f.personas.join(",")}
+];
+const themeSel = document.getElementById("b-theme");
+[...new Set(F.map(f => f.theme))].sort().forEach(t => themeSel.insertAdjacentHTML("beforeend", `<option value="${esc(t)}">${esc(t)}</option>`));
+function renderBacklogHead() {
+  document.getElementById("b-head").innerHTML = COLS.map(c => {
+    const s = state.sort.key === c.key ? (state.sort.dir > 0 ? "ascending" : "descending") : "none";
+    const arr = s === "descending" ? "↓" : s === "ascending" ? "↑" : "↕";
+    return `<th class="sortable${c.num ? " t-num" : ""}" data-k="${c.key}" aria-sort="${s}" tabindex="0">${c.label}<span class="arr">${arr}</span></th>`;
+  }).join("");
+}
+function backlogRows() {
+  const q = document.getElementById("b-search").value.trim().toLowerCase();
+  const th = themeSel.value;
+  const col = COLS.find(c => c.key === state.sort.key);
+  return F.filter(f => state.bPrio.has(f.prio) && (!th || f.theme === th) &&
+      (!q || [f.short,f.title,f.what,f.problem,f.theme,"f"+f.id].join(" ").toLowerCase().includes(q)))
+    .sort((a,b) => { const x = col.get(a), y = col.get(b); return (x > y ? 1 : x < y ? -1 : a.id - b.id) * state.sort.dir; });
+}
+function renderBacklog() {
+  renderBacklogHead();
+  const rows = backlogRows(); state.blist = rows.map(f => f.id);
+  const tb = document.getElementById("b-table");
+  tb.innerHTML = rows.length ? rows.map(f => `<tr class="row" data-id="${f.id}" tabindex="0">
+    <td class="t-id">F${f.id}</td>
+    <td class="t-title" style="min-width:260px"><b>${esc(f.short)}</b>${esc(f.title)}</td>
+    <td><span class="tag">${esc(f.theme)}</span></td>
+    <td>${pill(f.prio)}</td><td>${qpill(f.q)}</td>
+    <td class="t-num">${f.i}</td><td class="t-num">${f.e}</td><td class="t-num">${f.size}</td>
+    <td>${pips(f.wow)}</td>
+    <td class="t-num">${f.strong ? '<span class="yes">✓</span>' : '<span class="no">–</span>'}</td>
+    <td class="t-num">${f.diff ? '<span class="yes">✓</span>' : '<span class="no">–</span>'}</td>
+    <td><div class="chips">${f.personas.map(p => `<span class="tag">${esc(p)}</span>`).join("")}</div></td></tr>`).join("")
+    : `<tr class="empty"><td colspan="${COLS.length}">No features match these filters.</td></tr>`;
+}
+document.getElementById("b-head").onclick = e => {
+  const t = e.target.closest("th"); if (!t) return;
+  const k = t.dataset.k; state.sort = {key:k, dir: state.sort.key === k ? -state.sort.dir : 1}; persist(); renderBacklog();
+};
+document.getElementById("b-head").onkeydown = e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); e.target.click(); } };
+document.getElementById("b-search").oninput = renderBacklog;
+themeSel.onchange = renderBacklog;
+
+function rowClick(e, listFn) { const r = e.target.closest("tr.row"); if (r) openDrawer(+r.dataset.id, listFn()); }
+document.getElementById("m-table").onclick = e => rowClick(e, matrixOrder);
+document.getElementById("b-table").onclick = e => rowClick(e, () => state.blist);
+["m-table","b-table"].forEach(id => document.getElementById(id).onkeydown = e => {
+  if (e.key === "Enter" && e.target.matches("tr.row")) e.target.click();
+});
+
+/* ---------- Drawer ---------- */
+const drawer = document.getElementById("drawer"), scrim = document.getElementById("scrim");
+let lastFocus = null;
+const privacyLevel = s => /^strong/i.test(s) ? ["var(--success)","var(--success-tint)","rgba(30,168,133,.35)"] : /^weak/i.test(s) ? ["var(--danger)","var(--danger-tint)","rgba(245,56,90,.35)"] : ["var(--warning)","var(--warning-tint)","rgba(255,153,0,.35)"];
+const meter = (v, c) => `<div class="meter"><i style="width:${v*10}%;background:${c}"></i></div>`;
+const check = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m3.5 8.5 3 3 6-7"/></svg>';
+const dash = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 8h8"/></svg>';
+
+function openDrawer(id, list) {
+  const f = byId[id]; if (!f) return;
+  if (!drawer.classList.contains("open")) lastFocus = document.activeElement;
+  state.open = id; state.list = list && list.includes(id) ? list : [id];
+  const [pc, pt, pb] = privacyLevel(f.privacy);
+  const [lvl, ...rest] = f.privacy.split(/\s(?=\()/);
+  document.getElementById("d-head").innerHTML = `
+    <div class="d-top"><span class="id">F${f.id}</span>${pill(f.prio)}${qpill(f.q)}
+      <button class="icon-btn" id="d-close" aria-label="Close"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+    <div class="d-short">${esc(f.short)}</div>
+    <h2 class="d-title" id="d-title">${esc(f.title)}</h2>
+    <div class="chips"><span class="tag">${esc(f.theme)}</span></div>`;
+  document.getElementById("d-body").innerHTML = `
+    <div class="stats">
+      <div class="stat"><span class="k">Impact</span><span class="v">${f.i}<small>/10</small></span>${meter(f.i,"var(--success)")}</div>
+      <div class="stat"><span class="k">Effort</span><span class="v">${f.e}<small>/10</small></span>${meter(f.e,"var(--danger)")}</div>
+      <div class="stat"><span class="k">Size</span><span class="v">${f.size}</span><span class="k" style="text-transform:none;letter-spacing:0">${{S:"Small",M:"Medium",L:"Large"}[f.size]}</span></div>
+      <div class="stat"><span class="k">Wow</span><span class="v">${f.wow}<small>/5</small></span>${pips(f.wow)}</div>
+    </div>
+    <div class="flags">
+      <span class="flag ${f.strong ? "on" : ""}">${f.strong ? check : dash}Strong candidate</span>
+      <span class="flag ${f.diff ? "on" : ""}">${f.diff ? check : dash}Differentiator</span>
+    </div>
+    <div class="field"><h3>What it does</h3><p>${esc(f.what)}</p></div>
+    <div class="field"><h3>Problem solved</h3><p>${esc(f.problem)}</p></div>
+    <div class="field callout"><h3>Impact / effort rationale</h3><p>${esc(f.why)}</p></div>
+    <div class="pc">
+      <div class="field" style="--c:var(--success)"><h3>Pros</h3><p>${esc(f.pros)}</p></div>
+      <div class="field" style="--c:var(--danger)"><h3>Cons / risks</h3><p>${esc(f.cons)}</p></div>
+    </div>
+    <div class="field"><h3>Privacy fit</h3>
+      <div class="privacy" style="--c:${pc};--c-tint:${pt};--c-bd:${pb}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3 4.5 6v5.5c0 4.6 3.2 8.4 7.5 9.5 4.3-1.1 7.5-4.9 7.5-9.5V6L12 3Z"/></svg>
+        <p><b>${esc(lvl.toUpperCase())}</b>${rest.length ? esc(rest.join(" ").replace(/^\(|\)$/g, "")) : "No caveats."}</p></div></div>
+    <div class="field"><h3>Personas</h3><div class="chips">${f.personas.map(p => `<span class="tag">${esc(p)}</span>`).join("")}</div></div>
+    <div class="field"><h3>Suggested metrics</h3><div class="chips">${f.metrics.map(m => `<span class="tag" style="text-transform:none;letter-spacing:0">${esc(m)}</span>`).join("")}</div></div>
+    ${f.nudge ? `<div class="field"><h3>Placement on the matrix</h3><p style="color:var(--text-weak);font-size:13px">Shares cell ${f.cell} with other features. ${esc(f.nudge.note)}</p></div>` : ""}
+    <div class="field"><h3>Sheet reference</h3><dl class="kv"><dt>Matrix cell</dt><dd>${f.cell}</dd><dt>Quadrant</dt><dd>${qName(f.q)}</dd></dl></div>`;
+  const idx = state.list.indexOf(id);
+  document.getElementById("d-prev").disabled = idx <= 0;
+  document.getElementById("d-next").disabled = idx < 0 || idx >= state.list.length - 1;
+  document.getElementById("d-close").onclick = closeDrawer;
+  document.getElementById("d-body").scrollTop = 0;
+  scrim.hidden = false; requestAnimationFrame(() => scrim.classList.add("open"));
+  drawer.classList.add("open"); drawer.setAttribute("aria-hidden", "false");
+  document.querySelectorAll(".chip[aria-current]").forEach(c => c.removeAttribute("aria-current"));
+  document.querySelector(`.chip[data-id="${id}"]`)?.setAttribute("aria-current", "true");
+  document.getElementById("d-close").focus({preventScroll:true});
+}
+function closeDrawer() {
+  drawer.classList.remove("open"); drawer.setAttribute("aria-hidden", "true");
+  scrim.classList.remove("open"); setTimeout(() => { if (!drawer.classList.contains("open")) scrim.hidden = true; }, 200);
+  state.open = null;
+  document.querySelectorAll(".chip[aria-current]").forEach(c => c.removeAttribute("aria-current"));
+  lastFocus?.focus?.({preventScroll:true});
+}
+const step = d => { const i = state.list.indexOf(state.open); const n = state.list[i + d]; if (n) openDrawer(n, state.list); };
+document.getElementById("d-prev").onclick = () => step(-1);
+document.getElementById("d-next").onclick = () => step(1);
+scrim.onclick = closeDrawer;
+document.addEventListener("keydown", e => {
+  if (!drawer.classList.contains("open")) return;
+  if (e.key === "Escape") closeDrawer();
+  if (e.key === "ArrowRight" || e.key === "ArrowDown") { if (!e.target.matches("input,select")) { e.preventDefault(); step(1); } }
+  if (e.key === "ArrowLeft" || e.key === "ArrowUp") { if (!e.target.matches("input,select")) { e.preventDefault(); step(-1); } }
+});
+
+/* ---------- Tabs ---------- */
+const tabs = {matrix: document.getElementById("tab-matrix"), backlog: document.getElementById("tab-backlog")};
+function showTab(name) {
+  Object.entries(tabs).forEach(([k, t]) => { t.setAttribute("aria-selected", k === name); document.getElementById("view-" + k).hidden = k !== name; });
+  try { history.replaceState(null, "", "#" + name); } catch (e) {}
+}
+tabs.matrix.onclick = () => showTab("matrix");
+tabs.backlog.onclick = () => showTab("backlog");
+
+renderFilters(document.getElementById("m-filters"), state.mPrio, renderMatrix);
+renderFilters(document.getElementById("b-filters"), state.bPrio, renderBacklog);
+renderMatrix(); renderBacklog();
+showTab(location.hash === "#backlog" ? "backlog" : "matrix");
+</script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Proton Contacts PM Task</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<style>
+:root { color-scheme: dark; --bg: #0e0d12; --card: #16141b; --raised: #292732; --border: #24242d; --border-strong: #3f3d4d; --text: #fff; --weak: #a7a4b5; --hint: #6d6b78; --primary: #6d4aff; --primary-soft: #947ff7; }
+* { box-sizing: border-box; }
+html, body { background: var(--bg); }
+body { margin: 0; font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 14px; line-height: 1.5; color: var(--text); -webkit-font-smoothing: antialiased; }
+.wrap { max-width: 1240px; margin: 0 auto; padding-inline: 24px; padding-block: 48px 72px; }
+@media (max-width: 640px) { .wrap { padding-inline: 16px; padding-block: 32px 56px; } }
+.eyebrow { font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--primary-soft); }
+h1 { font-size: 32px; font-weight: 700; letter-spacing: -.01em; margin: 8px 0 8px; text-wrap: balance; }
+.sub { color: var(--weak); max-width: 62ch; margin: 0; }
+.pages { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 12px; margin-top: 32px; }
+.page { display: flex; flex-direction: column; gap: 6px; padding: 20px; border-radius: 12px; background: var(--card); border: 1px solid var(--border); color: inherit; text-decoration: none; transition: border-color .15s, background .15s; }
+.page:hover { border-color: var(--primary); background: #1b1922; }
+.page:focus-visible { outline: 2px solid var(--primary-soft); outline-offset: 2px; }
+.page b { font-size: 16px; display: flex; justify-content: space-between; gap: 12px; }
+.page b::after { content: "→"; color: var(--primary-soft); }
+.page span { color: var(--weak); font-size: 13px; }
+</style>
+</head>
+<body>
+<script src="assets/site-nav.js"></script>
+<main class="wrap">
+  <div class="eyebrow">Proton Contacts for Business</div>
+  <h1>Take-home task workspace</h1>
+  <p class="sub">Supporting pages for the B2B Senior PM task: how feature ideas were prioritised, and the design system used for the mockups.</p>
+  <div class="pages" id="pages"></div>
+</main>
+<script>
+document.getElementById("pages").innerHTML = (window.SITE_PAGES || [])
+  .filter(function (p) { return !/index\.html$/.test(p.href); })
+  .map(function (p) { return '<a class="page" href="' + p.href + '"><b>' + p.label + '</b><span>' + p.desc + '</span></a>'; })
+  .join("");
+</script>
+</body>
+</html>

@@ -1,0 +1,514 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Proton Dark Kit</title>
+<style>
+/* ==========================================================================
+   Proton Dark (mimic) Design System
+   Source: colours sampled from Proton Mail / Calendar / Contacts dark-mode
+   screenshots (Figma file "Proton", Business Suite page) + proton.me brand.
+   Not an official Proton asset. For interview mockups only.
+   ========================================================================== */
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+:root {
+  /* ---------- Surfaces (sampled) ---------- */
+  --pt-bg-canvas:   #0e0d12;  /* message list / calendar grid / doc canvas */
+  --pt-bg-norm:     #16141b;  /* sidebar, drawers, modals, popovers */
+  --pt-bg-raised:   #292732;  /* search bar, toolbar, popover header, hover rows */
+  --pt-bg-strong:   #312f3a;  /* menu / autocomplete items, selected rows */
+  --pt-bg-elevated: #3f3d4d;  /* avatars, chips, secondary fills */
+
+  /* ---------- Borders (sampled) ---------- */
+  --pt-border-weak:  #24242d; /* list row separators */
+  --pt-border-norm:  #3f3d4d; /* panel dividers, cards */
+  --pt-border-input: #494656; /* inputs, secondary buttons */
+
+  /* ---------- Text (sampled) ---------- */
+  --pt-text-norm:  #ffffff;
+  --pt-text-weak:  #a7a4b5;   /* dates, secondary lines */
+  --pt-text-hint:  #6d6b78;   /* placeholders, disabled */
+  --pt-text-invert:#16141b;
+
+  /* ---------- Brand / interaction ---------- */
+  --pt-primary:        #6d4aff; /* Proton purple (proton.me tile colour) */
+  --pt-primary-hover:  #7c5cff;
+  --pt-primary-active: #5b3cf0;
+  --pt-primary-soft:   #947ff7; /* badges, links on dark */
+  --pt-primary-tint:   rgba(109, 74, 255, 0.16); /* selected states, focus halo */
+  --pt-focus-ring:     #6b54db;
+
+  /* ---------- Signal (approximated from Proton UI) ---------- */
+  --pt-success: #1ea885;
+  --pt-warning: #ff9900;
+  --pt-danger:  #f5385a;
+  --pt-info:    #239ece;
+  --pt-success-tint: rgba(30, 168, 133, 0.16);
+  --pt-warning-tint: rgba(255, 153, 0, 0.14);
+  --pt-danger-tint:  rgba(245, 56, 90, 0.14);
+  --pt-info-tint:    rgba(35, 158, 206, 0.14);
+
+  /* ---------- Product accents (app badges) ---------- */
+  --pt-app-mail:     #6d4aff;
+  --pt-app-calendar: #6d4aff;
+  --pt-app-drive:    #e55aa3;
+  --pt-app-pass:     #a87cff;
+  --pt-app-docs:     #2b6bf3;
+  --pt-app-meet:     #2fb5a8;
+  --pt-app-lumo:     #ff8a3d;
+  --pt-app-contacts: #ff9a4d; /* orange contacts icon in Mail side rail */
+
+  /* ---------- Typography ---------- */
+  --pt-font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --pt-fs-xs: 12px;  --pt-fs-sm: 13px;  --pt-fs-md: 14px;
+  --pt-fs-lg: 16px;  --pt-fs-xl: 20px;  --pt-fs-2xl: 24px;  --pt-fs-3xl: 32px;
+  --pt-fw-reg: 400;  --pt-fw-med: 500;  --pt-fw-semi: 600;  --pt-fw-bold: 700;
+  --pt-lh: 1.45;
+
+  /* ---------- Spacing (4px grid) ---------- */
+  --pt-s1: 4px;  --pt-s2: 8px;  --pt-s3: 12px; --pt-s4: 16px;
+  --pt-s5: 20px; --pt-s6: 24px; --pt-s8: 32px; --pt-s10: 40px;
+
+  /* ---------- Radius ---------- */
+  --pt-r-sm: 6px;    /* checkbox, small chips */
+  --pt-r-md: 8px;    /* buttons, inputs, avatars */
+  --pt-r-lg: 12px;   /* cards, popovers, modals */
+  --pt-r-pill: 999px;
+
+  /* ---------- Elevation ---------- */
+  --pt-shadow-pop:   0 8px 24px rgba(0, 0, 0, 0.45);
+  --pt-shadow-modal: 0 16px 48px rgba(0, 0, 0, 0.6);
+
+  /* ---------- Layout ---------- */
+  --pt-sidebar-w: 256px;
+  --pt-rail-w: 48px;
+  --pt-drawer-w: 320px;
+  --pt-row-h: 52px;
+  --pt-control-h: 36px;
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+.pt, .pt * { box-sizing: border-box; }
+.pt {
+  font-family: var(--pt-font);
+  font-size: var(--pt-fs-md);
+  line-height: var(--pt-lh);
+  color: var(--pt-text-norm);
+  background: var(--pt-bg-canvas);
+  -webkit-font-smoothing: antialiased;
+}
+.pt-h1 { font-size: var(--pt-fs-3xl); font-weight: var(--pt-fw-bold); margin: 0; }
+.pt-h2 { font-size: var(--pt-fs-2xl); font-weight: var(--pt-fw-bold); margin: 0; }
+.pt-h3 { font-size: var(--pt-fs-xl);  font-weight: var(--pt-fw-semi); margin: 0; }
+.pt-h4 { font-size: var(--pt-fs-lg);  font-weight: var(--pt-fw-semi); margin: 0; }
+.pt-weak { color: var(--pt-text-weak); }
+.pt-hint { color: var(--pt-text-hint); }
+.pt-small { font-size: var(--pt-fs-sm); }
+.pt-xs { font-size: var(--pt-fs-xs); }
+.pt-link { color: var(--pt-primary-soft); text-decoration: underline; cursor: pointer; }
+.pt-divider { height: 1px; background: var(--pt-border-norm); border: 0; margin: var(--pt-s4) 0; }
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+.pt-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--pt-s2);
+  height: var(--pt-control-h); padding: 0 var(--pt-s4);
+  font: var(--pt-fw-med) var(--pt-fs-md)/1 var(--pt-font);
+  border-radius: var(--pt-r-md); border: 1px solid transparent;
+  cursor: pointer; transition: background .15s, border-color .15s; white-space: nowrap;
+}
+.pt-btn--primary   { background: var(--pt-primary); color: #fff; }
+.pt-btn--primary:hover { background: var(--pt-primary-hover); }
+.pt-btn--secondary { background: transparent; color: var(--pt-text-norm); border-color: var(--pt-border-input); }
+.pt-btn--secondary:hover { background: var(--pt-bg-raised); }
+.pt-btn--ghost     { background: transparent; color: var(--pt-text-norm); }
+.pt-btn--ghost:hover { background: var(--pt-bg-raised); }
+.pt-btn--danger    { background: var(--pt-danger); color: #fff; }
+.pt-btn--disabled, .pt-btn:disabled { background: var(--pt-bg-strong); color: var(--pt-text-hint); cursor: not-allowed; }
+.pt-btn--lg   { height: 44px; font-size: var(--pt-fs-lg); padding: 0 var(--pt-s6); }
+.pt-btn--block { width: 100%; }
+.pt-icon-btn {
+  width: var(--pt-control-h); height: var(--pt-control-h);
+  display: inline-grid; place-items: center; border-radius: var(--pt-r-md);
+  background: transparent; border: 1px solid transparent; color: var(--pt-text-weak); cursor: pointer;
+}
+.pt-icon-btn:hover { background: var(--pt-bg-raised); color: var(--pt-text-norm); }
+.pt-icon-btn--bordered { border-color: var(--pt-border-input); }
+
+/* ==========================================================================
+   Inputs
+   ========================================================================== */
+.pt-input, .pt-select, .pt-textarea {
+  width: 100%; height: var(--pt-control-h); padding: 0 var(--pt-s3);
+  font: var(--pt-fs-md) var(--pt-font); color: var(--pt-text-norm);
+  background: var(--pt-bg-norm); border: 1px solid var(--pt-border-input);
+  border-radius: var(--pt-r-md); outline: none;
+}
+.pt-input::placeholder, .pt-textarea::placeholder { color: var(--pt-text-hint); }
+.pt-input:focus, .pt-select:focus, .pt-textarea:focus, .pt-input--focus {
+  border-color: var(--pt-primary); box-shadow: 0 0 0 3px var(--pt-primary-tint);
+}
+.pt-textarea { height: auto; min-height: 72px; padding: var(--pt-s2) var(--pt-s3); resize: vertical; }
+.pt-search {
+  display: flex; align-items: center; gap: var(--pt-s2);
+  height: 40px; padding: 0 var(--pt-s3); border-radius: var(--pt-r-md);
+  background: var(--pt-bg-raised); color: var(--pt-text-hint);
+}
+.pt-search input { flex: 1; background: none; border: 0; outline: none; color: var(--pt-text-norm); font: inherit; }
+.pt-label { display: block; font-size: var(--pt-fs-sm); color: var(--pt-text-weak); margin-bottom: var(--pt-s1); }
+
+.pt-checkbox {
+  width: 18px; height: 18px; border-radius: var(--pt-r-sm);
+  border: 1.5px solid var(--pt-border-input); background: transparent; display: inline-grid; place-items: center;
+}
+.pt-checkbox--on { background: var(--pt-primary); border-color: var(--pt-primary); }
+
+.pt-toggle { width: 40px; height: 22px; border-radius: var(--pt-r-pill); background: var(--pt-bg-elevated); position: relative; display: inline-block; }
+.pt-toggle::after { content: ""; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: var(--pt-text-weak); transition: .15s; }
+.pt-toggle--on { background: var(--pt-primary); }
+.pt-toggle--on::after { left: 21px; background: #fff; }
+
+/* Autocomplete / dropdown menu */
+.pt-menu {
+  background: var(--pt-bg-strong); border: 1px solid var(--pt-border-norm);
+  border-radius: var(--pt-r-md); box-shadow: var(--pt-shadow-pop); padding: var(--pt-s1); min-width: 200px;
+}
+.pt-menu__item {
+  display: flex; align-items: center; gap: var(--pt-s3);
+  padding: var(--pt-s2) var(--pt-s3); border-radius: var(--pt-r-sm); cursor: pointer;
+}
+.pt-menu__item:hover, .pt-menu__item--active { background: var(--pt-bg-elevated); }
+.pt-menu__item b { font-weight: var(--pt-fw-bold); }
+
+/* ==========================================================================
+   Avatars, badges, chips
+   ========================================================================== */
+.pt-avatar {
+  width: 32px; height: 32px; border-radius: var(--pt-r-md);
+  display: inline-grid; place-items: center; flex-shrink: 0;
+  background: var(--pt-bg-elevated); color: var(--pt-text-norm);
+  font-size: var(--pt-fs-xs); font-weight: var(--pt-fw-med);
+}
+.pt-avatar--sm { width: 24px; height: 24px; font-size: 10px; border-radius: var(--pt-r-sm); }
+.pt-avatar--lg { width: 64px; height: 64px; font-size: var(--pt-fs-xl); border-radius: var(--pt-r-lg); }
+.pt-avatar--brand { background: var(--pt-primary); }
+.pt-avatar--outline { background: transparent; border: 1px solid var(--pt-border-input); }
+.pt-presence { position: relative; }
+.pt-presence::after {
+  content: ""; position: absolute; right: -2px; bottom: -2px; width: 10px; height: 10px;
+  border-radius: 50%; background: var(--pt-success); border: 2px solid var(--pt-bg-norm);
+}
+.pt-presence--away::after { background: var(--pt-warning); }
+
+.pt-badge {
+  display: inline-flex; align-items: center; height: 20px; padding: 0 var(--pt-s2);
+  border-radius: var(--pt-r-sm); font-size: var(--pt-fs-xs); font-weight: var(--pt-fw-med);
+  background: var(--pt-primary-soft); color: #fff;
+}
+.pt-count { color: var(--pt-text-weak); font-size: var(--pt-fs-xs); }
+
+.pt-chip {
+  display: inline-flex; align-items: center; gap: var(--pt-s1); height: 24px; padding: 0 var(--pt-s2);
+  border-radius: var(--pt-r-pill); font-size: var(--pt-fs-xs); font-weight: var(--pt-fw-med);
+  background: var(--pt-bg-raised); color: var(--pt-text-weak); border: 1px solid var(--pt-border-norm);
+}
+.pt-chip--primary { background: var(--pt-primary-tint); color: var(--pt-primary-soft); border-color: transparent; }
+.pt-chip--success { background: var(--pt-success-tint); color: var(--pt-success); border-color: transparent; }
+.pt-chip--warning { background: var(--pt-warning-tint); color: var(--pt-warning); border-color: transparent; }
+.pt-chip--danger  { background: var(--pt-danger-tint);  color: var(--pt-danger);  border-color: transparent; }
+.pt-chip--info    { background: var(--pt-info-tint);    color: var(--pt-info);    border-color: transparent; }
+
+/* ==========================================================================
+   Banners / alerts (e.g. "2 contacts look identical", recipient warnings)
+   ========================================================================== */
+.pt-banner {
+  display: flex; align-items: flex-start; gap: var(--pt-s3);
+  padding: var(--pt-s3) var(--pt-s4); border-radius: var(--pt-r-md);
+  background: var(--pt-bg-raised); font-size: var(--pt-fs-sm); color: var(--pt-text-norm);
+}
+.pt-banner--flat { border-radius: 0; }
+.pt-banner--info    { background: var(--pt-info-tint);    box-shadow: inset 3px 0 var(--pt-info); }
+.pt-banner--warning { background: var(--pt-warning-tint); box-shadow: inset 3px 0 var(--pt-warning); }
+.pt-banner--danger  { background: var(--pt-danger-tint);  box-shadow: inset 3px 0 var(--pt-danger); }
+.pt-banner--success { background: var(--pt-success-tint); box-shadow: inset 3px 0 var(--pt-success); }
+.pt-banner--brand   { background: var(--pt-primary-tint); box-shadow: inset 3px 0 var(--pt-primary); }
+
+/* ==========================================================================
+   Navigation: tabs, sidebar, side rail
+   ========================================================================== */
+.pt-tabs { display: flex; gap: var(--pt-s4); border-bottom: 1px solid var(--pt-border-norm); }
+.pt-tab {
+  padding: var(--pt-s2) var(--pt-s3); font-weight: var(--pt-fw-med); color: var(--pt-text-weak);
+  border-bottom: 2px solid transparent; margin-bottom: -1px; cursor: pointer;
+}
+.pt-tab--active { color: var(--pt-text-norm); font-weight: var(--pt-fw-semi); border-color: var(--pt-primary); }
+
+.pt-sidebar {
+  width: var(--pt-sidebar-w); background: var(--pt-bg-norm);
+  border-right: 1px solid var(--pt-border-weak); padding: var(--pt-s3); display: flex; flex-direction: column; gap: var(--pt-s1);
+}
+.pt-logo { display: flex; align-items: center; gap: var(--pt-s2); font-weight: var(--pt-fw-bold); font-size: var(--pt-fs-xl); padding: var(--pt-s1) var(--pt-s1) var(--pt-s3); }
+.pt-logo__mark { width: 28px; height: 28px; border-radius: var(--pt-r-sm); background: linear-gradient(135deg, #8a6eff, #6d4aff 60%, #4f2fd6); }
+.pt-nav-item {
+  display: flex; align-items: center; gap: var(--pt-s3); height: 36px; padding: 0 var(--pt-s3);
+  border-radius: var(--pt-r-md); color: var(--pt-text-norm); cursor: pointer;
+}
+.pt-nav-item:hover { background: var(--pt-bg-raised); }
+.pt-nav-item--active { background: var(--pt-bg-strong); }
+.pt-nav-item .pt-count, .pt-nav-item .pt-badge { margin-left: auto; }
+.pt-nav-section { color: var(--pt-text-weak); font-size: var(--pt-fs-sm); padding: var(--pt-s3) var(--pt-s3) var(--pt-s1); }
+
+.pt-rail {
+  width: var(--pt-rail-w); background: var(--pt-bg-norm); border-left: 1px solid var(--pt-border-weak);
+  display: flex; flex-direction: column; align-items: center; gap: var(--pt-s3); padding: var(--pt-s3) 0;
+}
+.pt-rail__app { width: 32px; height: 32px; border-radius: var(--pt-r-md); display: grid; place-items: center; }
+.pt-rail__app--active { background: var(--pt-bg-raised); }
+
+/* ==========================================================================
+   Lists (mail rows, contact rows)
+   ========================================================================== */
+.pt-list { background: var(--pt-bg-canvas); }
+.pt-row {
+  display: flex; align-items: center; gap: var(--pt-s3); min-height: var(--pt-row-h);
+  padding: var(--pt-s2) var(--pt-s4); border-bottom: 1px solid var(--pt-border-weak); cursor: pointer;
+}
+.pt-row:hover { background: var(--pt-bg-norm); }
+.pt-row--selected { background: var(--pt-primary-tint); }
+.pt-row__main { flex: 1; min-width: 0; }
+.pt-row__title { font-weight: var(--pt-fw-semi); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pt-row__sub { font-size: var(--pt-fs-sm); color: var(--pt-text-weak); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pt-row__meta { font-size: var(--pt-fs-sm); color: var(--pt-text-weak); white-space: nowrap; }
+
+/* ==========================================================================
+   Containers: card, drawer, popover, modal
+   ========================================================================== */
+.pt-card {
+  background: var(--pt-bg-norm); border: 1px solid var(--pt-border-norm);
+  border-radius: var(--pt-r-lg); padding: var(--pt-s4);
+}
+.pt-drawer {
+  width: var(--pt-drawer-w); background: var(--pt-bg-norm); border-left: 1px solid var(--pt-border-weak);
+  display: flex; flex-direction: column;
+}
+.pt-popover {
+  background: var(--pt-bg-norm); border: 1px solid var(--pt-border-norm);
+  border-radius: var(--pt-r-lg); box-shadow: var(--pt-shadow-pop); overflow: hidden;
+}
+.pt-popover__head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: var(--pt-s2) var(--pt-s3); background: var(--pt-bg-raised);
+}
+.pt-modal-scrim { position: absolute; inset: 0; background: rgba(8, 7, 12, 0.7); display: grid; place-items: center; }
+.pt-modal {
+  width: min(560px, 100%); background: var(--pt-bg-norm); border: 1px solid var(--pt-border-norm);
+  border-radius: var(--pt-r-lg); box-shadow: var(--pt-shadow-modal); padding: var(--pt-s6);
+}
+.pt-modal__head { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--pt-s4); }
+.pt-modal__foot { display: flex; justify-content: flex-end; gap: var(--pt-s2); margin-top: var(--pt-s6); }
+
+/* Key-value list for profile cards */
+.pt-kv { display: grid; grid-template-columns: 110px 1fr; gap: var(--pt-s2) var(--pt-s4); font-size: var(--pt-fs-sm); }
+.pt-kv dt { color: var(--pt-text-weak); }
+.pt-kv dd { margin: 0; }
+
+/* E2EE / trust marker */
+.pt-lock { display: inline-flex; align-items: center; gap: var(--pt-s1); font-size: var(--pt-fs-xs); color: var(--pt-text-weak); }
+
+/* Utilities */
+.pt-row-flex { display: flex; align-items: center; gap: var(--pt-s2); }
+.pt-stack { display: flex; flex-direction: column; gap: var(--pt-s2); }
+.pt-grow { flex: 1; }
+
+</style>
+<style>
+  body { margin: 0; }
+  .doc { max-width: 1180px; margin: 0 auto; padding: 40px 16px 80px; }
+  .doc section { margin-top: 48px; }
+  .doc h2 { margin-bottom: 16px; }
+  .grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+  .swatch { border: 1px solid var(--pt-border-norm); border-radius: var(--pt-r-md); overflow: hidden; background: var(--pt-bg-norm); }
+  .swatch div:first-child { height: 56px; }
+  .swatch div:last-child { padding: 8px 10px; font-size: 12px; }
+  .swatch code { color: var(--pt-text-weak); font-size: 11px; }
+  .wrap { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+  .demo { background: var(--pt-bg-norm); border: 1px solid var(--pt-border-norm); border-radius: var(--pt-r-lg); padding: 20px; }
+  .app { display: flex; height: 560px; border: 1px solid var(--pt-border-norm); border-radius: var(--pt-r-lg); overflow: hidden; position: relative; }
+  .app main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+  .topbar { display: flex; align-items: center; gap: 12px; padding: 10px 16px; background: var(--pt-bg-norm); }
+  .listhead { display: flex; align-items: center; gap: 12px; padding: 10px 16px; border-bottom: 1px solid var(--pt-border-weak); font-weight: 700; font-size: 16px; }
+  .two { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+  svg.i { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+  @media (max-width: 760px) { .app .pt-sidebar { display: none; } .app .pt-drawer { display: none; } }
+</style>
+</head>
+<body class="pt">
+<script src="../assets/site-nav.js"></script>
+<div class="doc">
+
+  <div class="pt-row-flex"><span class="pt-logo__mark"></span><h1 class="pt-h1">Proton Dark Kit</h1></div>
+  <p class="pt-weak">Tokens and components mimicking Proton's dark theme, sampled from the Mail, Calendar and Contacts screens. For interview mockups, not an official Proton asset.</p>
+
+  <!-- ============ Colours ============ -->
+  <section>
+    <h2 class="pt-h3">Surfaces</h2>
+    <div class="grid">
+      <div class="swatch"><div style="background:var(--pt-bg-canvas)"></div><div>Canvas<br><code>--pt-bg-canvas #0e0d12</code></div></div>
+      <div class="swatch"><div style="background:var(--pt-bg-norm)"></div><div>Norm<br><code>--pt-bg-norm #16141b</code></div></div>
+      <div class="swatch"><div style="background:var(--pt-bg-raised)"></div><div>Raised<br><code>--pt-bg-raised #292732</code></div></div>
+      <div class="swatch"><div style="background:var(--pt-bg-strong)"></div><div>Strong<br><code>--pt-bg-strong #312f3a</code></div></div>
+      <div class="swatch"><div style="background:var(--pt-bg-elevated)"></div><div>Elevated<br><code>--pt-bg-elevated #3f3d4d</code></div></div>
+    </div>
+    <h2 class="pt-h3" style="margin-top:24px">Brand and signal</h2>
+    <div class="grid">
+      <div class="swatch"><div style="background:var(--pt-primary)"></div><div>Primary<br><code>#6d4aff</code></div></div>
+      <div class="swatch"><div style="background:var(--pt-primary-hover)"></div><div>Primary hover<br><code>#7c5cff</code></div></div>
+      <div class="swatch"><div style="background:var(--pt-primary-soft)"></div><div>Primary soft<br><code>#947ff7</code></div></div>
+      <div class="swatch"><div style="background:var(--pt-success)"></div><div>Success<br><code>#1ea885</code></div></div>
+      <div class="swatch"><div style="background:var(--pt-warning)"></div><div>Warning<br><code>#ff9900</code></div></div>
+      <div class="swatch"><div style="background:var(--pt-danger)"></div><div>Danger<br><code>#f5385a</code></div></div>
+      <div class="swatch"><div style="background:var(--pt-info)"></div><div>Info<br><code>#239ece</code></div></div>
+    </div>
+    <h2 class="pt-h3" style="margin-top:24px">Text and borders</h2>
+    <div class="grid">
+      <div class="swatch"><div style="background:var(--pt-text-norm)"></div><div>Text norm<br><code>#ffffff</code></div></div>
+      <div class="swatch"><div style="background:var(--pt-text-weak)"></div><div>Text weak<br><code>#a7a4b5</code></div></div>
+      <div class="swatch"><div style="background:var(--pt-text-hint)"></div><div>Text hint<br><code>#6d6b78</code></div></div>
+      <div class="swatch"><div style="background:var(--pt-border-weak)"></div><div>Border weak<br><code>#24242d</code></div></div>
+      <div class="swatch"><div style="background:var(--pt-border-norm)"></div><div>Border norm<br><code>#3f3d4d</code></div></div>
+      <div class="swatch"><div style="background:var(--pt-border-input)"></div><div>Border input<br><code>#494656</code></div></div>
+    </div>
+  </section>
+
+  <!-- ============ Type ============ -->
+  <section>
+    <h2 class="pt-h3">Typography (Inter)</h2>
+    <div class="demo pt-stack">
+      <div class="pt-h1">Heading 1 / 32 bold</div>
+      <div class="pt-h2">Heading 2 / 24 bold</div>
+      <div class="pt-h3">Heading 3 / 20 semibold</div>
+      <div class="pt-h4">Heading 4 / 16 semibold</div>
+      <div>Body / 14 regular. Can't find what you're looking for? <span class="pt-link">Include Spam/Trash.</span></div>
+      <div class="pt-small pt-weak">Secondary / 13 weak</div>
+      <div class="pt-xs pt-hint">Caption / 12 hint</div>
+    </div>
+  </section>
+
+  <!-- ============ Controls ============ -->
+  <section>
+    <h2 class="pt-h3">Buttons</h2>
+    <div class="demo wrap">
+      <button class="pt-btn pt-btn--primary">Save</button>
+      <button class="pt-btn pt-btn--secondary">More options</button>
+      <button class="pt-btn pt-btn--ghost">Cancel</button>
+      <button class="pt-btn pt-btn--danger">Delete</button>
+      <button class="pt-btn" disabled>New event</button>
+      <button class="pt-btn pt-btn--primary pt-btn--lg">New message</button>
+      <button class="pt-icon-btn" aria-label="Settings"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
+      <button class="pt-icon-btn pt-icon-btn--bordered" aria-label="Close"><svg class="i" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+
+    <h2 class="pt-h3" style="margin-top:24px">Inputs</h2>
+    <div class="demo two">
+      <div class="pt-stack">
+        <label class="pt-label">Default</label><input class="pt-input" placeholder="Add title">
+        <label class="pt-label">Focused (with autocomplete)</label>
+        <input class="pt-input pt-input--focus" value="anant">
+        <div class="pt-menu"><div class="pt-menu__item pt-menu__item--active"><span class="pt-avatar pt-avatar--sm">AV</span><span><b>anant</b>.vijay@proton.ch</span></div><div class="pt-menu__item"><span class="pt-avatar pt-avatar--sm">AK</span><span><b>an</b>drius@proton.ch</span></div></div>
+      </div>
+      <div class="pt-stack">
+        <label class="pt-label">Search</label>
+        <div class="pt-search"><svg class="i" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input placeholder="Search messages"></div>
+        <label class="pt-label">Select</label>
+        <select class="pt-select"><option>Editor</option><option>Viewer</option></select>
+        <label class="pt-label">Textarea</label><textarea class="pt-textarea" placeholder="Add description"></textarea>
+        <div class="wrap"><span class="pt-checkbox"></span> All day <span class="pt-checkbox pt-checkbox--on"><svg class="i" viewBox="0 0 24 24" style="width:12px;height:12px;stroke-width:3"><path d="M5 12l5 5 9-10"/></svg></span> Checked <span class="pt-toggle"></span> Off <span class="pt-toggle pt-toggle--on"></span> On</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Feedback ============ -->
+  <section>
+    <h2 class="pt-h3">Avatars, badges, chips</h2>
+    <div class="demo wrap">
+      <span class="pt-avatar pt-avatar--sm">AC</span><span class="pt-avatar">AY</span><span class="pt-avatar pt-avatar--lg">AK</span>
+      <span class="pt-avatar pt-avatar--brand">AC</span><span class="pt-avatar pt-avatar--outline">AC</span>
+      <span class="pt-avatar pt-presence">AV</span><span class="pt-avatar pt-presence pt-presence--away">MD</span>
+      <span class="pt-badge">246</span>
+      <span class="pt-chip">Engineering</span><span class="pt-chip pt-chip--primary">Internal</span><span class="pt-chip pt-chip--success">Verified</span><span class="pt-chip pt-chip--warning">External</span><span class="pt-chip pt-chip--danger">Left org</span><span class="pt-chip pt-chip--info">Admin managed</span>
+      <span class="pt-lock"><svg class="i" viewBox="0 0 24 24" style="width:12px;height:12px"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>End-to-end encrypted</span>
+    </div>
+    <h2 class="pt-h3" style="margin-top:24px">Banners</h2>
+    <div class="demo pt-stack">
+      <div class="pt-banner">2 contacts look identical. <span class="pt-link">Merge</span></div>
+      <div class="pt-banner pt-banner--info">Directory synced from your identity provider 4 minutes ago.</div>
+      <div class="pt-banner pt-banner--warning"><b>External recipient.</b>&nbsp;malty@bayarea-invest.com is outside your organization. You usually email maddy@bayarea-invest.com about this topic.</div>
+      <div class="pt-banner pt-banner--danger">This contact was removed from your organization on 3 Oct.</div>
+      <div class="pt-banner pt-banner--brand">Suggested by Lumo on this device. Nothing leaves your account.</div>
+    </div>
+  </section>
+
+  <!-- ============ Composed ============ -->
+  <section>
+    <h2 class="pt-h3">Composed: Mail shell with Contacts drawer</h2>
+    <div class="app">
+      <aside class="pt-sidebar">
+        <div class="pt-logo"><span class="pt-logo__mark"></span>Proton Mail</div>
+        <button class="pt-btn pt-btn--primary pt-btn--lg pt-btn--block">New message</button>
+        <div style="height:12px"></div>
+        <div class="pt-nav-item pt-nav-item--active">Inbox <span class="pt-badge">246</span></div>
+        <div class="pt-nav-item">Drafts</div>
+        <div class="pt-nav-item">Sent <span class="pt-count">1</span></div>
+        <div class="pt-nav-item">Starred <span class="pt-count">6</span></div>
+        <div class="pt-nav-section">Folders</div>
+        <div class="pt-nav-section">Labels</div>
+      </aside>
+      <main>
+        <div class="topbar"><div class="pt-search pt-grow"><svg class="i" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input placeholder="Search messages"></div><span class="pt-avatar pt-avatar--outline">AC</span></div>
+        <div class="listhead"><span class="pt-checkbox"></span>All mail</div>
+        <div class="pt-list">
+          <div class="pt-row"><span class="pt-avatar">TH</span><div class="pt-row__main"><div class="pt-row__title">Tom Hale</div><div class="pt-row__sub">Q4 security review agenda</div></div><span class="pt-row__meta">Yesterday</span></div>
+          <div class="pt-row pt-row--selected"><span class="pt-avatar pt-avatar--brand">LP</span><div class="pt-row__main"><div class="pt-row__title">Lena Park</div><div class="pt-row__sub">Shared "Swiss contracts tracker" with you</div></div><span class="pt-row__meta">Oct 5</span></div>
+          <div class="pt-row"><span class="pt-avatar">DH</span><div class="pt-row__main"><div class="pt-row__title">Dana Hughes</div><div class="pt-row__sub">Re: onboarding new legal hires</div></div><span class="pt-row__meta">Oct 1</span></div>
+        </div>
+      </main>
+      <aside class="pt-drawer">
+        <div style="padding:12px 16px 0"><div class="pt-tabs"><div class="pt-tab pt-tab--active">Contacts</div><div class="pt-tab">Groups</div></div></div>
+        <div style="padding:12px 16px"><input class="pt-input pt-input--focus" placeholder="Name or email address"></div>
+        <div class="pt-banner pt-banner--flat">2 contacts look identical. <span class="pt-link">Merge</span></div>
+        <div class="pt-row"><span class="pt-avatar pt-presence">AV</span><div class="pt-row__main"><div class="pt-row__title">Anant Vijay</div><div class="pt-row__sub">Legal · Geneva</div></div></div>
+        <div class="pt-row"><span class="pt-avatar">AK</span><div class="pt-row__main"><div class="pt-row__title">Andrius Kavaliūnas</div><div class="pt-row__sub">Engineering · Vilnius</div></div></div>
+        <div style="margin-top:auto;padding:12px 16px" class="pt-stack"><button class="pt-btn pt-btn--primary pt-btn--block">Add contact</button><button class="pt-btn pt-btn--secondary pt-btn--block">Import contacts</button></div>
+      </aside>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="pt-h3">Composed: profile card and share dialog</h2>
+    <div class="two">
+      <div class="pt-card">
+        <div class="pt-row-flex" style="gap:16px"><span class="pt-avatar pt-avatar--lg pt-avatar--brand">AV</span><div><div class="pt-h4">Anant Vijay</div><div class="pt-weak pt-small">Senior Counsel, Legal</div><div class="wrap" style="margin-top:6px;gap:6px"><span class="pt-chip pt-chip--primary">Internal</span><span class="pt-chip pt-chip--info">Admin managed</span></div></div></div>
+        <hr class="pt-divider">
+        <dl class="pt-kv"><dt>Email</dt><dd>anant.vijay@proton.ch</dd><dt>Manager</dt><dd>Dana Hughes</dd><dt>Location</dt><dd>Geneva · GMT+1</dd><dt>Shared with you</dt><dd>3 docs, 1 vault</dd></dl>
+        <div class="wrap" style="margin-top:16px"><button class="pt-btn pt-btn--primary">Message</button><button class="pt-btn pt-btn--secondary">Schedule</button><button class="pt-btn pt-btn--secondary">Share file</button></div>
+      </div>
+      <div class="pt-modal" style="width:auto">
+        <div class="pt-modal__head"><div class="pt-h4">Share "Swiss contracts tracker"</div><button class="pt-icon-btn" aria-label="Close"><svg class="i" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+        <div class="pt-row-flex"><input class="pt-input pt-input--focus" value="Legal team"><select class="pt-select" style="width:110px"><option>Editor</option></select></div>
+        <div class="pt-menu" style="margin-top:6px"><div class="pt-menu__item pt-menu__item--active"><span class="pt-avatar pt-avatar--sm">LT</span><span><b>Legal team</b> · 8 people</span></div></div>
+        <div class="pt-row" style="padding-left:0;padding-right:0"><span class="pt-avatar">AC</span><div class="pt-row__main"><div class="pt-row__title">Antonio Cesarano (you)</div><div class="pt-row__sub">antoniocesarano@pm.me</div></div><span class="pt-row__meta">Owner</span></div>
+        <div class="pt-row-flex" style="justify-content:space-between;margin-top:12px"><span>Create public link</span><span class="pt-toggle"></span></div>
+        <div class="pt-modal__foot"><button class="pt-btn pt-btn--secondary">Cancel</button><button class="pt-btn pt-btn--primary">Share</button></div>
+      </div>
+    </div>
+  </section>
+
+</div>
+</body>
+</html>
