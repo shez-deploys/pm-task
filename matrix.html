@@ -11,13 +11,13 @@
 /* Layout: Proton-style app shell. Header + tabs, matrix canvas with quadrant zones, grouped table, side drawer for detail. Single dark theme (Proton Dark). */
 :root {
   color-scheme: dark;
-  --bg-canvas: #0e0d12; --bg-norm: #16141b; --bg-raised: #292732; --bg-strong: #312f3a; --bg-elevated: #3f3d4d;
-  --border-weak: #24242d; --border-norm: #3f3d4d; --border-input: #494656;
-  --text: #ffffff; --text-weak: #a7a4b5; --text-hint: #6d6b78;
+  --bg-canvas: #0e0d12; --bg-norm: #1e1c26; --bg-lowered: #16141c; --bg-raised: #292733; --bg-strong: #3f3b4c; --bg-elevated: #4a4658;
+  --border-weak: #343140; --border-norm: #4a4658; --border-input: #5b576b;
+  --text: #ffffff; --text-weak: #a7a4b5; --text-hint: #807e8a;
   --primary: #6d4aff; --primary-hover: #7c5cff; --primary-soft: #947ff7; --primary-tint: rgba(109,74,255,.16);
   --success: #1ea885; --warning: #ff9900; --danger: #f5385a; --info: #239ece;
   --success-tint: rgba(30,168,133,.10); --warning-tint: rgba(255,153,0,.12); --danger-tint: rgba(245,56,90,.09); --info-tint: rgba(35,158,206,.08);
-  --q-qw: rgba(30,168,133,.09); --q-bb: rgba(109,74,255,.11); --q-in: rgba(35,158,206,.05); --q-mp: rgba(245,56,90,.07);
+  --q-qw: rgba(30,168,133,.10); --q-bb: rgba(109,74,255,.13); --q-in: rgba(35,158,206,.07); --q-mp: rgba(245,56,90,.08);
   --font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --r-sm: 6px; --r-md: 8px; --r-lg: 12px; --r-pill: 999px;
   --shadow-pop: 0 8px 24px rgba(0,0,0,.45); --shadow-modal: 0 16px 48px rgba(0,0,0,.6);
@@ -193,6 +193,43 @@ th[aria-sort="ascending"] .arr, th[aria-sort="descending"] .arr { opacity: 1; co
 .btn.right { margin-left: auto; }
 
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; } }
+
+/* ---------- Roomier Proton layout ---------- */
+.wrap { max-width: 1240px; }
+.card { background: var(--bg-norm); border-color: var(--border-weak); border-radius: 14px; padding: 24px 24px 18px; }
+.matrix { grid-template-columns: 52px repeat(10, minmax(0, 1fr)); grid-template-rows: repeat(10, minmax(80px, auto)) 38px; min-width: 1000px; }
+.axis-titles { min-width: 1000px; padding-left: 52px; }
+.zone { border-radius: 0; }
+.z-qw { border-radius: 12px 0 0 0; } .z-bb { border-radius: 0 12px 0 0; } .z-in { border-radius: 0 0 0 12px; } .z-mp { border-radius: 0 0 12px 0; }
+.zone .zl { font-size: 12px; gap: 3px; }
+.zone .zl small { font-size: 11px; }
+.z-qw .zl, .z-in .zl { left: 14px; } .z-bb .zl, .z-mp .zl { right: 14px; }
+.z-qw .zl, .z-bb .zl { top: 12px; } .z-in .zl, .z-mp .zl { bottom: 12px; }
+.cell { padding: 6px 5px; gap: 6px; border-right: 1px dashed rgba(255,255,255,.05); border-bottom: 1px dashed rgba(255,255,255,.05); }
+.ax { font-size: 12.5px; color: var(--text-weak); }
+.chip { font-size: 11.5px; line-height: 1.25; padding: 7px 9px; border-radius: 8px; letter-spacing: .01em; box-shadow: 0 4px 12px -4px rgba(0,0,0,.6); }
+.chip:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 10px 22px -8px rgba(109,74,255,.7); }
+.p-LATER  { --pc-bg: #3f3b4c; --pc-bd: #5b576b; }
+.toolbar { margin: 24px 0 18px; padding: 12px 14px; border-radius: 12px; background: var(--bg-norm); border: 1px solid var(--border-weak); }
+.fchip { height: 34px; background: var(--bg-lowered); }
+.qstats { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 12px; margin-bottom: 18px; }
+@media (max-width: 900px) { .qstats { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+.qs { background: var(--bg-norm); border: 1px solid var(--border-weak); border-radius: 14px; padding: 16px 18px; position: relative; overflow: hidden; }
+.qs::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 3px; background: var(--qc); }
+.qs .k { font-size: 11px; font-weight: 700; letter-spacing: .1em; color: var(--qc); }
+.qs .v { font-size: 30px; font-weight: 600; letter-spacing: -.02em; margin-top: 4px; line-height: 1.1; }
+.qs .d { font-size: 12px; color: var(--text-weak); margin-top: 2px; }
+.qs .t { margin-top: 10px; font-size: 12px; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.qs .t span { color: var(--text-hint); }
+.table-scroll { background: var(--bg-norm); border-color: var(--border-weak); border-radius: 14px; }
+th { background: var(--bg-norm); padding: 12px 16px; font-size: 11px; }
+td { padding: 15px 16px; font-size: 13px; }
+td.t-long { font-size: 13px; line-height: 1.5; }
+tr.group td { background: var(--bg-lowered); padding: 11px 16px; }
+tbody tr.row:hover { background: var(--bg-raised); }
+.tabs { border-bottom-color: var(--border-weak); }
+.drawer { background: var(--bg-norm); }
+.stat, .pc > div { background: var(--bg-lowered); }
 </style>
 
 </head>
@@ -226,6 +263,7 @@ th[aria-sort="ascending"] .arr, th[aria-sort="descending"] .arr { opacity: 1; co
       </div>
     </div>
 
+    <div class="qstats" id="qstats"></div>
     <div class="card">
       <div class="matrix-scroll">
         <p class="y-title">Impact ↑</p>
@@ -349,6 +387,10 @@ function renderMatrix() {
   h += `<div class="ax" style="grid-row:11;grid-column:1"></div>`;
   for (let effort = 1; effort <= 10; effort++) h += `<div class="ax ax-x" style="grid-column:${effort + 1}">${effort}</div>`;
   matrixEl.innerHTML = h;
+  document.getElementById("qstats").innerHTML = QUADS.map(function (q) {
+    var items = shown.filter(function (f) { return f.q === q.key; }).sort(function (a, b) { return b.i - a.i || a.e - b.e; });
+    return '<div class="qs q-' + q.key + '"><div class="k">' + q.name + '</div><div class="v">' + items.length + '</div><div class="d">' + q.desc + '</div><div class="t">' + (items[0] ? '<span>Top:</span> ' + esc(items[0].short) : '<span>Nothing in this quadrant</span>') + '</div></div>';
+  }).join("");
   renderMatrixTable(shown);
 }
 matrixEl.onclick = e => { const c = e.target.closest(".chip"); if (c) openDrawer(+c.dataset.id, matrixOrder()); };

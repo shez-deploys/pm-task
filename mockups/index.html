@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mockups Overview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<style>
+:root { color-scheme: dark; --bg: #0e0d12; --card: #1e1c26; --lower: #16141c; --raised: #292733; --border: #343140; --border-strong: #4a4658; --text: #fff; --weak: #a7a4b5; --hint: #807e8a; --primary: #6d4aff; --primary-soft: #8a6eff; --success: #1ea885; --danger: #f5385a; --warning: #ff9900; }
+* { box-sizing: border-box; }
+html, body { background: var(--bg); }
+body { margin: 0; font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 14px; line-height: 1.5; color: var(--text); -webkit-font-smoothing: antialiased; }
+.wrap { max-width: 1240px; margin: 0 auto; padding: 48px 24px 80px; }
+@media (max-width: 640px) { .wrap { padding: 32px 16px 56px; } }
+.eyebrow { font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--primary-soft); }
+h1 { font-size: 32px; font-weight: 700; letter-spacing: -.01em; margin: 8px 0 8px; text-wrap: balance; }
+.sub { color: var(--weak); max-width: 66ch; margin: 0; }
+.toc { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+.toc a { display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 14px; border-radius: 10px; background: var(--card); border: 1px solid var(--border); color: #fff; text-decoration: none; font-weight: 500; font-size: 13px; transition: border-color .15s, background-color .15s; }
+.toc a:hover { border-color: var(--primary); background: #23212c; }
+.toc .ms { font-size: 18px; color: var(--primary-soft); }
+
+.sec { margin-top: 56px; }
+.sec-h { display: grid; grid-template-columns: auto 1fr; gap: 16px; align-items: start; }
+.sec-n { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; font-size: 18px; font-weight: 700; background: rgba(109,74,255,.16); color: #c1b2ff; border: 1px solid rgba(138,110,255,.35); }
+.sec--prot .sec-n { background: rgba(245,56,90,.12); color: #ff9cad; border-color: rgba(245,56,90,.35); }
+.sec-h h2 { font-size: 24px; margin: 0 0 6px; letter-spacing: -.01em; }
+.sec-h p { margin: 0; color: var(--weak); max-width: 78ch; }
+.sec-h .pts { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 12px; color: #dddbe6; font-size: 13px; }
+.sec-h .pts span { display: inline-flex; align-items: center; gap: 6px; }
+.sec-h .pts .ms { font-size: 17px; color: var(--success); }
+.sub-h { display: flex; align-items: baseline; gap: 12px; margin: 32px 0 14px; }
+.sub-h h3 { margin: 0; font-size: 16px; }
+.sub-h p { margin: 0; color: var(--hint); font-size: 13px; }
+.sub-h a { margin-left: auto; color: var(--primary-soft); font-size: 13px; font-weight: 500; text-decoration: none; display: inline-flex; align-items: center; gap: 2px; white-space: nowrap; }
+.sub-h a:hover { text-decoration: underline; }
+
+/* Feature (big) card */
+.hero { display: grid; grid-template-columns: minmax(0,1.5fr) minmax(0,1fr); gap: 0; border-radius: 16px; overflow: hidden; background: var(--card); border: 1px solid var(--border); text-decoration: none; color: inherit; transition: border-color .2s, transform .25s, box-shadow .25s; }
+.hero:hover { border-color: var(--primary); transform: translateY(-3px); box-shadow: 0 20px 40px -24px rgba(109,74,255,.7); }
+@media (max-width: 860px) { .hero { grid-template-columns: 1fr; } }
+.hero .shot { aspect-ratio: 16 / 10; }
+.hero .txt { padding: 28px; display: flex; flex-direction: column; gap: 10px; }
+.hero .txt h4 { margin: 0; font-size: 20px; }
+.hero .txt p { margin: 0; color: var(--weak); }
+.hero ul { margin: 6px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; color: #dddbe6; font-size: 13px; }
+.hero li { display: flex; gap: 8px; }
+.hero li .ms { font-size: 17px; color: var(--primary-soft); flex: none; margin-top: 1px; }
+.go { margin-top: auto; display: inline-flex; align-items: center; gap: 6px; color: var(--primary-soft); font-weight: 600; font-size: 13.5px; }
+.go .ms { font-size: 18px; transition: transform .2s; }
+a:hover .go .ms { transform: translateX(3px); }
+
+/* Screenshot frame */
+.shot { position: relative; overflow: hidden; background: var(--lower); border-bottom: 1px solid var(--border); }
+.hero .shot { border-bottom: 0; border-right: 1px solid var(--border); }
+@media (max-width: 860px) { .hero .shot { border-right: 0; border-bottom: 1px solid var(--border); } }
+.shot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top left; transition: transform .5s cubic-bezier(.2,.7,.2,1); }
+a:hover .shot img { transform: scale(1.035); }
+.shot .badge { position: absolute; left: 12px; top: 12px; display: inline-flex; align-items: center; gap: 6px; height: 26px; padding: 0 10px; border-radius: 999px; background: rgba(14,13,18,.82); border: 1px solid var(--border-strong); font-size: 12px; font-weight: 600; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+.shot .badge .ms { font-size: 15px; color: var(--primary-soft); }
+.shot .badge.red .ms { color: #ff6b86; }
+.shot .badge.amber .ms { color: #ffad33; }
+
+/* Small cards */
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 270px), 1fr)); gap: 14px; }
+.grid--2 { grid-template-columns: repeat(2, minmax(0,1fr)); }
+.grid--3 { grid-template-columns: repeat(3, minmax(0,1fr)); }
+@media (max-width: 900px) { .grid--3 { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+@media (max-width: 760px) { .grid--2, .grid--3 { grid-template-columns: 1fr; } }
+.tcard p b { color: #ff9cad; }
+.tcard { display: flex; flex-direction: column; border-radius: 14px; overflow: hidden; background: var(--card); border: 1px solid var(--border); text-decoration: none; color: inherit; transition: border-color .2s, transform .25s, box-shadow .25s; }
+.tcard:hover { border-color: var(--primary); transform: translateY(-3px); box-shadow: 0 16px 32px -22px rgba(109,74,255,.7); }
+.tcard .shot { aspect-ratio: 16 / 10; }
+.grid--2 .tcard .shot { aspect-ratio: 16 / 9; }
+.tcard .txt { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
+.tcard h4 { margin: 0; font-size: 15px; display: flex; align-items: center; gap: 8px; }
+.tcard h4 .ms { font-size: 18px; color: var(--primary-soft); }
+.tcard p { margin: 0; color: var(--weak); font-size: 13px; }
+.tcard .go { margin-top: 8px; font-size: 13px; }
+.sec--prot .tcard:hover { border-color: #f0576b; box-shadow: 0 16px 32px -22px rgba(245,56,90,.6); }
+.sec--prot .tcard h4 .ms { color: #ff8da1; }
+.sec--prot .go { color: #ff9cad; }
+.dir { display: inline-flex; align-items: center; gap: 4px; height: 22px; padding: 0 8px; border-radius: 999px; font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; border: 1px solid; margin-left: auto; }
+.dir--in { color: #ff9cad; border-color: rgba(245,56,90,.5); }
+.dir--out { color: #ffbb55; border-color: rgba(255,153,0,.5); }
+.dir .ms { font-size: 14px; }
+</style>
+</head>
+<body>
+<script src="../assets/site-nav.js"></script>
+<main class="wrap">
+  <div class="eyebrow">Mockups</div>
+  <h1>The contacts experience, mocked up</h1>
+  <p class="sub">Two parts of one MVP: contacts that carry context and trust signals, and the protection that uses those contacts to stop the wrong person getting through, in either direction. Every screen is interactive and uses the same fictional company, Aldermoor Advisory.</p>
+  <nav class="toc" aria-label="Sections"><a href="#trusted"><span class="ms" aria-hidden="true">verified_user</span>1. Trusted contacts</a><a href="#protection"><span class="ms" aria-hidden="true">shield_person</span>2. Protection</a></nav>
+
+  <!-- ============ 1. Trusted contacts ============ -->
+  <section class="sec" id="trusted">
+    <div class="sec-h"><span class="sec-n">1</span><div>
+      <h2>Trusted contacts</h2>
+      <p>Contacts stop being a list of names. The <b>contacts list</b> shows everyone with their company, groups, last contact and trust status, and a hover card gives a quick summary without leaving the page. The <b>contact view</b> opens full screen instead of a small modal, with tabs for everything you share with that person across Mail, Calendar and Drive, and the trust signals behind it.</p>
+      <div class="pts"><span><span class="ms" aria-hidden="true">check_circle</span>Same for colleagues and outside contacts</span><span><span class="ms" aria-hidden="true">check_circle</span>Built on the device from your own mail</span><span><span class="ms" aria-hidden="true">check_circle</span>Signals you can read, not a score</span></div>
+    </div></div>
+
+    <div class="sub-h"><h3>Contacts list</h3><p>Hover a contact for its summary card</p><a href="contacts-list.html">Open the list<span class="ms" aria-hidden="true">chevron_right</span></a></div>
+    <a class="hero" href="contacts-list.html#contacts">
+      <div class="shot"><img src="img/list-overview.jpg" alt="Contacts list with a hover card for Camille Rochat showing email, phone, local time, counts and the last thread" loading="lazy"><span class="badge"><span class="ms" aria-hidden="true">contacts</span>Contacts</span></div>
+      <div class="txt">
+        <h4>Contacts overview</h4>
+        <p>Everyone in one table, laid out like a security console: search, filter chips with counts, sort and export.</p>
+        <ul>
+          <li><span class="ms" aria-hidden="true">mouse</span>Hover card: role, email, phone, local time, email/meeting/file counts and the last thread, with Message and Open.</li>
+          <li><span class="ms" aria-hidden="true">verified_user</span>Trust column: Trusted for outside contacts, Key verified for colleagues.</li>
+          <li><span class="ms" aria-hidden="true">open_in_full</span>Click any row to open the full contact view.</li>
+        </ul>
+        <span class="go">Open contacts overview<span class="ms" aria-hidden="true">arrow_forward</span></span>
+      </div>
+    </a>
+
+    <div class="grid grid--3" style="margin-top:14px">
+      <a class="tcard" href="contacts-list.html#suggested"><div class="shot"><img src="img/list-suggested.jpg" alt="Suggested contacts with confidence rings" loading="lazy"><span class="badge"><span class="ms" aria-hidden="true">person_add</span>Suggested</span></div>
+        <div class="txt"><h4><span class="ms" aria-hidden="true">person_add</span>Suggested</h4><p>People you write to often but haven't saved, ranked by a confidence ring from message, reply and meeting history. One click on + saves them. Look-alike addresses are never suggested.</p><span class="go">Open tab<span class="ms" aria-hidden="true">arrow_forward</span></span></div></a>
+      <a class="tcard" href="contacts-list.html#groups"><div class="shot"><img src="img/list-groups.jpg" alt="Contact groups with members and internal or external mix" loading="lazy"><span class="badge"><span class="ms" aria-hidden="true">groups</span>Groups</span></div>
+        <div class="txt"><h4><span class="ms" aria-hidden="true">groups</span>Groups</h4><p>Every contact group with its members and how many are internal or external, so you can see at a glance which groups reach outside the company.</p><span class="go">Open tab<span class="ms" aria-hidden="true">arrow_forward</span></span></div></a>
+      <a class="tcard" href="contacts-list.html#colleagues"><div class="shot"><img src="img/list-colleagues.jpg" alt="Colleagues at Aldermoor Advisory with verified keys" loading="lazy"><span class="badge"><span class="ms" aria-hidden="true">domain</span>Colleagues</span></div>
+        <div class="txt"><h4><span class="ms" aria-hidden="true">domain</span>Colleagues</h4><p>Everyone at your organisation, with title, phone, local time and a verified encryption key, so internal mail is end-to-end encrypted by default.</p><span class="go">Open tab<span class="ms" aria-hidden="true">arrow_forward</span></span></div></a>
+    </div>
+
+    <div class="sub-h"><h3>Contact view</h3><p>Full screen, one tab per kind of history</p><a href="contacts.html">Open a contact<span class="ms" aria-hidden="true">chevron_right</span></a></div>
+    <div class="grid grid--3">
+      <a class="tcard" href="contacts.html#c=8&amp;tab=overview"><div class="shot"><img src="img/view-overview.jpg" alt="Contact overview for Marco Rossi" loading="lazy"><span class="badge"><span class="ms" aria-hidden="true">person</span>Overview</span></div>
+        <div class="txt"><h4><span class="ms" aria-hidden="true">person</span>Overview</h4><p>Details with encrypted fields marked, Email, Calendar and Files tiles, recent activity across apps and the trust signals checklist.</p><span class="go">Open tab<span class="ms" aria-hidden="true">arrow_forward</span></span></div></a>
+      <a class="tcard" href="contacts.html#c=8&amp;tab=notes"><div class="shot"><img src="img/view-notes.jpg" alt="Encrypted notes on a contact" loading="lazy"><span class="badge"><span class="ms" aria-hidden="true">sticky_note_2</span>Notes</span></div>
+        <div class="txt"><h4><span class="ms" aria-hidden="true">sticky_note_2</span>Notes</h4><p>Private, end-to-end encrypted notes about the person: how they like to work, who approves what, how you met.</p><span class="go">Open tab<span class="ms" aria-hidden="true">arrow_forward</span></span></div></a>
+      <a class="tcard" href="contacts.html#c=8&amp;tab=email"><div class="shot"><img src="img/view-email.jpg" alt="Email threads with a contact" loading="lazy"><span class="badge"><span class="ms" aria-hidden="true">mail</span>Email</span></div>
+        <div class="txt"><h4><span class="ms" aria-hidden="true">mail</span>Email</h4><p>Every thread with this person, across all of their addresses, showing which address each one came from.</p><span class="go">Open tab<span class="ms" aria-hidden="true">arrow_forward</span></span></div></a>
+      <a class="tcard" href="contacts.html#c=8&amp;tab=calendar"><div class="shot"><img src="img/view-calendar.jpg" alt="Meetings with a contact" loading="lazy"><span class="badge"><span class="ms" aria-hidden="true">calendar_month</span>Calendar</span></div>
+        <div class="txt"><h4><span class="ms" aria-hidden="true">calendar_month</span>Calendar</h4><p>Upcoming and past meetings together, with who else attended.</p><span class="go">Open tab<span class="ms" aria-hidden="true">arrow_forward</span></span></div></a>
+      <a class="tcard" href="contacts.html#c=8&amp;tab=files"><div class="shot"><img src="img/view-files.jpg" alt="Files shared with a contact" loading="lazy"><span class="badge"><span class="ms" aria-hidden="true">folder</span>Files</span></div>
+        <div class="txt"><h4><span class="ms" aria-hidden="true">folder</span>Files</h4><p>Files shared both ways in Drive and Docs, and who shared them.</p><span class="go">Open tab<span class="ms" aria-hidden="true">arrow_forward</span></span></div></a>
+      <a class="tcard" href="contacts.html#c=8&amp;tab=connections"><div class="shot"><img src="img/view-connections.jpg" alt="Connections with suggested contacts" loading="lazy"><span class="badge"><span class="ms" aria-hidden="true">hub</span>Connections</span></div>
+        <div class="txt"><h4><span class="ms" aria-hidden="true">hub</span>Connections</h4><p>Suggested contacts around this person, colleagues who also work with them, and other people at the same company.</p><span class="go">Open tab<span class="ms" aria-hidden="true">arrow_forward</span></span></div></a>
+    </div>
+  </section>
+
+  <!-- ============ 2. Protection ============ -->
+  <section class="sec sec--prot" id="protection">
+    <div class="sec-h"><span class="sec-n">2</span><div>
+      <h2>Protection</h2>
+      <p>The same contact data protects in both directions. Incoming mail is checked against the people you already know, and outgoing mail is checked against who you usually send this kind of email to. Checks run on the device and use addresses and your own history, never message content.</p>
+    </div></div>
+    <div class="grid grid--2" style="margin-top:24px">
+      <a class="tcard" href="protection.html#imp"><div class="shot"><img src="img/prot-impersonation.jpg" alt="Impersonation warning on an email from a look-alike domain" loading="lazy"><span class="badge red"><span class="ms" aria-hidden="true">gpp_maybe</span>Inbound</span></div>
+        <div class="txt"><h4><span class="ms" aria-hidden="true">gpp_maybe</span>Impersonation attempt<span class="dir dir--in"><span class="ms" aria-hidden="true">call_received</span>Inbound</span></h4><p>An email from "Marco Rossi" at bright<b>I</b>ane-it.example asks to change bank details. The warning explains the look-alike domain, compares the sender with the real Marco and offers Report, Mark as safe or I'm not sure.</p><span class="go">Open scenario<span class="ms" aria-hidden="true">arrow_forward</span></span></div></a>
+      <a class="tcard" href="protection.html#mis"><div class="shot"><img src="img/prot-misdirection.jpg" alt="Misdirection warning in the composer comparing two similar recipients" loading="lazy"><span class="badge amber"><span class="ms" aria-hidden="true">alt_route</span>Outbound</span></div>
+        <div class="txt"><h4><span class="ms" aria-hidden="true">alt_route</span>Accidental misdirection<span class="dir dir--out"><span class="ms" aria-hidden="true">call_made</span>Outbound</span></h4><p>Autocomplete picked Camille Roche at Veloria Capital instead of Camille Rochat at Veloria Partners. Before sending, the composer shows both side by side and offers to switch.</p><span class="go">Open scenario<span class="ms" aria-hidden="true">arrow_forward</span></span></div></a>
+    </div>
+  </section>
+</main>
+</body>
+</html>

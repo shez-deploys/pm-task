@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Contacts List Mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../design-system/proton-dark.css">
+<link rel="stylesheet" href="mockup.css">
+<style>
+/* Contacts app frame: sidebar + main only */
+.app.app--list { grid-template-columns: 232px minmax(0,1fr); }
+.app--list .brand { font-size: 16px; }
+@media (max-width: 1180px) { .app.app--list { grid-template-columns: 0 minmax(0,1fr); } }
+@media (max-width: 820px) { .app.app--list { grid-template-columns: 0 minmax(0,1fr); } }
+.side .nav-i { cursor: pointer; }
+.side .nav-i .cnt.weak { background: var(--pt-bg-strong); color: var(--pt-text-weak); }
+.side .grp-dot { width: 10px; height: 10px; border-radius: 3px; flex: none; margin: 0 4px; }
+
+.lmain { display: flex; flex-direction: column; min-width: 0; background: var(--pt-bg-canvas); }
+.lhead { display: flex; align-items: center; gap: 12px; padding: 18px 24px 4px; }
+.lhead .crumb2 { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--pt-text-weak); }
+.lhead h2 { margin: 2px 0 0; font-size: 20px; letter-spacing: -.01em; }
+.lhead .right { margin-left: auto; display: flex; gap: 8px; }
+.lbody { flex: 1; overflow: auto; padding: 0 24px 28px; }
+.ptabs--list { margin: 12px 0 18px; padding: 0; }
+
+/* Search + filters, after the security-events layout */
+.ltools { display: grid; grid-template-columns: minmax(0,1fr) auto auto; gap: 10px; }
+.lsearch { display: flex; align-items: center; gap: 10px; height: 40px; padding: 0 12px; border-radius: 8px; background: #1e1c26; border: 1px solid #343140; color: var(--pt-text-hint); transition: border-color .15s, box-shadow .15s; }
+.lsearch:focus-within { border-color: var(--pt-primary); box-shadow: 0 0 0 3px rgba(109,74,255,.3); }
+.lsearch input { flex: 1; min-width: 0; border: 0; background: none; color: #fff; font: inherit; outline: none; }
+.lsearch input::placeholder { color: var(--pt-text-hint); }
+.lbtn { display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 14px; border-radius: 8px; background: #1e1c26; border: 1px solid #343140; color: #c1b2ff; font: 500 13.5px/1 inherit; font-family: inherit; cursor: pointer; transition: background-color .15s, border-color .15s; white-space: nowrap; }
+.lbtn:hover { background: #292733; border-color: #4a4658; }
+.lbtn--plain { color: #fff; }
+.lbtn .pt-icon { font-size: 18px; }
+.fbar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 10px; padding: 10px 12px; border-radius: 10px; background: #1e1c26; border: 1px solid #343140; }
+.fchip2 { display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 10px 0 12px; border-radius: 999px; border: 1px solid #4a4658; background: transparent; color: #dddbe6; font: 500 12.5px/1 inherit; font-family: inherit; cursor: pointer; transition: background-color .15s, border-color .15s, color .15s; }
+.fchip2:hover { border-color: #6e6b79; }
+.fchip2[aria-pressed="true"] { background: #29214d; border-color: #6d4aff; color: #fff; }
+.fchip2 .n { color: var(--pt-text-weak); font-size: 11.5px; }
+.fchip2[aria-pressed="true"] .n { color: #c1b2ff; }
+.fbar .clear { margin-left: auto; height: 30px; padding: 0 12px; border-radius: 8px; border: 1px solid #343140; background: #16141c; color: #c1b2ff; font: 500 12.5px/1 inherit; font-family: inherit; cursor: pointer; }
+.fbar .clear:hover { background: #292733; }
+.sortbar { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 12px; margin: 16px 0 14px; }
+.sortbar label { display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: var(--pt-text-weak); }
+.lselect { height: 38px; min-width: 190px; padding: 0 36px 0 12px; border-radius: 8px; border: 1px solid #343140; background: #1e1c26 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%238a6eff' d='M7.627 9.846 4.502 6.72A.422.422 0 0 1 4.8 6h6.4c.376 0 .564.454.298.72L8.373 9.846a.527.527 0 0 1-.746 0Z'/%3E%3C/svg%3E") no-repeat right 10px center / 16px; color: #fff; font: inherit; appearance: none; cursor: pointer; }
+.lselect--sm { min-width: 90px; }
+.sortbar .grow { flex: 1; }
+.sortbar .meta { color: var(--pt-text-weak); font-size: 12px; padding-bottom: 10px; }
+
+/* Rows */
+.lgrid { display: grid; align-items: center; gap: 16px; }
+.lcols-contacts { grid-template-columns: 18px minmax(200px,1.5fr) minmax(170px,1.2fr) minmax(150px,1fr) 100px 112px 128px; }
+.lcols-sugg { grid-template-columns: 52px minmax(200px,1.3fr) minmax(220px,1.7fr) 150px 96px 84px; }
+.lcols-groups { grid-template-columns: minmax(180px,1.2fr) minmax(160px,1fr) 110px minmax(160px,1.2fr) 40px; }
+.lcols-coll { grid-template-columns: minmax(200px,1.5fr) minmax(170px,1.2fr) 150px 130px 128px; }
+.lth { padding: 0 18px 8px; font-size: 12px; font-weight: 500; color: var(--pt-text-weak); }
+.lrows { display: flex; flex-direction: column; gap: 8px; }
+a.lrow { color: inherit; text-decoration: none; }
+.lrow { padding: 14px 18px; border-radius: 12px; background: #1e1c26; border: 1px solid #292733; cursor: pointer; transition: border-color .15s, background-color .15s, box-shadow .2s; position: relative; }
+.lrow:hover, .lrow.hovering { border-color: #4a4658; background: #23212c; }
+.lrow.hovering { box-shadow: 0 0 0 1px rgba(138,110,255,.45), 0 10px 30px -18px rgba(109,74,255,.7); border-color: rgba(138,110,255,.7); }
+.lrow.bad { border-color: rgba(245,56,90,.45); background: linear-gradient(90deg, rgba(245,56,90,.12), #1e1c26 55%); }
+.lrow.saved { opacity: .55; }
+.lrow .who { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.lrow .who b { display: block; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.lrow .who small, .lrow .cell small { display: block; color: var(--pt-text-weak); font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.lrow .cell { min-width: 0; font-size: 13px; }
+.lrow .cell > span:not(.st):not(.tag):not(.ring):not(.pt-icon):not(.src) { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.lrow .tags { display: flex; gap: 6px; flex-wrap: nowrap; overflow: hidden; }
+.tag--more { color: var(--pt-text-weak); }
+.hist { display: flex; gap: 12px; color: #dddbe6; font-size: 13px; }
+.hist span { display: inline-flex; align-items: center; gap: 4px; }
+.hist .pt-icon { font-size: 15px; color: var(--pt-text-weak); }
+.lrow .why { font-size: 12.5px; color: #d9d7e2; line-height: 1.45; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.src { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; color: var(--pt-text-weak); }
+.src .pt-icon { font-size: 15px; }
+.lrow .acts2 { display: flex; gap: 6px; justify-content: flex-end; }
+.more-section { margin-top: 22px; }
+.more-section summary { cursor: pointer; color: var(--pt-text-weak); font-size: 13px; display: flex; align-items: center; gap: 6px; list-style: none; padding: 6px 0; }
+.more-section summary::-webkit-details-marker { display: none; }
+.more-section summary .pt-icon { transition: transform .2s; }
+.more-section[open] summary .pt-icon { transform: rotate(90deg); }
+.lrow.muted { background: #16141c; border-style: dashed; cursor: default; }
+.empty2 { padding: 40px; text-align: center; color: var(--pt-text-weak); border: 1px dashed #343140; border-radius: 12px; }
+.chk { width: 18px; height: 18px; border-radius: 4px; border: 1px solid #5b576b; display: grid; place-items: center; }
+.sugg-intro { display: flex; gap: 14px; align-items: center; padding: 14px 18px; border-radius: 12px; background: linear-gradient(90deg, rgba(138,110,255,.18), rgba(99,61,255,.05)); border: 1px solid rgba(138,110,255,.3); margin-bottom: 16px; font-size: 13px; color: #e2dcff; }
+.sugg-intro .pt-icon { color: #c1b2ff; font-size: 22px; }
+.sugg-intro b { color: #fff; }
+.legend2 { margin-left: auto; display: flex; gap: 14px; color: var(--pt-text-weak); font-size: 12px; white-space: nowrap; }
+.legend2 i { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; }
+@media (max-width: 1100px) { .lcols-contacts { grid-template-columns: 18px minmax(180px,1.5fr) minmax(150px,1fr) 100px 128px; } .lcols-contacts .c-groups, .lcols-contacts .c-hist { display: none; } .legend2 { display: none; } }
+
+/* Hover card */
+.hcard { position: absolute; z-index: 15; width: 340px; border-radius: 14px; background: #1e1c26; border: 1px solid #4a4658; box-shadow: 0 24px 50px -20px rgba(0,0,0,.9), 0 0 0 1px rgba(0,0,0,.2); opacity: 0; transform: translateY(6px) scale(.98); transform-origin: top left; pointer-events: none; transition: opacity .16s ease, transform .16s ease; overflow: hidden; }
+.hcard.show { opacity: 1; transform: none; pointer-events: auto; }
+.hc-top { display: flex; gap: 12px; padding: 16px 16px 12px; align-items: flex-start; background: linear-gradient(180deg, #292733, #1e1c26); }
+.hc-top .av { width: 44px; height: 44px; font-size: 15px; border-radius: 10px; }
+.hc-top b { display: block; font-size: 15px; }
+.hc-top small { display: block; color: var(--pt-text-weak); font-size: 12px; margin-top: 1px; }
+.hc-top .chips { margin-top: 8px; }
+.hc-rows { padding: 4px 16px 10px; display: flex; flex-direction: column; gap: 8px; font-size: 12.5px; }
+.hc-rows div { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.hc-rows .pt-icon { font-size: 16px; color: var(--pt-text-weak); flex: none; }
+.hc-rows span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hc-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: #343140; border-top: 1px solid #343140; border-bottom: 1px solid #343140; }
+.hc-stats div { background: #1e1c26; padding: 10px 12px; }
+.hc-stats b { display: block; font-size: 18px; font-weight: 600; }
+.hc-stats small { color: var(--pt-text-weak); font-size: 11.5px; display: flex; align-items: center; gap: 4px; }
+.hc-stats .pt-icon { font-size: 13px; }
+.hc-last { padding: 10px 16px; font-size: 12px; color: var(--pt-text-weak); display: flex; gap: 8px; align-items: center; }
+.hc-last b { color: #fff; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hc-last .pt-icon { font-size: 15px; }
+.hc-acts { display: flex; gap: 8px; padding: 0 16px 16px; }
+.hc-acts .pt-btn { flex: 1; height: 34px; font-size: 13px; }
+.hc-warn { margin: 0 16px 12px; padding: 8px 10px; border-radius: 8px; background: rgba(245,56,90,.12); border: 1px solid rgba(245,56,90,.35); color: #ffc2cd; font-size: 12px; display: flex; gap: 8px; }
+.hc-warn .pt-icon { font-size: 16px; color: #ff6b86; }
+</style>
+</head>
+<body>
+<script src="../assets/site-nav.js"></script>
+<div class="page-wrap">
+  <div class="page-h">
+    <div>
+      <div class="eyebrow">Mockups · Contacts list</div>
+      <h1>All your contacts, with context</h1>
+      <p>A full-page contacts list with four tabs. Hover a contact for a quick summary; open Suggested to see people you write to often but haven't saved, ranked by confidence.</p>
+    </div>
+    <div class="seg" role="group" aria-label="Jump to tab">
+      <button type="button" data-jump="contacts" aria-pressed="true"><span class="pt-icon">contacts</span>Contacts</button>
+      <button type="button" data-jump="suggested" aria-pressed="false"><span class="pt-icon">person_add</span>Suggested</button>
+      <button type="button" data-jump="groups" aria-pressed="false"><span class="pt-icon">groups</span>Groups</button>
+      <button type="button" data-jump="colleagues" aria-pressed="false"><span class="pt-icon">domain</span>Colleagues</button>
+    </div>
+  </div>
+
+  <div class="app app--list" id="app">
+    <aside class="side" aria-label="Contacts navigation">
+      <div class="brand"><span class="brand-mark" aria-hidden="true"></span>Proton Contacts<span class="pt-icon" aria-hidden="true">apps</span></div>
+      <button class="new-msg" type="button">New contact</button>
+      <div class="nav-i on" data-jump="contacts"><span class="pt-icon">contacts</span>All contacts<span class="cnt weak" id="n-all"></span></div>
+      <div class="nav-i" data-jump="suggested"><span class="pt-icon">person_add</span>Suggested<span class="cnt" id="n-sugg"></span></div>
+      <div class="nav-i" data-jump="groups"><span class="pt-icon">groups</span>Groups</div>
+      <div class="nav-i" data-jump="colleagues"><span class="pt-icon">domain</span>Colleagues</div>
+      <div class="nav-i nav-sec"><span class="pt-icon">expand_more</span>Groups</div>
+      <div id="side-groups"></div>
+    </aside>
+
+    <section class="lmain">
+      <div class="lhead">
+        <div><div class="crumb2">Aldermoor Advisory<span class="pt-icon" style="font-size:14px">chevron_right</span>Contacts</div><h2 id="l-title">Contacts</h2></div>
+        <div class="right">
+          <button class="pt-btn pt-btn--secondary" type="button"><span class="pt-icon pt-icon--sm">upload</span>Import</button>
+          <button class="pt-btn pt-btn--primary" type="button"><span class="pt-icon pt-icon--sm">add</span>New contact</button>
+        </div>
+      </div>
+      <div class="lbody" id="lbody">
+        <div class="ptabs ptabs--list" role="tablist" id="ltabs"></div>
+        <div class="ltools">
+          <label class="lsearch"><span class="pt-icon">search</span><input id="q" type="search" placeholder="Name, email, company or group" autocomplete="off" aria-label="Search contacts"></label>
+          <button class="lbtn" type="button">Filter<span class="pt-icon">filter_list</span></button>
+          <button class="lbtn lbtn--plain" type="button">All time<span class="pt-icon" style="color:#8a6eff">expand_more</span></button>
+        </div>
+        <div class="fbar" id="fbar"></div>
+        <div class="sortbar" id="sortbar"></div>
+        <div id="view"></div>
+      </div>
+    </section>
+
+    <div class="hcard" id="hcard" role="tooltip"></div>
+    <div class="toast" id="toast" role="status"></div>
+  </div>
+  <p class="hint"><span class="pt-icon">touch_app</span>Hover a contact for its summary card. Click a row to open the full contact. Use + on a suggestion to save it.</p>
+</div>
+
+<script src="../data/contacts.js"></script>
+<script src="mockup.js"></script>
+<script>
+(function () {
+  /* The look-alike sender lives in the Protection mockup, not in the address book. */
+  var C = MK.C.filter(function (c) { return c.type !== "impersonation"; }), esc = MK.esc, ic = MK.ic, st = MK.st;
+  var app = document.getElementById("app"), view = document.getElementById("view");
+  var state = { tab: "contacts", filter: "all", q: "", sort: "name", saved: {} };
+  var GROUPS_HIDE = /Suspicious|Impersonation Review/;
+  var GROUP_COLORS = ["#8a6eff", "#1ea885", "#239ece", "#ff9900", "#f17ab8", "#9dc535", "#f5385a", "#36bbd9", "#a589ff"];
+
+  /* Groups from contact categories */
+  var groupMap = {};
+  C.forEach(function (c) { (c.groups || []).forEach(function (g) { if (GROUPS_HIDE.test(g)) return; (groupMap[g] = groupMap[g] || []).push(c); }); });
+  var GROUPS = Object.keys(groupMap).sort().map(function (g, i) { return { name: g, members: groupMap[g], color: GROUP_COLORS[i % GROUP_COLORS.length] }; });
+  document.getElementById("side-groups").innerHTML = GROUPS.slice(0, 7).map(function (g) {
+    return '<div class="nav-i"><span class="grp-dot" style="background:' + g.color + '"></span>' + esc(g.name) + '<span class="cnt weak">' + g.members.length + '</span></div>';
+  }).join("");
+  var suggCount = MK.SUGGESTED.filter(function (s) { return !s.low; }).length;
+  document.getElementById("n-all").textContent = C.length;
+  document.getElementById("n-sugg").textContent = suggCount;
+
+  var TABS = [["contacts", "Contacts", "contacts", C.length], ["suggested", "Suggested", "person_add", suggCount], ["groups", "Groups", "groups", GROUPS.length], ["colleagues", "Colleagues", "domain", C.filter(function (c) { return c.type === "colleague"; }).length + 1]];
+  function renderTabs() {
+    document.getElementById("ltabs").innerHTML = TABS.map(function (t) { return MK.ptab(t[0], t[1], t[2], state.tab === t[0], t[3], "data-jump"); }).join("");
+    document.getElementById("l-title").textContent = TABS.find(function (t) { return t[0] === state.tab; })[1];
+    Array.prototype.forEach.call(document.querySelectorAll(".seg [data-jump]"), function (b) { b.setAttribute("aria-pressed", b.dataset.jump === state.tab); });
+    Array.prototype.forEach.call(document.querySelectorAll(".side .nav-i[data-jump]"), function (b) { b.classList.toggle("on", b.dataset.jump === state.tab); });
+  }
+
+  /* Filter chips and sort bar per tab */
+  var FILTERS = {
+    contacts: [["all", "All", function () { return true; }], ["internal", "Internal", function (c) { return c.type === "colleague"; }], ["external", "External", function (c) { return c.type !== "colleague" && c.type !== "impersonation"; }]],
+    suggested: [["all", "Above threshold", function (s) { return !s.low; }], ["sig", "From signatures", function (s) { return !s.low && s.from === "Signature"; }], ["dom", "Same domain as a contact", function (s) { return !s.low && s.from === "Domain"; }]],
+    groups: [["all", "All groups", function () { return true; }], ["mixed", "With external members", function (g) { return g.members.some(function (c) { return c.type !== "colleague"; }); }]],
+    colleagues: [["all", "Everyone", function () { return true; }], ["lead", "Leadership", function (c) { return (c.groups || []).indexOf("Leadership") > -1; }]]
+  };
+  function renderTools() {
+    var src = state.tab === "contacts" ? C : state.tab === "suggested" ? MK.SUGGESTED : state.tab === "groups" ? GROUPS : colleagues();
+    document.getElementById("fbar").innerHTML = FILTERS[state.tab].map(function (f) {
+      return '<button class="fchip2" type="button" data-filter="' + f[0] + '" aria-pressed="' + (state.filter === f[0]) + '">' + f[1] + ' <span class="n">' + src.filter(f[2]).length + '</span></button>';
+    }).join("") + (state.tab === "suggested" ? '<span class="legend2"><span><i style="background:var(--pt-success)"></i>85+ strong</span><span><i style="background:var(--pt-primary-soft)"></i>65–84 likely</span><span><i style="background:var(--pt-text-hint)"></i>below 50 hidden</span></span>' : "") +
+      '<button class="clear" type="button" data-clear>Clear filters</button>';
+    var sorts = { contacts: ["Name (A–Z)", "Last contact (latest first)", "Most emails"], suggested: ["Confidence (highest first)", "Most messages", "Most recent"], groups: ["Name (A–Z)", "Most members"], colleagues: ["Name (A–Z)", "Title"] }[state.tab];
+    document.getElementById("sortbar").innerHTML = '<label>Sort by<select class="lselect" id="sort">' + sorts.map(function (s, i) { return '<option value="' + i + '"' + (String(state.sortIdx || 0) === String(i) ? " selected" : "") + '>' + s + '</option>'; }).join("") + '</select></label>' +
+      '<label>Results per page<select class="lselect lselect--sm"><option>50</option><option>100</option></select></label><span class="grow"></span>' +
+      '<span class="meta" id="meta"></span><button class="lbtn" type="button" style="height:38px">' + ic("download") + 'Export as CSV</button>';
+  }
+
+  function colleagues() {
+    return [{ id: 0, name: "Sophie Keller", initials: "SK", title: "Head of Operations", role: "Operations", org: "Aldermoor Advisory", emails: [{ address: "sophie.keller@aldermoor-advisory.ch", primary: true }], phones: [{ number: "+41 79 555 10 07" }], timezone: "Europe/Zurich", groups: ["Leadership"], type: "colleague", me: true }]
+      .concat(C.filter(function (c) { return c.type === "colleague"; }));
+  }
+  var match = function (txt) { return !state.q || txt.toLowerCase().indexOf(state.q.toLowerCase()) > -1; };
+  var fn = function () { return FILTERS[state.tab].find(function (f) { return f[0] === state.filter; })[2]; };
+  var avatar = function (c) { return '<span class="' + MK.avClass(c) + '">' + c.initials + (c.type === "impersonation" ? '<span class="bdg">' + ic("priority_high") + '</span>' : "") + '</span>'; };
+  var tags = function (list, max) {
+    list = (list || []).filter(function (g) { return !GROUPS_HIDE.test(g); }); max = max || 2;
+    return '<div class="tags">' + list.slice(0, max).map(function (g) { return '<span class="tag">' + esc(g) + '</span>'; }).join("") + (list.length > max ? '<span class="tag tag--more">+' + (list.length - max) + '</span>' : "") + '</div>';
+  };
+
+  /* ---- Tab views ---- */
+  function contactsView() {
+    var rows = C.filter(fn()).filter(function (c) { return match([c.name, MK.primary(c), c.org, (c.groups || []).join(" ")].join(" ")); });
+    var s = String(state.sortIdx || 0);
+    rows.sort(function (a, b) {
+      if (s === "1") return order(b) - order(a) || a.name.localeCompare(b.name);
+      if (s === "2") return MK.hist(b).stats.email[0] - MK.hist(a).stats.email[0];
+      return a.name.localeCompare(b.name) || a.id - b.id;
+    });
+    setMeta(rows.length, C.length, "contacts");
+    if (!rows.length) return '<div class="empty2">' + ic("search_off") + '<br>No contacts match.</div>';
+    return '<div class="lgrid lcols-contacts lth"><span></span><span>Name</span><span>Company and role</span><span class="c-groups">Groups</span><span>Last contact</span><span class="c-hist">History</span><span>Trust</span></div><div class="lrows">' +
+      rows.map(function (c) {
+        var h = MK.hist(c), bad = c.type === "impersonation";
+        return '<a class="lrow lgrid lcols-contacts' + (bad ? " bad" : "") + '" href="contacts.html#c=' + c.id + '" data-card="' + c.id + '"><span class="chk"></span>' +
+          '<div class="who">' + avatar(c) + '<div style="min-width:0"><b>' + esc(c.name) + '</b><small>' + esc(MK.primary(c)) + (c.emails.length > 1 ? " +" + (c.emails.length - 1) : "") + '</small></div></div>' +
+          '<div class="cell"><span>' + esc(c.org || "") + '</span><small>' + (bad ? "Claims: " : "") + esc(c.title || "") + '</small></div>' +
+          '<div class="cell c-groups">' + tags(c.groups) + '</div>' +
+          '<div class="cell"><span>' + MK.lastContact(c) + '</span><small>' + (bad ? "first message" : esc((h.recent[0] || {}).k === "event" ? "meeting" : "email")) + '</small></div>' +
+          '<div class="cell c-hist"><div class="hist"><span>' + ic("mail") + h.stats.email[0] + '</span><span>' + ic("calendar_month") + h.stats.cal[0] + '</span><span>' + ic("folder") + h.stats.files[0] + '</span></div></div>' +
+          '<div class="cell">' + MK.trustPill(c) + '</div></a>';
+      }).join("") + '</div>';
+  }
+  var MONTHS = { Jan: 1, Feb: 2, Mar: 3, Apr: 4, May: 5, Jun: 6, Jul: 7, Aug: 8, Sep: 9, Oct: 10, Nov: 11, Dec: 12 };
+  function order(c) { var d = MK.lastContact(c).split(" "); return (+d[2] || 0) * 400 + (MONTHS[d[1]] || 0) * 32 + (+d[0] || 0); }
+
+  function suggestedView() {
+    var list = MK.SUGGESTED.filter(fn()).filter(function (s) { return match([s.name, s.email, s.org, s.title].join(" ")); });
+    var s = String(state.sortIdx || 0);
+    list.sort(function (a, b) { return s === "1" ? b.msgs - a.msgs : b.score - a.score; });
+    setMeta(list.length, MK.SUGGESTED.filter(function (x) { return !x.low; }).length, "suggestions");
+    var low = MK.SUGGESTED.filter(function (x) { return x.low; });
+    var srcIc = { Signature: "signature", Domain: "domain_verification", Thread: "forum" };
+    return '<div class="sugg-intro">' + ic("auto_awesome") + '<div><b>' + suggCount + ' people you write to often aren\'t in your contacts.</b> Confidence is worked out on this device from how often you email, reply and meet, and whether the domain matches a verified contact. Look-alike addresses are never suggested.</div></div>' +
+      '<div class="lgrid lcols-sugg lth"><span>Score</span><span>Person</span><span>Why it\'s suggested</span><span>History</span><span>Found in</span><span></span></div><div class="lrows">' +
+      (list.length ? list.map(function (x) {
+        var saved = state.saved[x.id];
+        return '<div class="lrow lgrid lcols-sugg' + (saved ? " saved" : "") + '" data-sugg="' + x.id + '">' + MK.ring(x.score, 42) +
+          '<div class="who"><span class="av">' + MK.initials(x.name) + '</span><div style="min-width:0"><b>' + esc(x.name) + '</b><small>' + esc(x.email) + '</small><small>' + esc([x.title, x.org].filter(Boolean).join(" · ")) + '</small></div></div>' +
+          '<div class="cell"><div class="why">' + esc(x.why) + '</div></div>' +
+          '<div class="cell"><div class="hist"><span>' + ic("mail") + x.msgs + '</span><span>' + ic("reply") + x.replies + '</span><span>' + ic("event") + x.meets + '</span></div><small style="margin-top:4px">since ' + x.since + '</small></div>' +
+          '<div class="cell"><span class="src">' + ic(srcIc[x.from]) + x.from + '</span></div>' +
+          '<div class="acts2"><button class="ib ib--b" type="button" aria-label="Dismiss" data-dismiss="' + x.id + '">' + ic("close") + '</button><button class="add-btn' + (saved ? " done" : "") + '" type="button" aria-label="Create contact" data-add="' + x.id + '">' + ic(saved ? "check" : "add") + '</button></div></div>';
+      }).join("") : '<div class="empty2">No suggestions match.</div>') + '</div>' +
+      '<details class="more-section"><summary>' + ic("chevron_right") + 'Not suggested (' + (low.length + MK.HELD.length) + ')</summary><div class="lrows" style="margin-top:8px">' +
+      MK.HELD.map(function (h) { return '<div class="lrow lgrid lcols-sugg muted"><span class="dot dot--bad" style="width:42px;height:42px;border-radius:50%">' + ic("block") + '</span><div class="who"><span class="av av--bad">' + MK.initials(h.name) + '</span><div style="min-width:0"><b>' + esc(h.name) + '</b><small>' + esc(h.email) + '</small></div></div><div class="cell"><div class="why">' + esc(h.why) + '</div></div><div class="cell"></div><div class="cell">' + st("bad", "Look-alike", "error") + '</div><span></span></div>'; }).join("") +
+      low.map(function (x) { return '<div class="lrow lgrid lcols-sugg muted">' + MK.ring(x.score, 42) + '<div class="who"><span class="av">' + MK.initials(x.name) + '</span><div style="min-width:0"><b>' + esc(x.name) + '</b><small>' + esc(x.email) + '</small></div></div><div class="cell"><div class="why">' + esc(x.why) + '</div></div><div class="cell"><div class="hist"><span>' + ic("mail") + x.msgs + '</span><span>' + ic("reply") + x.replies + '</span></div></div><div class="cell"><span class="src">' + ic("forum") + 'Below 50</span></div><span></span></div>'; }).join("") +
+      '</div></details>';
+  }
+
+  function groupsView() {
+    var list = GROUPS.filter(fn()).filter(function (g) { return match(g.name + " " + g.members.map(function (m) { return m.name; }).join(" ")); });
+    if (String(state.sortIdx || 0) === "1") list.sort(function (a, b) { return b.members.length - a.members.length; });
+    setMeta(list.length, GROUPS.length, "groups");
+    return '<div class="lgrid lcols-groups lth"><span>Group</span><span>Members</span><span>Size</span><span>Mix</span><span></span></div><div class="lrows">' +
+      list.map(function (g) {
+        var ext = g.members.filter(function (c) { return c.type !== "colleague"; }).length, int = g.members.length - ext;
+        return '<div class="lrow lgrid lcols-groups"><div class="who"><span class="av" style="background:' + g.color + '22;color:' + g.color + '">' + ic("groups") + '</span><div style="min-width:0"><b>' + esc(g.name) + '</b><small>Contact group</small></div></div>' +
+          '<div class="cell">' + MK.stack(g.members.slice(0, 4).map(function (m) { return m.initials; }), g.members.length > 4 ? g.members.length - 4 : 0) + '</div>' +
+          '<div class="cell"><span>' + g.members.length + ' member' + (g.members.length > 1 ? "s" : "") + '</span></div>' +
+          '<div class="cell"><div class="tags">' + (int ? st("brand", int + " internal") : "") + (ext ? st("warn", ext + " external") : "") + '</div></div>' +
+          '<span class="pt-icon" style="color:var(--pt-text-hint)">chevron_right</span></div>';
+      }).join("") + '</div>';
+  }
+
+  function colleaguesView() {
+    var all = colleagues(), list = all.filter(fn()).filter(function (c) { return match([c.name, c.title, c.role].join(" ")); });
+    setMeta(list.length, all.length, "colleagues");
+    return '<div class="lgrid lcols-coll lth"><span>Name</span><span>Title</span><span>Phone</span><span>Local time</span><span>Encryption</span></div><div class="lrows">' +
+      list.map(function (c) {
+        return '<a class="lrow lgrid lcols-coll" ' + (c.me ? "" : 'href="contacts.html#c=' + c.id + '" data-card="' + c.id + '"') + '><div class="who"><span class="av av--int">' + c.initials + '</span><div style="min-width:0"><b>' + esc(c.name) + (c.me ? ' <span class="tag" style="margin-left:4px">You</span>' : "") + '</b><small>' + esc(MK.primary(c)) + '</small></div></div>' +
+          '<div class="cell"><span>' + esc(c.title || "") + '</span><small>' + esc(c.role || "") + '</small></div>' +
+          '<div class="cell"><span>' + esc((c.phones[0] || {}).number || "–") + '</span></div>' +
+          '<div class="cell"><span>15:12</span><small>Zurich</small></div>' +
+          '<div class="cell">' + st("ok", "Key verified", "verified_user") + '</div></a>';
+      }).join("") + '</div>';
+  }
+
+  function setMeta(n, total, noun) { setTimeout(function () { var m = document.getElementById("meta"); if (m) m.textContent = "Showing " + n + " of " + total + " " + noun; }); }
+
+  function render() {
+    renderTabs(); renderTools();
+    view.innerHTML = '<div class="fade">' + ({ contacts: contactsView, suggested: suggestedView, groups: groupsView, colleagues: colleaguesView }[state.tab])() + '</div>';
+  }
+  function go(tab) { state.tab = tab; state.filter = "all"; state.sortIdx = 0; hideCard(true); render(); try { history.replaceState(null, "", "#" + tab); } catch (e) {} }
+
+  /* ---- Events ---- */
+  app.addEventListener("click", function (e) {
+    var j = e.target.closest("[data-jump]"); if (j) { go(j.dataset.jump); return; }
+    var f = e.target.closest("[data-filter]"); if (f) { state.filter = f.dataset.filter; render(); return; }
+    if (e.target.closest("[data-clear]")) { state.filter = "all"; state.q = ""; document.getElementById("q").value = ""; render(); return; }
+    var a = e.target.closest("[data-add]"); if (a) {
+      e.preventDefault(); var id = a.dataset.add, s = MK.SUGGESTED.find(function (x) { return x.id === id; });
+      if (state.saved[id]) return; state.saved[id] = true; render();
+      toast('Contact created: <b>' + esc(s.name) + '</b>', id); return;
+    }
+    var d = e.target.closest("[data-dismiss]"); if (d) { var row = d.closest(".lrow"); row.style.transition = "opacity .2s, transform .2s"; row.style.opacity = 0; row.style.transform = "translateX(12px)"; setTimeout(function () { row.remove(); }, 200); return; }
+  });
+  document.querySelector(".seg").addEventListener("click", function (e) { var j = e.target.closest("[data-jump]"); if (j) go(j.dataset.jump); });
+  document.getElementById("q").addEventListener("input", function (e) { state.q = e.target.value; view.innerHTML = '<div>' + ({ contacts: contactsView, suggested: suggestedView, groups: groupsView, colleagues: colleaguesView }[state.tab])() + '</div>'; });
+  app.addEventListener("change", function (e) { if (e.target.id === "sort") { state.sortIdx = e.target.value; render(); } });
+
+  var toastEl = document.getElementById("toast"), toastT;
+  function toast(html, undoId) {
+    toastEl.innerHTML = ic("check_circle") + '<span>' + html + '</span>' + (undoId ? '<button type="button" data-undo="' + undoId + '">Undo</button>' : "");
+    toastEl.classList.add("show"); clearTimeout(toastT); toastT = setTimeout(function () { toastEl.classList.remove("show"); }, 3200);
+  }
+  toastEl.addEventListener("click", function (e) { var u = e.target.closest("[data-undo]"); if (u) { delete state.saved[u.dataset.undo]; toastEl.classList.remove("show"); render(); } });
+
+  /* ---- Hover card ---- */
+  var card = document.getElementById("hcard"), showT, hideT, cur = null;
+  function cardHTML(c) {
+    var h = MK.hist(c), bad = c.type === "impersonation", ph = (c.phones || [])[0];
+    var rec = h.recent[0] || {};
+    return '<div class="hc-top"><span class="' + MK.avClass(c) + '">' + c.initials + '</span><div style="min-width:0;flex:1"><b>' + esc(c.name) + '</b><small>' + (bad ? "Claims: " : "") + esc([c.title, c.org].filter(Boolean).join(" · ")) + '</small><div class="chips">' + h.chips.slice(-2).join("") + '</div></div></div>' +
+      (bad ? '<div class="hc-warn">' + ic("gpp_maybe") + '<span>Looks like Marco Rossi at brightlane-it.example, but the domain has a capital I. Don\'t act on payment requests.</span></div>' : "") +
+      '<div class="hc-rows"><div>' + ic("mail") + '<span>' + esc(MK.primary(c)) + '</span></div>' + (ph ? '<div>' + ic("call") + '<span>' + esc(ph.number) + '</span></div>' : "") +
+      (c.timezone ? '<div>' + ic("schedule") + '<span>' + (c.timezone === "Europe/London" ? "14:12" : "15:12") + ' local time · ' + esc(c.timezone.split("/")[1].replace("_", " ")) + '</span></div>' : "") + '</div>' +
+      '<div class="hc-stats"><div><b>' + h.stats.email[0] + '</b><small>' + ic("mail") + 'Emails</small></div><div><b>' + h.stats.cal[0] + '</b><small>' + ic("calendar_month") + 'Meetings</small></div><div><b>' + h.stats.files[0] + '</b><small>' + ic("folder") + 'Files</small></div></div>' +
+      '<div class="hc-last">' + ic("history") + '<span>Last:</span><b>' + esc(rec.t || "–") + '</b><span style="margin-left:auto;white-space:nowrap">' + (rec.d || "") + '</span></div>' +
+      '<div class="hc-acts">' + (bad ? '<button class="pt-btn pt-btn--danger" type="button">' + ic("block", "pt-icon--sm") + 'Block</button>' : '<button class="pt-btn pt-btn--primary" type="button">' + ic("edit_square", "pt-icon--sm") + 'Message</button>') +
+      '<a class="pt-btn pt-btn--secondary" href="contacts.html#c=' + c.id + '" style="text-decoration:none">' + ic("open_in_full", "pt-icon--sm") + 'Open</a></div>';
+  }
+  function placeCard(row) {
+    var ar = app.getBoundingClientRect(), rr = row.getBoundingClientRect(), who = row.querySelector(".who") || row;
+    var wr = who.getBoundingClientRect();
+    var left = wr.left - ar.left + 44, top = rr.bottom - ar.top + 6;
+    var ch = card.offsetHeight || 330;
+    if (top + ch > ar.height - 8) top = rr.top - ar.top - ch - 6;
+    card.style.left = Math.max(8, Math.min(left, ar.width - 348)) + "px"; card.style.top = Math.max(8, top) + "px";
+  }
+  function showCard(row) {
+    var c = MK.byId[row.dataset.card]; if (!c) return;
+    if (cur) cur.classList.remove("hovering");
+    cur = row; row.classList.add("hovering");
+    card.innerHTML = cardHTML(c); placeCard(row); card.classList.add("show");
+  }
+  function hideCard(now) { clearTimeout(showT); if (cur) cur.classList.remove("hovering"); cur = null; card.classList.remove("show"); }
+  app.addEventListener("mouseover", function (e) {
+    var row = e.target.closest("[data-card]");
+    if (row) { clearTimeout(hideT); if (row !== cur) { clearTimeout(showT); showT = setTimeout(function () { showCard(row); }, cur ? 60 : 260); } return; }
+    if (e.target.closest("#hcard")) { clearTimeout(hideT); return; }
+  });
+  app.addEventListener("mouseout", function (e) {
+    var to = e.relatedTarget;
+    if (to && (to.closest && (to.closest("[data-card]") || to.closest("#hcard")))) return;
+    clearTimeout(showT); hideT = setTimeout(function () { hideCard(); }, 160);
+  });
+  document.getElementById("lbody").addEventListener("scroll", function () { if (cur) hideCard(); }, { passive: true });
+
+  function fromHash() { var h = (location.hash || "").slice(1); go(["contacts", "suggested", "groups", "colleagues"].indexOf(h) > -1 ? h : "contacts"); }
+  window.addEventListener("hashchange", fromHash);
+  fromHash();
+})();
+</script>
+</body>
+</html>

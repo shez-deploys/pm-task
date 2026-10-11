@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Protection Mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../design-system/proton-dark.css">
+<link rel="stylesheet" href="mockup.css">
+<style>
+.app.app--read { grid-template-columns: 232px 340px minmax(0,1fr); }
+@media (max-width: 1180px) { .app.app--read { grid-template-columns: 0 300px minmax(0,1fr); } }
+@media (max-width: 820px) { .app.app--read { grid-template-columns: 0 0 minmax(0,1fr); } .app--read .mcol { display: none; } }
+.mcol { display: flex; flex-direction: column; min-width: 0; border-right: 1px solid var(--pt-border-weak); background: #0e0d12; }
+.mcol .top { padding: 0 12px; }
+.mcol .search { max-width: none; }
+.mitem { display: grid; grid-template-columns: 32px minmax(0,1fr); gap: 10px; padding: 12px 14px; border-bottom: 1px solid var(--pt-border-weak); cursor: pointer; transition: background-color .15s; }
+.mitem:hover { background: #16141c; }
+.mitem.sel { background: #1e1c26; box-shadow: inset 3px 0 0 var(--pt-primary); }
+.mitem.flag { background: linear-gradient(90deg, rgba(245,56,90,.12), transparent 70%); }
+.mitem.flag.sel { background: linear-gradient(90deg, rgba(245,56,90,.18), #1e1c26 70%); box-shadow: inset 3px 0 0 var(--pt-danger); }
+.mitem .r1 { display: flex; gap: 8px; align-items: baseline; }
+.mitem .r1 b { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 600; }
+.mitem .r1 small { color: var(--pt-text-weak); font-size: 12px; }
+.mitem .r2 { font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
+.mitem .r3 { font-size: 12px; color: var(--pt-text-weak); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
+.mitem.unread .r2 { font-weight: 600; }
+
+.read { display: flex; flex-direction: column; min-width: 0; background: #16141c; }
+.rbar { height: 60px; flex: none; display: flex; align-items: center; gap: 4px; padding: 0 16px; border-bottom: 1px solid var(--pt-border-weak); }
+.rbar .sp { flex: 1; }
+.rscroll { flex: 1; overflow: auto; }
+.rin { max-width: 880px; margin: 0 auto; padding: 24px 28px 40px; }
+.rsubj { font-size: 22px; font-weight: 600; letter-spacing: -.01em; margin: 0 0 18px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.sender { display: flex; gap: 12px; align-items: center; padding-bottom: 16px; border-bottom: 1px solid var(--pt-border-weak); }
+.sender .av { width: 40px; height: 40px; font-size: 14px; border-radius: 10px; }
+.sender b { font-weight: 600; }
+.sender .addr { color: var(--pt-text-weak); font-size: 13px; }
+.sender .addr u { color: #ffb3c0; text-decoration-color: rgba(245,56,90,.6); text-underline-offset: 3px; }
+.sender small { display: block; color: var(--pt-text-weak); font-size: 12px; margin-top: 2px; }
+.sender .when { margin-left: auto; color: var(--pt-text-weak); font-size: 12px; text-align: right; }
+
+/* Impersonation warning */
+.imp { margin: 18px 0 20px; border-radius: 14px; overflow: hidden; border: 1px solid rgba(245,56,90,.4); background: linear-gradient(180deg, rgba(110,35,50,.75), rgba(79,25,37,.55)); transition: opacity .3s, transform .3s; }
+.imp-h { display: flex; align-items: center; gap: 10px; padding: 16px 20px 6px; font-size: 16px; font-weight: 600; }
+.imp-h .pt-icon { color: #ff6b86; font-size: 22px; font-variation-settings: "FILL" 1, "wght" 500, "GRAD" 0, "opsz" 24; }
+.imp-b { display: grid; grid-template-columns: minmax(0,1.1fr) minmax(0,1fr); gap: 20px; padding: 10px 20px 18px; }
+@media (max-width: 1000px) { .imp-b { grid-template-columns: 1fr; } }
+.why2 { display: flex; flex-direction: column; gap: 12px; }
+.why2 div b { display: block; font-size: 13px; margin-bottom: 2px; }
+.why2 div p { margin: 0; font-size: 13px; color: #ecd7dd; }
+.why2 code { font-family: inherit; background: rgba(0,0,0,.3); padding: 1px 5px; border-radius: 5px; color: #fff; }
+.why2 mark { background: rgba(245,56,90,.65); color: #fff; border-radius: 2px; padding: 0 1px; }
+.cmp { border-radius: 12px; background: rgba(14,13,18,.5); border: 1px solid rgba(255,255,255,.08); overflow: hidden; font-size: 12.5px; }
+.cmp-h, .cmp-r { display: grid; grid-template-columns: 96px 1fr 1fr; gap: 10px; padding: 9px 12px; align-items: center; }
+.cmp-h { font-size: 11px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: #e8c9d1; border-bottom: 1px solid rgba(255,255,255,.08); }
+.cmp-r + .cmp-r { border-top: 1px solid rgba(255,255,255,.06); }
+.cmp-r .k { color: #d7b9c1; }
+.cmp-r .ok { color: #8fe0c8; display: flex; gap: 5px; align-items: center; }
+.cmp-r .no { color: #ff9cad; display: flex; gap: 5px; align-items: center; }
+.cmp-r .pt-icon { font-size: 15px; font-variation-settings: "FILL" 1, "wght" 500, "GRAD" 0, "opsz" 20; }
+.imp-a { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding: 14px 20px; background: rgba(0,0,0,.18); border-top: 1px solid rgba(255,255,255,.06); }
+.imp-a .lnk { margin-left: auto; color: #ffc2cd; font-size: 13px; text-decoration: underline; text-underline-offset: 2px; }
+.done-banner { display: none; margin: 18px 0 20px; padding: 14px 18px; border-radius: 12px; background: rgba(30,168,133,.12); border: 1px solid rgba(30,168,133,.4); color: #c8f0e4; font-size: 13.5px; align-items: center; gap: 10px; }
+.done-banner .pt-icon { color: #4fd1ad; font-variation-settings: "FILL" 1, "wght" 500, "GRAD" 0, "opsz" 20; }
+.done-banner button { margin-left: auto; background: none; border: 0; color: #8fe0c8; text-decoration: underline; font: inherit; cursor: pointer; }
+.body { color: #a7a4b5; font-size: 14px; line-height: 1.65; }
+.body p { margin: 0 0 12px; }
+.body.dim { opacity: .55; filter: blur(.3px); }
+.attach { display: inline-flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 10px; background: #1e1c26; border: 1px solid #343140; margin-top: 8px; font-size: 13px; }
+.attach .pt-icon { color: #ff8da1; }
+.attach small { color: var(--pt-text-weak); display: block; font-size: 11.5px; }
+
+/* Composer */
+.app.app--compose { grid-template-columns: 232px minmax(0,1fr); }
+@media (max-width: 1180px) { .app.app--compose { grid-template-columns: 0 minmax(0,1fr); } }
+.compose-scrim { position: absolute; inset: 0; background: rgba(14,13,18,.45); z-index: 4; }
+.composer { position: absolute; z-index: 5; right: 24px; bottom: 0; top: 24px; width: min(760px, calc(100% - 48px)); display: flex; flex-direction: column; border-radius: 14px 14px 0 0; background: #1e1c26; border: 1px solid #4a4658; border-bottom: 0; box-shadow: 0 30px 60px -24px rgba(0,0,0,.9); overflow: hidden; }
+.c-head { display: flex; align-items: center; gap: 4px; height: 46px; padding: 0 8px 0 16px; background: #292733; font-weight: 600; font-size: 14px; }
+.c-head .sp { flex: 1; }
+.c-field { display: flex; align-items: center; gap: 10px; min-height: 46px; padding: 6px 16px; border-bottom: 1px solid #343140; font-size: 13.5px; }
+.c-field > label { width: 54px; color: var(--pt-text-weak); flex: none; }
+.c-field .val { flex: 1; min-width: 0; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.rcp { display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 6px 0 4px; border-radius: 8px; font-size: 13px; border: 1px solid; transition: all .25s; }
+.rcp .av { width: 20px; height: 20px; font-size: 9px; border-radius: 6px; }
+.rcp .pt-icon { font-size: 16px; font-variation-settings: "FILL" 1, "wght" 500, "GRAD" 0, "opsz" 20; }
+.rcp--warn { background: rgba(255,153,0,.12); border-color: rgba(255,153,0,.55); color: #ffd18a; }
+.rcp--ok { background: rgba(30,168,133,.12); border-color: rgba(30,168,133,.5); color: #b9f0df; }
+.rcp--int { background: #29214d; border-color: #4a3d8f; color: #e2dcff; }
+.rcp small { color: inherit; opacity: .75; }
+.c-body { flex: 1; overflow: auto; padding: 16px; font-size: 14px; line-height: 1.6; color: #e6e4ee; }
+.c-body p { margin: 0 0 10px; }
+.c-attach { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 9px; background: #16141c; border: 1px solid #343140; font-size: 12.5px; margin-top: 6px; }
+.c-attach .pt-icon { color: #8a6eff; }
+.c-attach .tag { margin-left: 4px; border-color: rgba(255,153,0,.55); color: #ffd18a; }
+.mis { margin: 0 12px 12px; border-radius: 12px; border: 1px solid rgba(255,153,0,.45); background: linear-gradient(180deg, rgba(117,52,30,.45), rgba(83,35,22,.35)); overflow: hidden; transition: opacity .25s; }
+.mis-h { display: flex; gap: 10px; align-items: flex-start; padding: 14px 16px 10px; }
+.mis-h .pt-icon { color: #ffad33; font-size: 22px; font-variation-settings: "FILL" 1, "wght" 500, "GRAD" 0, "opsz" 24; }
+.mis-h b { display: block; font-size: 15px; }
+.mis-h p { margin: 3px 0 0; color: #f3dcc8; font-size: 13px; }
+.pair { display: grid; grid-template-columns: 1fr auto 1fr; gap: 10px; align-items: stretch; padding: 4px 16px 14px; }
+@media (max-width: 700px) { .pair { grid-template-columns: 1fr; } .pair .vs { display: none; } }
+.pc2 { border-radius: 10px; padding: 12px 14px; background: rgba(14,13,18,.55); border: 1px solid rgba(255,255,255,.08); font-size: 12.5px; }
+.pc2.is-sel { border-color: rgba(255,153,0,.55); }
+.pc2.is-sugg { border-color: rgba(30,168,133,.55); }
+.pc2 .lab { font-size: 10.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 8px; }
+.pc2.is-sel .lab { color: #ffbb55; } .pc2.is-sugg .lab { color: #4fd1ad; }
+.pc2 .who3 { display: flex; gap: 10px; align-items: center; margin-bottom: 10px; }
+.pc2 .who3 b { display: block; font-size: 14px; }
+.pc2 .who3 small { color: var(--pt-text-weak); font-size: 12px; }
+.pc2 dl { margin: 0; display: grid; grid-template-columns: 78px 1fr; gap: 5px 8px; }
+.pc2 dt { color: var(--pt-text-weak); }
+.pc2 dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+.pc2 mark { background: rgba(255,153,0,.35); color: #fff; border-radius: 2px; padding: 0; }
+.pc2.is-sugg mark { background: rgba(30,168,133,.35); }
+.vs { display: grid; place-items: center; color: var(--pt-text-weak); font-size: 11px; font-weight: 700; }
+.mis-a { display: flex; flex-wrap: wrap; gap: 8px; padding: 12px 16px; background: rgba(0,0,0,.18); border-top: 1px solid rgba(255,255,255,.06); }
+.ok-banner { display: none; margin: 0 12px 12px; padding: 10px 14px; border-radius: 10px; background: rgba(30,168,133,.12); border: 1px solid rgba(30,168,133,.4); color: #c8f0e4; font-size: 13px; align-items: center; gap: 8px; }
+.ok-banner .pt-icon { color: #4fd1ad; font-variation-settings: "FILL" 1, "wght" 500, "GRAD" 0, "opsz" 20; }
+.c-foot { display: flex; align-items: center; gap: 8px; padding: 10px 12px; border-top: 1px solid #343140; background: #1e1c26; }
+.c-foot .sp { flex: 1; }
+.send { height: 38px; padding: 0 18px; border-radius: 9px; border: 0; background: var(--pt-primary); color: #fff; font: 600 14px/1 inherit; font-family: inherit; display: inline-flex; align-items: center; gap: 8px; cursor: pointer; transition: background-color .15s, opacity .15s; }
+.send:hover { background: var(--pt-primary-hover); }
+.send[aria-disabled="true"] { background: #3f3b4c; color: #a7a4b5; cursor: not-allowed; }
+.inbox-bg { padding: 0; opacity: .6; }
+.scenario-note { display: flex; gap: 10px; align-items: flex-start; margin: 0 0 14px; padding: 12px 14px; border-radius: 10px; background: #1e1c26; border: 1px solid #343140; color: var(--pt-text-weak); font-size: 13px; }
+.scenario-note .pt-icon { color: var(--pt-primary-soft); }
+.scenario-note b { color: #fff; }
+.app .toast { bottom: auto; top: 16px; transform: translate(-50%, -12px); }
+.app .toast.show { transform: translate(-50%, 0); }
+</style>
+</head>
+<body>
+<script src="../assets/site-nav.js"></script>
+<div class="page-wrap">
+  <div class="page-h">
+    <div>
+      <div class="eyebrow">Mockups · Protection</div>
+      <h1>Catching the wrong person, both ways</h1>
+      <p>The same contact data protects in two directions: an incoming email that pretends to be someone you know, and an outgoing email about to go to the wrong person at a similar-sounding company.</p>
+    </div>
+    <div class="seg" role="group" aria-label="Scenario">
+      <button type="button" data-scn="imp" aria-pressed="true"><span class="pt-icon">gpp_maybe</span>Impersonation attempt</button>
+      <button type="button" data-scn="mis" aria-pressed="false"><span class="pt-icon">alt_route</span>Misdirected email</button>
+    </div>
+  </div>
+  <div class="scenario-note" id="note"></div>
+  <div class="app" id="app"></div>
+  <p class="hint"><span class="pt-icon">touch_app</span>Try the buttons in each warning. Use the switch above to change scenario.</p>
+</div>
+
+<script src="../data/contacts.js"></script>
+<script src="mockup.js"></script>
+<script>
+(function () {
+  var esc = MK.esc, ic = MK.ic, st = MK.st, byId = MK.byId;
+  var app = document.getElementById("app"), note = document.getElementById("note");
+  var real = byId[8], fake = byId[10], camille = byId[4];
+  var realH = MK.hist(real), camH = MK.hist(camille);
+  var state = { scn: "imp", impDone: null, misFixed: false, sent: false };
+
+  var SIDE = '<aside class="side" aria-label="Mail navigation"><div class="brand"><span class="brand-mark" aria-hidden="true"></span>Proton Mail<span class="pt-icon" aria-hidden="true">apps</span></div>' +
+    '<button class="new-msg" type="button">New message</button>' +
+    '<div class="nav-i on"><span class="pt-icon">inbox</span>Inbox<span class="cnt">2</span></div><div class="nav-i"><span class="pt-icon">draft</span>Drafts</div><div class="nav-i"><span class="pt-icon">send</span>Sent</div><div class="nav-i"><span class="pt-icon">star</span>Starred</div><div class="nav-i"><span class="pt-icon">report</span>Spam</div>' +
+    '<div class="nav-i nav-sec"><span class="pt-icon">chevron_right</span>Folders</div><div class="nav-i"><span class="pt-icon">chevron_right</span>Labels</div></aside>';
+  var LIST = [
+    [fake, "Updated bank details for October invoice", "Hi Sophie, please note our bank details have changed…", "17:48", 1, 1],
+    [camille, "Re: Project Atlas – workshop dates", "Thanks, Thursday works for us…", "Thu", 1, 0],
+    [byId[1], "Vendor payments this week", "Three payments above CHF 25k need your sign-off…", "Thu", 0, 0],
+    [real, "Re: Q3 service review – actions", "Attached are the actions from today…", "Thu", 0, 0],
+    [byId[6], "Workshop materials v2", "Updated the persona cards and the interview guide…", "Wed", 0, 0],
+    [byId[5], "Data residency question", "Could you confirm where client data is stored…", "Tue", 0, 0]
+  ];
+  function mlist(selIdx) {
+    return '<section class="mcol" aria-label="Messages"><div class="top"><div class="search"><span class="pt-icon">search</span>Search messages</div></div><div class="list">' +
+      LIST.map(function (r, i) {
+        var c = r[0], bad = r[5];
+        if (bad && state.impDone === "report") return "";
+        return '<div class="mitem' + (i === selIdx ? " sel" : "") + (r[4] ? " unread" : "") + (bad && state.impDone !== "safe" ? " flag" : "") + '"><span class="' + MK.avClass(c) + '">' + c.initials + (bad && state.impDone !== "safe" ? '<span class="bdg">' + ic("priority_high") + '</span>' : "") + '</span>' +
+          '<div style="min-width:0"><div class="r1"><b>' + esc(c.name) + '</b><small>' + r[3] + '</small></div><div class="r2">' + esc(r[1]) + '</div><div class="r3">' + (bad && state.impDone !== "safe" ? '<span style="color:#ff9cad">Possible impersonation · </span>' : "") + esc(r[2]) + '</div></div></div>';
+      }).join("") + '</div></section>';
+  }
+
+  /* ---------- Scenario A: impersonation ---------- */
+  function impView() {
+    var done = state.impDone;
+    var cmp = [
+      ["Domain", '<span class="ok">' + ic("check_circle") + '<span>brightlane-it.example</span></span>', '<span class="no">' + ic("cancel") + '<span>bright<b>I</b>ane-it.example</span></span>'],
+      ["Verified", '<span class="ok">' + ic("check_circle") + '<span>SPF, DKIM, DMARC</span></span>', '<span class="no">' + ic("cancel") + '<span>No DMARC</span></span>'],
+      ["Known since", '<span class="ok">' + ic("check_circle") + '<span>Mar 2023</span></span>', '<span class="no">' + ic("cancel") + '<span>Today</span></span>'],
+      ["Emails", '<span class="ok">' + ic("check_circle") + realH.stats.email[0] + ' threads</span>', '<span class="no">' + ic("cancel") + '<span>This one</span></span>']
+    ];
+    var read = '<section class="read"><div class="rbar">' +
+      ['archive', 'delete', 'report', 'drive_file_move', 'label'].map(function (n) { return '<button class="ib" type="button" aria-label="' + n + '">' + ic(n) + '</button>'; }).join("") +
+      '<span class="sp"></span><button class="ib" type="button" aria-label="More">' + ic("more_vert") + '</button></div><div class="rscroll"><div class="rin">' +
+      '<h2 class="rsubj">Updated bank details for October invoice' + (done === "safe" ? "" : st("bad", "Possible impersonation", "error")) + '</h2>' +
+      '<div class="sender"><span class="av av--bad">MR</span><div style="min-width:0"><b>Marco Rossi</b> <span class="addr">&lt;marco.rossi@<u>brightIane-it.example</u>&gt;</span><small>to Sophie Keller</small></div><div class="when">Fri 9 Oct 2026<br>17:48</div></div>' +
+      (done ? '<div class="done-banner" style="display:flex">' + ic("check_circle") + '<span>' + (done === "report" ? "Reported and moved to Spam. Your admin can see this report, and future mail from this domain is blocked." : done === "safe" ? "Marked as safe. You won't be warned about this sender again." : "Thanks. We've flagged it to your admin to review, and kept the warning in place.") + '</span><button type="button" data-undo>Undo</button></div>' : "") +
+      (done && done !== "unsure" ? "" : '<div class="imp" role="alert"><div class="imp-h">' + ic("error") + 'Be careful: possible impersonation detected</div><div class="imp-b"><div class="why2">' +
+        '<div><b>Look-alike domain</b><p><code>bright<mark>I</mark>ane-it.example</code> uses a capital I. Your supplier Marco Rossi writes from <code>brightlane-it.example</code>.</p></div>' +
+        '<div><b>Same name as a trusted contact</b><p>"Marco Rossi" is saved in your contacts with ' + realH.stats.email[0] + ' threads since 2023. This sender has never written before.</p></div>' +
+        '<div><b>Payment request</b><p>Asks you to change bank details before paying an invoice, a common technique in email fraud.</p></div>' +
+        '</div><div class="cmp"><div class="cmp-h"><span></span><span>Marco you know</span><span>This sender</span></div>' + cmp.map(function (r) { return '<div class="cmp-r"><span class="k">' + r[0] + '</span>' + r[1] + r[2] + '</div>'; }).join("") + '</div></div>' +
+        '<div class="imp-a"><button class="abtn abtn--danger" type="button" data-act="report">' + ic("report", "pt-icon--sm") + 'Report as malicious and delete</button><button class="abtn" type="button" data-act="safe">Mark as safe</button><button class="abtn" type="button" data-act="unsure">I\'m not sure</button>' +
+        '<a class="lnk" href="contacts.html#fake">Open this sender\'s contact</a></div></div>') +
+      '<div class="body' + (done === "report" ? " dim" : "") + '"><p>Hi Sophie,</p><p>Please note that our bank details have changed following our move to a new banking partner. Could you make sure the October invoice (INV-2026-1009, CHF 18,450.00) is paid to the account in the attached document?</p><p>We need to update this before Friday or the payment may be delayed.</p><p>Kind regards,<br>Marco Rossi<br>Service Delivery Manager, Brightlane IT Services</p>' +
+      '<div class="attach">' + ic("picture_as_pdf") + '<div>New_bank_details_Oct.pdf<small>PDF · 84 KB · opening is blocked while this warning is open</small></div></div></div>' +
+      '</div></div></section>';
+    return SIDE + mlist(0) + read;
+  }
+
+  /* ---------- Scenario B: misdirection ---------- */
+  var WRONG = { name: "Camille Roche", initials: "CR", email: "camille.roche@veloria-capital.example", org: "Veloria Capital", title: "Investment Associate", last: "14 Mar 2024", threads: 1, groups: "None" };
+  function misView() {
+    var fixed = state.misFixed;
+    var to = fixed
+      ? '<span class="rcp rcp--ok"><span class="av">CR</span>Camille Rochat <small>&lt;' + esc(MK.primary(camille)) + '&gt;</small>' + ic("verified_user") + '</span>'
+      : '<span class="rcp rcp--warn"><span class="av">CR</span>Camille Roche <small>&lt;' + WRONG.email + '&gt;</small>' + ic("warning") + '</span>';
+    var composer = '<div class="compose-scrim"></div><section class="composer" role="dialog" aria-label="New message">' +
+      '<div class="c-head">Project Atlas – revised scope and fees<span class="sp"></span><button class="ib" type="button" aria-label="Minimise">' + ic("remove") + '</button><button class="ib" type="button" aria-label="Expand">' + ic("open_in_full") + '</button><button class="ib" type="button" aria-label="Close">' + ic("close") + '</button></div>' +
+      '<div class="c-field"><label>From</label><div class="val">Sophie Keller &lt;sophie.keller@aldermoor-advisory.ch&gt;</div></div>' +
+      '<div class="c-field"><label>To</label><div class="val">' + to + '</div></div>' +
+      '<div class="c-field"><label>Cc</label><div class="val"><span class="rcp rcp--int"><span class="av av--int">LB</span>Lea Baumann</span></div></div>' +
+      '<div class="c-field"><label>Subject</label><div class="val">Project Atlas – revised scope and fees</div></div>' +
+      '<div class="c-body"><p>Hi Camille,</p><p>As discussed on Thursday, attached is the revised scope for Project Atlas, including the updated fee schedule and the client data inventory for the workshop.</p><p>Let me know if anything needs changing before we share it with your procurement team.</p><p>Best,<br>Sophie</p>' +
+      '<span class="c-attach">' + ic("description") + 'Atlas_scope_v3_fees.pdf<span class="tag">Confidential</span></span></div>' +
+      (fixed ? '<div class="ok-banner" style="display:flex">' + ic("check_circle") + 'Recipient updated to Camille Rochat at Veloria Partners. Ready to send.</div>' :
+      '<div class="mis" role="alert"><div class="mis-h">' + ic("alt_route") + '<div><b>Check this recipient before you send</b><p>Camille Roche looks similar to your contact Camille Rochat, but works at a different company. This email mentions Project Atlas and has a confidential attachment, which you usually send to Camille Rochat.</p></div></div>' +
+      '<div class="pair"><div class="pc2 is-sel"><div class="lab">You\'re sending to</div><div class="who3"><span class="av">CR</span><div><b>Camille Ro<mark>che</mark></b><small>' + WRONG.title + '</small></div></div><dl><dt>Company</dt><dd>Veloria <mark>Capital</mark></dd><dt>Address</dt><dd>@veloria-<mark>capital</mark>.example</dd><dt>History</dt><dd>' + WRONG.threads + ' thread, last on ' + WRONG.last + '</dd><dt>Groups</dt><dd>' + WRONG.groups + '</dd></dl></div>' +
+      '<div class="vs">VS</div>' +
+      '<div class="pc2 is-sugg"><div class="lab">Did you mean</div><div class="who3"><span class="av">CR</span><div><b>Camille Ro<mark>chat</mark></b><small>' + esc(camille.title) + '</small></div></div><dl><dt>Company</dt><dd>Veloria <mark>Partners</mark></dd><dt>Address</dt><dd>@veloria-<mark>partners</mark>.example</dd><dt>History</dt><dd>' + camH.stats.email[0] + ' threads, last on ' + MK.lastContact(camille) + '</dd><dt>Groups</dt><dd>Project Atlas, Key Accounts</dd></dl></div></div>' +
+      '<div class="mis-a"><button class="pt-btn pt-btn--primary" type="button" data-act="switch">' + ic("swap_horiz", "pt-icon--sm") + 'Switch to Camille Rochat</button><button class="pt-btn pt-btn--secondary" type="button" data-act="anyway">Send to Camille Roche anyway</button><button class="pt-btn pt-btn--secondary" type="button" data-act="remove">Remove recipient</button></div></div>') +
+      '<div class="c-foot"><button class="send" type="button" data-act="send" aria-disabled="' + !fixed + '">' + ic("send", "pt-icon--sm") + 'Send</button><button class="ib" type="button" aria-label="Attach">' + ic("attach_file") + '</button><button class="ib" type="button" aria-label="Encryption">' + ic("lock") + '</button><button class="ib" type="button" aria-label="Expiration">' + ic("timer") + '</button><span class="sp"></span><button class="ib" type="button" aria-label="Delete draft">' + ic("delete") + '</button></div></section>';
+    var bg = '<section class="main" aria-hidden="true"><div class="top"><div class="search"><span class="pt-icon">search</span>Search messages</div></div><div class="toolbar"><span class="cb"></span><h2>Inbox</h2></div><div class="list">' +
+      LIST.slice(1).map(function (r) { var c = r[0]; return '<div class="mrow"><span class="cb"></span><span class="' + MK.avClass(c) + '">' + c.initials + '</span><span class="who">' + esc(c.name) + '</span><span class="subj"><b>' + esc(r[1]) + '</b>' + esc(r[2]) + '</span><span class="date">' + r[3] + '</span></div>'; }).join("") + '</div></section>';
+    return SIDE + bg + composer;
+  }
+
+  var NOTES = {
+    imp: ic("info") + '<div><b>Incoming:</b> a sender uses the name of a trusted supplier from a domain with one character swapped. The check compares the sender with your own contacts on this device, using the address only, never the message content.</div>',
+    mis: ic("info") + '<div><b>Outgoing:</b> autocomplete picked Camille Roche (Veloria Capital) instead of Camille Rochat (Veloria Partners). The names and domains look alike, but the history, groups and company don\'t match what this email is about.</div>'
+  };
+  var toastEl;
+  function toast(t) { toastEl = app.querySelector(".toast"); if (!toastEl) return; toastEl.innerHTML = ic("check_circle") + '<span>' + t + '</span>'; toastEl.classList.add("show"); clearTimeout(toast.t); toast.t = setTimeout(function () { toastEl.classList.remove("show"); }, 2800); }
+  function render() {
+    app.className = "app " + (state.scn === "imp" ? "app--read" : "app--compose");
+    app.innerHTML = (state.scn === "imp" ? impView() : misView()) + '<div class="toast" role="status"></div>';
+    note.innerHTML = NOTES[state.scn];
+    Array.prototype.forEach.call(document.querySelectorAll(".seg button"), function (b) { b.setAttribute("aria-pressed", b.dataset.scn === state.scn); });
+  }
+  app.addEventListener("click", function (e) {
+    var a = e.target.closest("[data-act]");
+    if (e.target.closest("[data-undo]")) { state.impDone = null; render(); return; }
+    if (!a) return;
+    var act = a.dataset.act;
+    if (act === "report" || act === "safe" || act === "unsure") { state.impDone = act; render(); toast(act === "report" ? "Reported. Sender blocked." : act === "safe" ? "Marked as safe" : "Sent to your admin for review"); }
+    if (act === "switch") { state.misFixed = true; render(); toast("Switched to Camille Rochat"); }
+    if (act === "remove") { state.misFixed = false; render(); var v = app.querySelectorAll(".c-field .val")[1]; v.innerHTML = '<span style="color:var(--pt-text-hint)">Add a recipient</span>'; app.querySelector(".mis").style.display = "none"; }
+    if (act === "anyway") { toast("Sent to Camille Roche. You can undo for 10 seconds."); }
+    if (act === "send") { if (a.getAttribute("aria-disabled") === "true") { var m = app.querySelector(".mis"); if (m) { m.animate([{ transform: "translateX(0)" }, { transform: "translateX(-6px)" }, { transform: "translateX(6px)" }, { transform: "translateX(0)" }], { duration: 260 }); } return; } toast("Message sent to Camille Rochat"); }
+  });
+  Array.prototype.forEach.call(document.querySelectorAll(".seg button"), function (b) { b.onclick = function () { state.scn = b.dataset.scn; state.impDone = null; state.misFixed = false; render(); try { history.replaceState(null, "", "#" + state.scn); } catch (e) {} }; });
+  function fromHash() { state.scn = location.hash === "#mis" ? "mis" : "imp"; state.impDone = null; state.misFixed = false; render(); }
+  window.addEventListener("hashchange", fromHash);
+  fromHash();
+})();
+</script>
+</body>
+</html>
