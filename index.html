@@ -25,6 +25,8 @@ h1 { font-size: 32px; font-weight: 700; letter-spacing: -.01em; margin: 8px 0 8p
 .page b .ms { font-size: 22px; color: var(--primary-soft); width: 36px; height: 36px; display: grid; place-items: center; border-radius: 10px; background: rgba(109,74,255,.14); }
 .page b::after { margin-left: auto; transition: transform .2s; }
 .page:hover b::after { transform: translateX(3px); }
+.page b em { font-style: normal; font-weight: 500; color: var(--weak); margin-right: -4px; }
+.page b em::after { content: " /"; }
 .page b::after { content: "→"; color: var(--primary-soft); }
 .page span { color: var(--weak); font-size: 13px; }
 </style>
@@ -40,7 +42,7 @@ h1 { font-size: 32px; font-weight: 700; letter-spacing: -.01em; margin: 8px 0 8p
 <script>
 document.getElementById("pages").innerHTML = (window.SITE_PAGES || [])
   .filter(function (p) { return !/index\.html$/.test(p.href); })
-  .map(function (p) { return '<a class="page" href="' + p.href + '"><b><span class="ms" aria-hidden="true">' + (p.icon || "arrow_forward") + '</span>' + p.label + '</b><span>' + p.desc + '</span></a>'; })
+  .map(function (p) { return '<a class="page" href="' + p.href + '"><b><span class="ms" aria-hidden="true">' + (p.icon || "arrow_forward") + '</span>' + (p.group ? '<em>' + p.group + '</em>' : '') + p.label + '</b><span>' + p.desc + '</span></a>'; })
   .join("");
 </script>
 </body>
