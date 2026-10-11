@@ -39,6 +39,9 @@
     return location.hash ? location.hash.slice(1) === h : !!p.def;
   }
 
+  /* Keep the site out of search engines (every page also has this tag in its HTML) */
+  if (!document.querySelector('meta[name="robots"]')) document.head.insertAdjacentHTML("beforeend", '<meta name="robots" content="noindex, nofollow, noarchive">');
+
   /* DS Dark styles, in case the page didn't link them */
   if (!document.querySelector('link[href*="ds/ds.css"]')) document.head.insertAdjacentHTML("beforeend", '<link rel="stylesheet" href="' + root + 'assets/ds/ds.css">');
   if (!document.querySelector('link[href*="assets/site.css"]')) document.head.insertAdjacentHTML("beforeend", '<link rel="stylesheet" href="' + root + 'assets/site.css">');
@@ -158,7 +161,7 @@
   /* ---- Clear cache: re-download every file from the server, then reload ----
      fetch(..., {cache: "reload"}) skips the browser cache and stores the fresh copy,
      so the reload picks up new versions straight away (GitHub Pages caches for 10 minutes). */
-  var ASSETS = ["", "index.html", "matrix.html", "backlog.html", "assets/prioritisation.css", "assets/prioritisation.js", "appendix/img/prioritisation-inputs.png", "appendix/img/wireframe-contact-card.png", "mockups/", "mockups/index.html", "mockups/contacts-list.html", "mockups/contacts.html", "mockups/protection.html",
+  var ASSETS = ["", "index.html", "assets/SherryBond-B2B-Proton.pdf", "assets/img/writeup-page1.jpg", "matrix.html", "backlog.html", "assets/prioritisation.css", "assets/prioritisation.js", "appendix/img/prioritisation-inputs.png", "appendix/img/wireframe-contact-card.png", "mockups/", "mockups/index.html", "mockups/contacts-list.html", "mockups/contacts.html", "mockups/protection.html",
     "appendix/sources.html", "appendix/context.html", "design-system/", "design-system/index.html", "design-system/proton-dark.css", "assets/site-nav.js", "assets/site-fx.js", "assets/site.css", "assets/ds/ds.css",
     "data/features.js", "data/contacts.js", "mockups/mockup.css", "mockups/mockup.js"];
   document.getElementById("site-clear").addEventListener("click", function () {

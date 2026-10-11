@@ -24,7 +24,9 @@ Static pages, no build step.
 
 Trusted Contacts is the MVP and the focus; Protection is shown as an additional, muted feature on the home page and the mockups overview.
 
-The **Get the document** card on the home page is a placeholder. When the PDF is ready, add it (for example `docs/trusted-contacts.pdf`) and follow the comment above the card in `index.html`.
+The **Get the document** card on the home page opens the write-up, [`assets/SherryBond-B2B-Proton.pdf`](assets/SherryBond-B2B-Proton.pdf) (preview image: `assets/img/writeup-page1.jpg`). To update it, replace the PDF with a file of the same name.
+
+**Not indexed:** every page has `<meta name="robots" content="noindex, nofollow, noarchive">` (and `site-nav.js` adds it if a page is missing it). GitHub Pages can't send a noindex header for the PDF itself, but only noindex, nofollow pages link to it.
 
 Every mockup page has the same plain header: a small label (the feature), a large title (the view), optional scenario switch, then a divider and the mockup.
 
