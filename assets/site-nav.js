@@ -19,7 +19,11 @@
       { href: "mockups/protection.html#imp", label: "Impersonation", icon: "gpp_maybe", def: true, desc: "Inbound: a look-alike sender asks to change bank details." },
       { href: "mockups/protection.html#mis", label: "Misdirection", icon: "alt_route", desc: "Outbound: an email about to go to the wrong Camille." }
     ]},
-    { href: "design-system/", label: "Design system",   icon: "palette",   section: "Reference", desc: "The Proton Dark kit used inside the mockups: tokens, components and icons." }
+    { label: "Appendix", icon: "menu_book", children: [
+      { href: "appendix/sources.html", label: "Sources", icon: "link", desc: "Research behind the write-up, the feature ideas and the mockups." },
+      { href: "appendix/context.html", label: "Context", icon: "article", desc: "Background and detail cut from the main document." }
+    ]}
+    /* The design system page (design-system/) still exists, it just isn't in the nav. */
   ];
 
   var script = document.currentScript;
@@ -154,7 +158,7 @@
      fetch(..., {cache: "reload"}) skips the browser cache and stores the fresh copy,
      so the reload picks up new versions straight away (GitHub Pages caches for 10 minutes). */
   var ASSETS = ["", "index.html", "matrix.html", "mockups/", "mockups/index.html", "mockups/contacts-list.html", "mockups/contacts.html", "mockups/protection.html",
-    "design-system/", "design-system/index.html", "design-system/proton-dark.css", "assets/site-nav.js", "assets/site-fx.js", "assets/site.css", "assets/ds/ds.css",
+    "appendix/sources.html", "appendix/context.html", "design-system/", "design-system/index.html", "design-system/proton-dark.css", "assets/site-nav.js", "assets/site-fx.js", "assets/site.css", "assets/ds/ds.css",
     "data/features.js", "data/contacts.js", "mockups/mockup.css", "mockups/mockup.js"];
   document.getElementById("site-clear").addEventListener("click", function () {
     var btn = this; if (btn.classList.contains("is-busy")) return;

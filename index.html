@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="dark">
-<title>Proton Contacts PM Task</title>
+<title>Trusted Contacts · Proton PM Task</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
@@ -16,61 +16,93 @@
 <main class="site-wrap site-main">
   <header class="site-hero">
     <span class="ds-label">Proton Contacts for Business · B2B PM task</span>
-    <h1 class="ds-display">Take-home task workspace</h1>
-    <p class="ds-lead">How 27 feature ideas were prioritised, interactive mockups of the two MVP features, and the design system behind them.</p>
+    <h1 class="ds-display">Trusted Contacts</h1>
+    <p class="ds-lead">Appendix and interactive mockup for Product Management task at Proton.</p>
     <div class="ds-row">
-      <a class="ds-button ds-button--primary" href="mockups/">View the mockups <span class="ms" aria-hidden="true">north_east</span></a>
-      <a class="ds-button" href="matrix.html">Impact / effort matrix</a>
+      <a class="ds-button ds-button--primary" href="mockups/contacts-list.html">Open the mockup <span class="ms" aria-hidden="true">north_east</span></a>
+      <a class="ds-button" href="mockups/">All mockups</a>
     </div>
   </header>
-  <hr class="site-head__divider" style="margin:56px 0 48px">
+  <hr class="site-head__divider" style="margin:56px 0 0">
 
+  <!-- ============ 01 Start here ============ -->
   <section class="site-section">
-    <div class="ds-section-head"><h2 class="ds-heading">01 / Start here</h2><span class="ds-muted ds-small">The prioritisation and the mockups</span></div>
-    <div class="site-grid site-grid--2">
+    <div class="ds-section-head"><h2 class="ds-heading">01 / Start here</h2><span class="ds-muted ds-small">The write-up and how the ideas were prioritised</span></div>
+    <div class="site-grid">
+      <!-- Placeholder until the PDF is ready. Then: add the file (e.g. docs/trusted-contacts.pdf),
+           change this <div> to <a class="site-card" href="docs/trusted-contacts.pdf" download>,
+           drop "is-soon" and the Coming soon badge, and change the last line to "Download PDF". -->
+      <div class="site-card is-soon" aria-label="Get the document, coming soon">
+        <div class="site-docmock" aria-hidden="true"><div class="site-docmock__page"><i></i><i></i><i></i><i></i><i></i><i></i></div><span class="site-badge-soft site-docmock__tag">Coming soon</span></div>
+        <div class="site-card__body"><span class="ds-label">Write-up</span><div class="site-card__title">Get the document</div><p class="site-card__desc">The finished write-up as a PDF, to read or share.</p><span class="site-card__go">Download PDF<span class="ms" aria-hidden="true">download</span></span></div>
+      </div>
+      <a class="site-card" href="matrix.html#backlog">
+        <div class="site-card__shot"><img src="assets/img/backlog.jpg" alt="Backlog table of all feature ideas grouped by quadrant" loading="lazy"></div>
+        <div class="site-card__body"><span class="ds-label">Prioritisation</span><div class="site-card__title">Backlog</div><p class="site-card__desc">All 27 feature ideas in one table: what each does, who it's for, privacy fit, effort and recommendation.</p><span class="site-card__go">Open the backlog<span class="ms" aria-hidden="true">north_east</span></span></div>
+      </a>
       <a class="site-card" href="matrix.html">
         <div class="site-card__shot"><img src="assets/img/matrix.jpg" alt="Impact / effort matrix with the two MVP features in Big bets" loading="lazy"></div>
-        <div class="site-card__body"><span class="ds-label">Prioritisation</span><div class="site-card__title">Impact / effort</div><p class="site-card__desc">27 feature ideas scored 1–10 on impact and effort, with filters by priority, a brief for every feature and the full backlog.</p><span class="site-card__go">Open the matrix<span class="ms" aria-hidden="true">north_east</span></span></div>
-      </a>
-      <a class="site-card" href="mockups/">
-        <div class="site-card__shot"><img src="mockups/img/list-overview.jpg" alt="Contacts list mockup with a hover card" loading="lazy"></div>
-        <div class="site-card__body"><span class="ds-label">Mockups</span><div class="site-card__title">All mockups</div><p class="site-card__desc">The two MVP features, Trusted Contacts and Protection, with a screenshot and a short explanation of every view.</p><span class="site-card__go">Open the mockups<span class="ms" aria-hidden="true">north_east</span></span></div>
+        <div class="site-card__body"><span class="ds-label">Prioritisation</span><div class="site-card__title">Impact / Effort</div><p class="site-card__desc">Every idea scored 1–10 on impact and effort, with filters by priority and a brief for each feature.</p><span class="site-card__go">Open the matrix<span class="ms" aria-hidden="true">north_east</span></span></div>
       </a>
     </div>
   </section>
 
+  <!-- ============ 02 Mockups ============ -->
   <section class="site-section">
     <div class="ds-section-head"><h2 class="ds-heading">02 / Mockups</h2><span class="ds-muted ds-small">Interactive, with fictional data</span></div>
-    <div class="site-grid site-grid--4">
-      <a class="site-card" href="mockups/contacts-list.html">
-        <div class="site-card__shot"><img src="mockups/img/list-overview.jpg" alt="Contacts list" loading="lazy"></div>
-        <div class="site-card__body"><span class="ds-label">Trusted Contacts</span><div class="site-card__title">Overview</div><p class="site-card__desc">The contacts list with hover summaries, suggested contacts, groups and colleagues.</p><span class="site-card__go">Open<span class="ms" aria-hidden="true">north_east</span></span></div>
+
+    <div class="site-card site-card--wide site-card--focus">
+      <a class="site-stack" href="mockups/contacts-list.html" aria-label="Open the Trusted Contacts mockup">
+        <img class="s1" src="mockups/img/list-overview.jpg" alt="Contacts list with a hover card" loading="lazy">
+        <img class="s2" src="mockups/img/view-overview.jpg" alt="Full-screen contact card for Marco Rossi" loading="lazy">
       </a>
-      <a class="site-card" href="mockups/contacts.html">
-        <div class="site-card__shot"><img src="mockups/img/view-overview.jpg" alt="Full-screen contact card" loading="lazy"></div>
-        <div class="site-card__body"><span class="ds-label">Trusted Contacts</span><div class="site-card__title">Contact card</div><p class="site-card__desc">A contact opens full screen with your history, trust signals and connections.</p><span class="site-card__go">Open<span class="ms" aria-hidden="true">north_east</span></span></div>
+      <div class="site-card__body">
+        <div class="ds-row" style="gap:8px"><span class="site-badge-mvp"><span class="ms" aria-hidden="true">star</span>MVP · the focus</span></div>
+        <div class="site-card__title" style="font-size:28px;letter-spacing:-.035em">Trusted Contacts</div>
+        <p class="site-card__desc" style="font-size:15px">One place for everyone you work with, built on your device from your own mail. A contacts list with quick summaries, and a full-screen contact card with your history and the signals that show who is genuine.</p>
+        <ul class="site-card__list">
+          <li><span class="ms" aria-hidden="true">contacts</span>Contacts overview: company, groups, last contact and trust for everyone, with a hover summary.</li>
+          <li><span class="ms" aria-hidden="true">contact_page</span>Contact card: emails, meetings, files and notes with that person across the suite.</li>
+          <li><span class="ms" aria-hidden="true">verified_user</span>Trust signals you can read, and suggested contacts ranked by confidence.</li>
+        </ul>
+        <div class="site-card__actions">
+          <a class="ds-button ds-button--primary" href="mockups/contacts-list.html">Open the mockup <span class="ms" aria-hidden="true">north_east</span></a>
+          <a class="ds-button" href="mockups/contacts.html">Contact card</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="site-card site-card--muted site-card--row" style="margin-top:16px">
+      <span class="site-card__icon"><span class="ms" aria-hidden="true">shield_person</span></span>
+      <div class="site-card__body">
+        <div class="ds-row" style="gap:10px"><div class="site-card__title">Protection</div><span class="site-badge-soft">Additional</span></div>
+        <p class="site-card__desc">What the same contact data makes possible next: warnings for look-alike senders and for emails about to go to the wrong person.</p>
+      </div>
+      <div class="site-chips" style="margin-left:auto;flex:none">
+        <a href="mockups/protection.html#imp"><span class="ms" aria-hidden="true">call_received</span>Impersonation</a>
+        <a href="mockups/protection.html#mis"><span class="ms" aria-hidden="true">call_made</span>Misdirection</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 03 Appendix ============ -->
+  <section class="site-section">
+    <div class="ds-section-head"><h2 class="ds-heading">03 / Appendix</h2><span class="ds-muted ds-small">Supporting material</span></div>
+    <div class="site-grid site-grid--2">
+      <a class="site-card site-card--row" href="appendix/sources.html">
+        <span class="site-card__icon"><span class="ms" aria-hidden="true">link</span></span>
+        <div class="site-card__body"><div class="site-card__title">Sources</div><p class="site-card__desc">19 sources behind the write-up, the feature ideas and the mockups.</p></div>
+        <span class="site-card__go">Open<span class="ms" aria-hidden="true">north_east</span></span>
       </a>
-      <a class="site-card" href="mockups/protection.html#imp">
-        <div class="site-card__shot"><img src="mockups/img/prot-impersonation.jpg" alt="Impersonation warning" loading="lazy"></div>
-        <div class="site-card__body"><span class="ds-label">Protection</span><div class="site-card__title">Impersonation</div><p class="site-card__desc">Inbound: a look-alike sender asks to change bank details.</p><span class="site-card__go">Open<span class="ms" aria-hidden="true">north_east</span></span></div>
-      </a>
-      <a class="site-card" href="mockups/protection.html#mis">
-        <div class="site-card__shot"><img src="mockups/img/prot-misdirection.jpg" alt="Misdirection warning in the composer" loading="lazy"></div>
-        <div class="site-card__body"><span class="ds-label">Protection</span><div class="site-card__title">Misdirection</div><p class="site-card__desc">Outbound: an email about to go to the wrong Camille.</p><span class="site-card__go">Open<span class="ms" aria-hidden="true">north_east</span></span></div>
+      <a class="site-card site-card--row" href="appendix/context.html">
+        <span class="site-card__icon"><span class="ms" aria-hidden="true">article</span></span>
+        <div class="site-card__body"><div class="site-card__title">Context</div><p class="site-card__desc">Background and detail cut from the main document.</p></div>
+        <span class="site-card__go">Open<span class="ms" aria-hidden="true">north_east</span></span>
       </a>
     </div>
   </section>
 
-  <section class="site-section">
-    <div class="ds-section-head"><h2 class="ds-heading">03 / Reference</h2></div>
-    <a class="site-card site-card--row" href="design-system/">
-      <span class="site-card__icon"><span class="ms" aria-hidden="true">palette</span></span>
-      <div class="site-card__body"><div class="site-card__title">Design system</div><p class="site-card__desc">The Proton Dark kit used inside the mockups: tokens, components and icons. The website itself uses DS Dark.</p></div>
-      <span class="site-card__go">Open<span class="ms" aria-hidden="true">north_east</span></span>
-    </a>
-  </section>
-
-  <footer class="site-foot"><span>Proton Contacts for Business · B2B PM task</span><span>All people and companies are fictional</span></footer>
+  <footer class="site-foot"><span>Proton Contacts for Business · B2B PM task</span><span>All people and companies in the mockups are fictional</span></footer>
 </main>
 </body>
 </html>

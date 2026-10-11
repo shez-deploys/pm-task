@@ -10,7 +10,9 @@ Supporting material for the Proton B2B PM take-home task.
 | Trusted Contacts › Overview (contacts list: tabs, hover cards, suggested contacts) | [`mockups/contacts-list.html`](mockups/contacts-list.html) |
 | Trusted Contacts › Contact card (full-screen contact) | [`mockups/contacts.html`](mockups/contacts.html) |
 | Protection › Impersonation and Misdirection | [`mockups/protection.html#imp`](mockups/protection.html) / `#mis` |
-| Reference › Design system (Proton Dark kit used in the mockups) | [`design-system/index.html`](design-system/index.html) |
+| Appendix › Sources | [`appendix/sources.html`](appendix/sources.html) |
+| Appendix › Context (sections cut from the main document) | [`appendix/context.html`](appendix/context.html) |
+| Design system (Proton Dark kit used in the mockups, not in the nav) | [`design-system/index.html`](design-system/index.html) |
 
 Static pages, no build step.
 
@@ -18,6 +20,10 @@ Static pages, no build step.
 
 - **The website** (nav, page headers, home, mockups overview, matrix frame) uses **DS Dark**: [`assets/ds/ds.css`](assets/ds/ds.css), scoped to `.ds-system`, plus the site layer in [`assets/site.css`](assets/site.css).
 - **Inside the mockups** (everything in `.app`) uses the **Proton Dark** mimic: [`design-system/proton-dark.css`](design-system/proton-dark.css) and [`mockups/mockup.css`](mockups/mockup.css).
+
+Trusted Contacts is the MVP and the focus; Protection is shown as an additional, muted feature on the home page and the mockups overview.
+
+The **Get the document** card on the home page is a placeholder. When the PDF is ready, add it (for example `docs/trusted-contacts.pdf`) and follow the comment above the card in `index.html`.
 
 Every mockup page has the same plain header: a small label (the feature), a large title (the view), optional scenario switch, then a divider and the mockup.
 
@@ -35,7 +41,7 @@ Every mockup page has the same plain header: a small label (the feature), a larg
 
 **Clear cache** (top right on every page) re-downloads every file from the server, clears saved filters and reloads, so new versions show up straight away instead of after GitHub Pages' 10-minute cache.
 
-Screenshots in `mockups/img/` (and `assets/img/matrix.jpg`) are captures for the overview pages; retake them after changing a mockup.
+Screenshots in `mockups/img/` and `assets/img/` (matrix, backlog) are captures for the home page and mockups overview; retake them after changing a mockup.
 
 Icons use [Material Symbols Rounded](https://fonts.google.com/icons): `<span class="ms">name</span>` on site pages, `<span class="pt-icon">name</span>` in mockups. To add a page, add one entry to `PAGES` in [`assets/site-nav.js`](assets/site-nav.js) (`{ section: "Name" }` starts a labelled block inside a dropdown) and include the script straight after `<body>`.
 
