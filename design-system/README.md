@@ -39,6 +39,7 @@ brand purple from proton.me. Not an official Proton asset.
 | Banners | `pt-banner` (`--info / --warning / --danger / --success / --brand / --flat`) |
 | Navigation | `pt-sidebar`, `pt-logo`, `pt-nav-item(--active)`, `pt-nav-section`, `pt-tabs`, `pt-tab(--active)`, `pt-rail` |
 | Lists | `pt-list`, `pt-row(--selected)`, `pt-row__main / __title / __sub / __meta` |
+| Icons | `pt-icon` (`--xs / --sm / --lg / --xl / --fill`, colours `--weak / --brand / --success / --warning / --danger`), `pt-icon-tile` |
 | Containers | `pt-card`, `pt-drawer`, `pt-popover(__head)`, `pt-modal-scrim`, `pt-modal(__head / __foot)`, `pt-kv` |
 
 ## Rules
@@ -51,3 +52,4 @@ brand purple from proton.me. Not an official Proton asset.
 | Links on dark | `--pt-primary-soft`, underlined |
 | Signal colours | Tints for backgrounds, solid for a 3px left edge on banners |
 | Font | Inter, 14px body, 600 for row titles |
+| Icons | Material Symbols Rounded, weight 400, 20px default. Use the ligature name as the text, e.g. `<span class="pt-icon">verified_user</span>`. Pair with a label or `aria-label` |

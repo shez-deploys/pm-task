@@ -1,0 +1,166 @@
+BEGIN:VCARD
+VERSION:4.0
+FN:Matthias Frei
+N:Frei;Matthias;;;
+EMAIL;TYPE=work;PREF=1:matthias.frei@aldermoor-advisory.ch
+TEL;TYPE=cell:+41 79 555 18 42
+TEL;TYPE=work:+41 44 555 01 12
+ORG:Aldermoor Advisory
+TITLE:Finance Lead
+ROLE:Finance and commercial operations
+ADR;TYPE=work:;;Seefeldstrasse 88;Zurich;;8008;Switzerland
+URL:https://aldermoor-advisory.ch
+BDAY:1987-04-19
+TZ:Europe/Zurich
+LANG:de-CH
+CATEGORIES:Colleagues,Finance,Leadership
+NOTE:Prefers concise email updates. Signs off vendor payments above CHF 25k. Usually available early mornings.
+END:VCARD
+BEGIN:VCARD
+VERSION:4.0
+FN:Lea Baumann
+N:Baumann;Lea;;;
+EMAIL;TYPE=work;PREF=1:lea.baumann@aldermoor-advisory.ch
+TEL;TYPE=cell:+41 78 555 44 09
+ORG:Aldermoor Advisory
+TITLE:Junior Analyst
+ROLE:Operations analytics
+ADR;TYPE=work:;;Seefeldstrasse 88;Zurich;;8008;Switzerland
+URL:https://aldermoor-advisory.ch
+TZ:Europe/Zurich
+LANG:de-CH
+CATEGORIES:Colleagues,Operations,Project Atlas
+NOTE:Joined in September 2026. Working on Project Atlas reporting and client data checks. Still getting access to a few internal systems.
+END:VCARD
+BEGIN:VCARD
+VERSION:4.0
+FN:Adrian Vogt
+N:Vogt;Adrian;;;
+EMAIL;TYPE=work;PREF=1:adrian.vogt@aldermoor-advisory.ch
+TEL;TYPE=cell:+41 79 555 02 61
+TEL;TYPE=work:+41 44 555 01 01
+ORG:Aldermoor Advisory
+TITLE:Chief Executive Officer
+ROLE:Executive leadership
+ADR;TYPE=work:;;Seefeldstrasse 88;Zurich;;8008;Switzerland
+URL:https://aldermoor-advisory.ch
+BDAY:1978-11-03
+TZ:Europe/Zurich
+LANG:de-CH
+CATEGORIES:Colleagues,Leadership,Board
+NOTE:Prefers a short pre-read before decision meetings. Final approver for contracts above CHF 100k. Travels frequently between Zurich and London.
+END:VCARD
+BEGIN:VCARD
+VERSION:4.0
+FN:Camille Rochat
+N:Rochat;Camille;;;
+EMAIL;TYPE=work;PREF=1:camille.rochat@veloria-partners.example
+TEL;TYPE=cell:+41 79 555 31 74
+TEL;TYPE=work:+41 22 555 16 30
+ORG:Veloria Partners
+TITLE:Client Account Manager
+ROLE:Primary client contact
+ADR;TYPE=work:;;Rue du Rhône 44;Geneva;;1204;Switzerland
+URL:https://veloria-partners.example
+BDAY:1985-07-14
+TZ:Europe/Zurich
+LANG:fr-CH
+CATEGORIES:Clients - Active,Project Atlas,Key Accounts
+NOTE:Main day-to-day contact for the account. Prefers calls for urgent issues. Met at the Geneva operations forum in 2024.
+END:VCARD
+BEGIN:VCARD
+VERSION:4.0
+FN:Noah Meier
+N:Meier;Noah;;;
+EMAIL;TYPE=work;PREF=1:noah.meier@meridian-fleet.example
+TEL;TYPE=work:+41 61 555 27 18
+ORG:Meridian Fleet
+TITLE:Procurement Manager
+ROLE:New client stakeholder
+ADR;TYPE=work:;;Aeschengraben 17;Basel;;4051;Switzerland
+URL:https://meridian-fleet.example
+TZ:Europe/Zurich
+LANG:de-CH
+CATEGORIES:Clients - Active,New Clients,Project Cedar
+NOTE:Introduced by their COO in September 2026. Reviewing scope and supplier onboarding requirements. Has asked for data residency details.
+END:VCARD
+BEGIN:VCARD
+VERSION:4.0
+FN:Nina Vogel
+N:Vogel;Nina;;;
+EMAIL;TYPE=work;PREF=1:nina@vogel-research.example
+EMAIL;TYPE=home:nina.vogel@gmail.example
+TEL;TYPE=cell:+41 76 555 90 22
+ORG:Vogel Research Studio
+TITLE:Independent Research Consultant
+ROLE:Customer research and workshop facilitation
+URL:https://vogel-research.example
+TZ:Europe/Zurich
+LANG:de-CH
+CATEGORIES:Consultants,Research,Project Atlas
+NOTE:Use company email for project material and personal email only for travel logistics. Strong workshop facilitator. Usually invoices monthly.
+END:VCARD
+BEGIN:VCARD
+VERSION:4.0
+FN:Oliver Grant
+N:Grant;Oliver;;;
+EMAIL;TYPE=work;PREF=1:oliver.grant@greyhaven-risk.example
+TEL;TYPE=cell:+44 7700 900812
+ORG:Greyhaven Risk
+TITLE:Security Consultant
+ROLE:External security advisor
+ADR;TYPE=work:;;22 Bartholomew Lane;London;;EC2N 2AX;United Kingdom
+URL:https://greyhaven-risk.example
+TZ:Europe/London
+LANG:en-GB
+CATEGORIES:Consultants,Security,Vendor Review
+NOTE:Supports security reviews and incident tabletop exercises. Prefers documents before calls. Usually works Tuesday to Thursday.
+END:VCARD
+BEGIN:VCARD
+VERSION:4.0
+FN:Marco Rossi
+N:Rossi;Marco;;;
+EMAIL;TYPE=work;PREF=1:marco.rossi@brightlane-it.example
+TEL;TYPE=cell:+41 77 555 67 41
+TEL;TYPE=work:+41 44 555 73 00
+ORG:Brightlane IT Services
+TITLE:Service Delivery Manager
+ROLE:IT services supplier contact
+ADR;TYPE=work:;;Hardturmstrasse 253;Zurich;;8005;Switzerland
+URL:https://brightlane-it.example
+TZ:Europe/Zurich
+LANG:it-CH
+CATEGORIES:Suppliers,IT,Finance - Invoices
+NOTE:Primary contact for managed IT support and quarterly service reviews. Their finance team sends monthly invoices. Escalate outages by phone.
+END:VCARD
+BEGIN:VCARD
+VERSION:4.0
+FN:Elena Hartmann
+N:Hartmann;Elena;;;
+EMAIL;TYPE=work;PREF=1:elena.hartmann@northquay-strategy.example
+EMAIL;TYPE=work:elena.hartmann@copperfield-ventures.example
+TEL;TYPE=cell:+41 79 555 83 16
+ORG:Northquay Strategy
+TITLE:Operating Partner
+ROLE:Former client contact
+ADR;TYPE=work:;;Limmatquai 62;Zurich;;8001;Switzerland
+URL:https://northquay-strategy.example
+TZ:Europe/Zurich
+LANG:de-CH
+CATEGORIES:Former Clients,Network,Leadership
+NOTE:Moved from Copperfield Ventures to Northquay Strategy in May 2026. Keep the old address for historical threads. Good source for introductions in Swiss fintech.
+END:VCARD
+BEGIN:VCARD
+VERSION:4.0
+FN:Marco Rossi
+N:Rossi;Marco;;;
+EMAIL;TYPE=work;PREF=1:marco.rossi@brightIane-it.example
+ORG:Brightlane IT Services
+TITLE:Service Delivery Manager
+ROLE:Unverified sender
+URL:https://brightIane-it.example
+TZ:Europe/Zurich
+LANG:it-CH
+CATEGORIES:Impersonation Review,Suspicious
+NOTE:Suspicious look-alike contact created from an incoming message. Display name matches a known supplier contact but the domain differs by one character.
+END:VCARD

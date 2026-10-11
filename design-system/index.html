@@ -13,6 +13,7 @@
    ========================================================================== */
 
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,300..600,0..1,-25..0&display=block");
 
 :root {
   /* ---------- Surfaces (sampled) ---------- */
@@ -326,6 +327,30 @@
 .pt-stack { display: flex; flex-direction: column; gap: var(--pt-s2); }
 .pt-grow { flex: 1; }
 
+
+/* ---------- Icons: Material Symbols Rounded ----------
+   <span class="pt-icon" aria-hidden="true">verified_user</span>
+   Names: https://fonts.google.com/icons (Rounded style). Weight 400 by default,
+   matching Proton's thin line icons. Add a text label or aria-label for meaning. */
+.pt-icon {
+  font-family: "Material Symbols Rounded"; font-weight: normal; font-style: normal;
+  font-size: 20px; line-height: 1; letter-spacing: normal; text-transform: none;
+  display: inline-block; white-space: nowrap; direction: ltr; overflow: hidden;
+  width: 1em; height: 1em; flex: none; vertical-align: middle; user-select: none;
+  -webkit-font-smoothing: antialiased;
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 20;
+}
+.pt-icon--xs { font-size: 14px; font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 20; }
+.pt-icon--sm { font-size: 16px; }
+.pt-icon--lg { font-size: 24px; font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24; }
+.pt-icon--xl { font-size: 32px; font-variation-settings: "FILL" 0, "wght" 300, "GRAD" 0, "opsz" 40; }
+.pt-icon--fill { font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 20; }
+.pt-icon--weak { color: var(--pt-text-weak); }
+.pt-icon--brand { color: var(--pt-primary-soft); }
+.pt-icon--success { color: var(--pt-success); }
+.pt-icon--warning { color: var(--pt-warning); }
+.pt-icon--danger { color: var(--pt-danger); }
+.pt-icon-tile { display: inline-grid; place-items: center; width: 36px; height: 36px; border-radius: var(--pt-r-lg, 10px); background: var(--pt-primary-tint); color: var(--pt-primary-soft); }
 </style>
 <style>
   body { margin: 0; }
@@ -431,6 +456,28 @@
         <div class="wrap"><span class="pt-checkbox"></span> All day <span class="pt-checkbox pt-checkbox--on"><svg class="i" viewBox="0 0 24 24" style="width:12px;height:12px;stroke-width:3"><path d="M5 12l5 5 9-10"/></svg></span> Checked <span class="pt-toggle"></span> Off <span class="pt-toggle pt-toggle--on"></span> On</div>
       </div>
     </div>
+  </section>
+
+  <!-- ============ Icons ============ -->
+  <section>
+    <h2 class="pt-h3">Icons (Material Symbols Rounded)</h2>
+    <p class="pt-weak" style="margin:4px 0 12px;color:var(--pt-text-weak);font-size:13px">Use <code>&lt;span class="pt-icon"&gt;name&lt;/span&gt;</code>. Sizes <code>--xs / --sm / --lg / --xl</code>, filled with <code>--fill</code>, colours <code>--weak / --brand / --success / --warning / --danger</code>. Names from fonts.google.com/icons.</p>
+    <div class="demo icon-grid"><div class="ic"><span class="pt-icon pt-icon--lg" aria-hidden="true">contacts</span><b>Contacts</b><code>contacts</code></div><div class="ic"><span class="pt-icon pt-icon--lg" aria-hidden="true">mail</span><b>Mail</b><code>mail</code></div><div class="ic"><span class="pt-icon pt-icon--lg" aria-hidden="true">calendar_month</span><b>Calendar</b><code>calendar_month</code></div><div class="ic"><span class="pt-icon pt-icon--lg" aria-hidden="true">folder</span><b>Drive</b><code>folder</code></div><div class="ic"><span class="pt-icon pt-icon--lg" aria-hidden="true">description</span><b>Docs</b><code>description</code></div><div class="ic"><span class="pt-icon pt-icon--lg" aria-hidden="true">key</span><b>Pass</b><code>key</code></div><div class="ic"><span class="pt-icon pt-icon--lg" aria-hidden="true">verified_user</span><b>Verified</b><code>verified_user</code></div><div class="ic"><span class="pt-icon pt-icon--lg" aria-hidden="true">gpp_maybe</span><b>Look-alike</b><code>gpp_maybe</code></div><div class="ic"><span class="pt-icon pt-icon--lg" aria-hidden="true">warning</span><b>Warning</b><code>warning</code></div><div class="ic"><span class="pt-icon pt-icon--lg" aria-hidden="true">shield_lock</span><b>Encrypted</b><code>shield_lock</code></div><div class="ic"><span class="pt-icon pt-icon--lg" aria-hidden="true">history</span><b>History</b><code>history</code></div><div class="ic"><span class="pt-icon pt-icon--lg" aria-hidden="true">schedule</span><b>First seen</b><code>schedule</code></div><div class="ic"><span class="pt-icon pt-icon--lg" aria-hidden="true">domain_verification</span><b>Domain</b><code>domain_verification</code></div><div class="ic"><span class="pt-icon pt-icon--lg" aria-hidden="true">group</span><b>Group</b><code>group</code></div><div class="ic"><span class="pt-icon pt-icon--lg" aria-hidden="true">share</span><b>Share</b><code>share</code></div><div class="ic"><span class="pt-icon pt-icon--lg" aria-hidden="true">person</span><b>Person</b><code>person</code></div><div class="ic"><span class="pt-icon pt-icon--lg" aria-hidden="true">search</span><b>Search</b><code>search</code></div><div class="ic"><span class="pt-icon pt-icon--lg" aria-hidden="true">more_vert</span><b>More</b><code>more_vert</code></div></div>
+    <div class="demo wrap" style="margin-top:12px">
+      <span class="pt-icon pt-icon--xs">verified_user</span><span class="pt-icon pt-icon--sm">verified_user</span><span class="pt-icon">verified_user</span><span class="pt-icon pt-icon--lg">verified_user</span><span class="pt-icon pt-icon--xl">verified_user</span>
+      <span class="pt-icon pt-icon--lg pt-icon--fill pt-icon--success">verified_user</span><span class="pt-icon pt-icon--lg pt-icon--fill pt-icon--warning">gpp_maybe</span><span class="pt-icon pt-icon--lg pt-icon--fill pt-icon--danger">report</span>
+      <span class="pt-icon-tile"><span class="pt-icon">contact_page</span></span>
+      <button class="pt-btn pt-btn--secondary"><span class="pt-icon pt-icon--sm">share</span>Share</button>
+      <button class="pt-icon-btn pt-icon-btn--bordered" aria-label="More"><span class="pt-icon">more_vert</span></button>
+    </div>
+    <style>
+      .icon-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; }
+      .icon-grid .ic { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 14px 8px; border-radius: 10px; background: var(--pt-bg-norm); border: 1px solid var(--pt-border-weak); transition: border-color .15s, background-color .15s, transform .15s; }
+      .icon-grid .ic:hover { border-color: var(--pt-primary); background: var(--pt-bg-raised); transform: translateY(-2px); }
+      .icon-grid .ic .pt-icon { color: var(--pt-primary-soft); }
+      .icon-grid b { font-size: 12px; font-weight: 600; }
+      .icon-grid code { font-size: 10.5px; color: var(--pt-text-hint); }
+    </style>
   </section>
 
   <!-- ============ Feedback ============ -->

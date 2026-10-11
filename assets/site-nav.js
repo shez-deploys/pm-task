@@ -6,9 +6,10 @@
    The home page (index.html) builds its page list from PAGES too. */
 (function () {
   var PAGES = [
-    { href: "index.html",            label: "Overview",        desc: "What's here and how it fits together." },
-    { href: "matrix.html",           label: "Impact / Effort", desc: "25 feature ideas on an impact/effort matrix, with filters, feature details and the full backlog." },
-    { href: "design-system/",        label: "Design system",   desc: "Proton Dark tokens and components used for the mockups." }
+    { href: "index.html",            label: "Overview",        icon: "home",            desc: "What's here and how it fits together." },
+    { href: "matrix.html",           label: "Impact / Effort", icon: "grid_view",       desc: "27 feature ideas on an impact/effort matrix, with filters, feature details and the full backlog." },
+    { href: "contact-view.html",     label: "Contact view",    icon: "contact_page",    desc: "A full-page view of a contact: history, trust signals and impersonation warnings." },
+    { href: "design-system/",        label: "Design system",   icon: "palette",         desc: "Proton Dark tokens, components and Material Symbols icons used for the mockups." }
   ];
 
   var script = document.currentScript;
@@ -29,6 +30,7 @@
     '.site-nav__links a:hover{background:#292732;color:#fff}' +
     '.site-nav__links a[aria-current="page"]{background:rgba(109,74,255,.16);color:#fff}' +
     '.site-nav a:focus-visible{outline:2px solid #947ff7;outline-offset:2px}' +
+    '.ms{font-family:"Material Symbols Rounded";font-weight:normal;font-style:normal;font-size:20px;line-height:1;letter-spacing:normal;text-transform:none;display:inline-block;white-space:nowrap;direction:ltr;overflow:hidden;-webkit-font-smoothing:antialiased;font-variation-settings:"FILL" 0,"wght" 400,"GRAD" 0,"opsz" 20;vertical-align:middle;user-select:none}' +
     '@media (max-width:640px){.site-nav__in{padding:0 16px;gap:12px}.site-nav__brand span{display:none}}';
 
   var links = PAGES.map(function (p) {
@@ -37,6 +39,12 @@
     return '<a href="' + url + '"' + cur + '>' + p.label + '</a>';
   }).join("");
 
+  /* Material Symbols (icon font) and the shared motion script load on every page. */
+  if (!document.querySelector('link[href*="Material+Symbols"]')) {
+    document.head.insertAdjacentHTML("beforeend", '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,300..600,0..1,-25..0&display=block">');
+  }
+  var fx = document.createElement("script"); fx.src = root + "assets/site-fx.js"; fx.defer = true; document.head.appendChild(fx);
+
   document.head.insertAdjacentHTML("beforeend", "<style>" + css + "</style>");
   document.body.insertAdjacentHTML("afterbegin",
     '<header class="site-nav"><div class="site-nav__in">' +
@@ -44,5 +52,5 @@
       '<nav class="site-nav__links" aria-label="Pages">' + links + '</nav>' +
     '</div></header>');
 
-  window.SITE_PAGES = PAGES.map(function (p) { return { href: root + p.href, label: p.label, desc: p.desc }; });
+  window.SITE_PAGES = PAGES.map(function (p) { return { href: root + p.href, label: p.label, desc: p.desc, icon: p.icon }; });
 })();

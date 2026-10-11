@@ -6,6 +6,7 @@
    ========================================================================== */
 
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,300..600,0..1,-25..0&display=block");
 
 :root {
   /* ---------- Surfaces (sampled) ---------- */
@@ -318,3 +319,27 @@
 .pt-row-flex { display: flex; align-items: center; gap: var(--pt-s2); }
 .pt-stack { display: flex; flex-direction: column; gap: var(--pt-s2); }
 .pt-grow { flex: 1; }
+
+/* ---------- Icons: Material Symbols Rounded ----------
+   <span class="pt-icon" aria-hidden="true">verified_user</span>
+   Names: https://fonts.google.com/icons (Rounded style). Weight 400 by default,
+   matching Proton's thin line icons. Add a text label or aria-label for meaning. */
+.pt-icon {
+  font-family: "Material Symbols Rounded"; font-weight: normal; font-style: normal;
+  font-size: 20px; line-height: 1; letter-spacing: normal; text-transform: none;
+  display: inline-block; white-space: nowrap; direction: ltr; overflow: hidden;
+  width: 1em; height: 1em; flex: none; vertical-align: middle; user-select: none;
+  -webkit-font-smoothing: antialiased;
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 20;
+}
+.pt-icon--xs { font-size: 14px; font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 20; }
+.pt-icon--sm { font-size: 16px; }
+.pt-icon--lg { font-size: 24px; font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24; }
+.pt-icon--xl { font-size: 32px; font-variation-settings: "FILL" 0, "wght" 300, "GRAD" 0, "opsz" 40; }
+.pt-icon--fill { font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 20; }
+.pt-icon--weak { color: var(--pt-text-weak); }
+.pt-icon--brand { color: var(--pt-primary-soft); }
+.pt-icon--success { color: var(--pt-success); }
+.pt-icon--warning { color: var(--pt-warning); }
+.pt-icon--danger { color: var(--pt-danger); }
+.pt-icon-tile { display: inline-grid; place-items: center; width: 36px; height: 36px; border-radius: var(--pt-r-lg, 10px); background: var(--pt-primary-tint); color: var(--pt-primary-soft); }

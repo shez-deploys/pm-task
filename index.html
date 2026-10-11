@@ -21,7 +21,10 @@ h1 { font-size: 32px; font-weight: 700; letter-spacing: -.01em; margin: 8px 0 8p
 .page { display: flex; flex-direction: column; gap: 6px; padding: 20px; border-radius: 12px; background: var(--card); border: 1px solid var(--border); color: inherit; text-decoration: none; transition: border-color .15s, background .15s; }
 .page:hover { border-color: var(--primary); background: #1b1922; }
 .page:focus-visible { outline: 2px solid var(--primary-soft); outline-offset: 2px; }
-.page b { font-size: 16px; display: flex; justify-content: space-between; gap: 12px; }
+.page b { font-size: 16px; display: flex; align-items: center; gap: 10px; }
+.page b .ms { font-size: 22px; color: var(--primary-soft); width: 36px; height: 36px; display: grid; place-items: center; border-radius: 10px; background: rgba(109,74,255,.14); }
+.page b::after { margin-left: auto; transition: transform .2s; }
+.page:hover b::after { transform: translateX(3px); }
 .page b::after { content: "→"; color: var(--primary-soft); }
 .page span { color: var(--weak); font-size: 13px; }
 </style>
@@ -31,13 +34,13 @@ h1 { font-size: 32px; font-weight: 700; letter-spacing: -.01em; margin: 8px 0 8p
 <main class="wrap">
   <div class="eyebrow">Proton Contacts for Business</div>
   <h1>Take-home task workspace</h1>
-  <p class="sub">Supporting pages for the B2B Senior PM task: how feature ideas were prioritised, and the design system used for the mockups.</p>
+  <p class="sub">Supporting pages for the B2B Senior PM task: how feature ideas were prioritised, a full-page contact mockup, and the design system used for the mockups.</p>
   <div class="pages" id="pages"></div>
 </main>
 <script>
 document.getElementById("pages").innerHTML = (window.SITE_PAGES || [])
   .filter(function (p) { return !/index\.html$/.test(p.href); })
-  .map(function (p) { return '<a class="page" href="' + p.href + '"><b>' + p.label + '</b><span>' + p.desc + '</span></a>'; })
+  .map(function (p) { return '<a class="page" href="' + p.href + '"><b><span class="ms" aria-hidden="true">' + (p.icon || "arrow_forward") + '</span>' + p.label + '</b><span>' + p.desc + '</span></a>'; })
   .join("");
 </script>
 </body>

@@ -63,6 +63,8 @@ h1 { font-size: 28px; font-weight: 700; margin: 6px 0 4px; text-wrap: balance; l
 .p-NEXT   { --pc: var(--primary-soft); --pc-bg: rgba(109,74,255,.22); --pc-fg: #fff; --pc-bd: rgba(148,127,247,.55); }
 .p-LATER  { --pc: #8b889a; --pc-bg: var(--bg-strong); --pc-fg: #e4e2ec; --pc-bd: var(--border-input); }
 .p-VISION { --pc: #6d6b78; --pc-bg: transparent; --pc-fg: var(--text-weak); --pc-bd: #6d6b78; }
+.p-PARITY { --pc: #239ece; --pc-bg: rgba(35,158,206,.14); --pc-fg: #cfeaf5; --pc-bd: rgba(35,158,206,.45); }
+.p-EXISTING { --pc: #1ea885; --pc-bg: rgba(30,168,133,.14); --pc-fg: #c8f0e4; --pc-bd: rgba(30,168,133,.45); }
 .sw { background: var(--pc-bg); border: 1px solid var(--pc-bd); }
 .p-VISION .sw, .sw.p-VISION { border-style: dashed; }
 
@@ -201,13 +203,13 @@ th[aria-sort="ascending"] .arr, th[aria-sort="descending"] .arr { opacity: 1; co
     <div>
       <div class="eyebrow"><span class="logo" aria-hidden="true">P</span>Proton Contacts for Business</div>
       <h1>Impact / Effort Matrix</h1>
-      <p class="sub">25 feature ideas scored 1–10 on impact and effort. Pick a feature to see its full brief, or open the backlog for everything in one table.</p>
+      <p class="sub"><span id="n-features">27</span> feature ideas scored 1–10 on impact and effort. Pick a feature to see its full brief, or open the backlog for everything in one table.</p>
     </div>
   </header>
 
   <nav class="tabs" role="tablist" aria-label="Views">
     <button class="tab" role="tab" id="tab-matrix" aria-controls="view-matrix" aria-selected="true">Matrix <span class="count" id="c-matrix">0</span></button>
-    <button class="tab" role="tab" id="tab-backlog" aria-controls="view-backlog" aria-selected="false">Backlog <span class="count">25</span></button>
+    <button class="tab" role="tab" id="tab-backlog" aria-controls="view-backlog" aria-selected="false">Backlog <span class="count" id="c-backlog">27</span></button>
   </nav>
 
   <!-- MATRIX VIEW -->
@@ -220,6 +222,7 @@ th[aria-sort="ascending"] .arr, th[aria-sort="descending"] .arr { opacity: 1; co
         <span><i class="sw p-NEXT" style="width:10px;height:10px;border-radius:3px;display:inline-block"></i>NEXT</span>
         <span><i class="sw p-LATER" style="width:10px;height:10px;border-radius:3px;display:inline-block"></i>LATER</span>
         <span><i class="sw p-VISION" style="width:10px;height:10px;border-radius:3px;display:inline-block;border-style:dashed"></i>VISION</span>
+        <span><i class="sw p-PARITY" style="width:10px;height:10px;border-radius:3px;display:inline-block"></i>PARITY</span>
       </div>
     </div>
 
@@ -273,73 +276,11 @@ th[aria-sort="ascending"] .arr, th[aria-sort="descending"] .arr { opacity: 1; co
   </div>
 </aside>
 
+<script src="data/features.js"></script>
 <script>
-const F = [
- {id:1,short:"ORG DIRECTORY",theme:"DIRECTORY",title:"Org directory V1: Every colleague, added automatically",strong:1,diff:0,prio:"MVP",i:8,e:8,size:"L",wow:1,personas:["EMPLOYEE","ADMIN/SOC"],metrics:["Directory coverage","Time to find a colleague","Weekly active seats"],privacy:"Strong if zero-access encrypted",
-  what:"Every employee appears automatically from the admin panel or identity provider, with name, role, team, manager and location.",problem:"Finding the right colleague; empty address books for new joiners.",pros:"Table stakes vs Google and Microsoft; foundation for every other feature.",cons:"Encrypted search at scale; key management for a shared dataset.",why:"Foundation for every other feature and the biggest gap vs Google and Microsoft. Costly: encrypted shared directory, key management, SCIM sync."},
- {id:2,short:"PROFILE CARD",theme:"COLLABORATION",title:"Profile card for any colleague, in every app",strong:1,diff:0,prio:"MVP",i:8,e:5,size:"M",wow:4,personas:["EMPLOYEE"],metrics:["Profile card opens","Time to find a colleague"],privacy:"Strong",
-  what:"Hover over or tap anyone in Mail, Calendar, Drive, Docs or Meet to see their role, team and what you share.",problem:"Context switching to find out who someone is.",pros:"Very visible; unifies the suite; easy to show in a wireframe.",cons:"Needs consistent UI across many apps.",why:"Used by every employee, every day, in every app. One shared component, but it has to ship in Mail, Calendar, Drive, Docs and Meet."},
- {id:3,short:"TEAM GROUPS",theme:"COLLABORATION",title:"Groups V1: Admin-managed teams usable across apps",strong:0,diff:0,prio:"MVP",i:7,e:5,size:"M",wow:3,personas:["EMPLOYEE","ADMIN/SOC"],metrics:["Group usage in shares","Share completion time"],privacy:"Strong",
-  what:"Admin-created teams such as Legal work as recipients, invitees, share targets and Pass vault members in every app.",problem:"Sharing friction; re-adding the same people in every app.",pros:"Big time saver; strong admin story.",cons:"Group sprawl; permissions edge cases when membership changes.",why:"Removes repeated sharing work for every team. Contact groups exist today; the work is making them org-wide and usable in every share dialog.",
-  nudge:{di:.2,de:-.2,note:"Sits above Relationship context: it removes sharing work for every team, and extends contact groups that already exist."}},
- {id:4,short:"DYNAMIC GROUPS",theme:"ADMIN & GOVERNANCE",title:"Groups V2: Teams that update themselves from directory fields",strong:1,diff:0,prio:"MVP",i:7,e:4,size:"M",wow:3,personas:["ADMIN/SOC","EMPLOYEE"],metrics:["Group usage in shares","Admin setup time","Offboarding time"],privacy:"Strong",
-  what:"Groups build and maintain themselves from department, location, role or manager, e.g. 'Legal – Geneva' or 'My direct reports'. Joiners are added and leavers removed automatically.",problem:"Groups going stale; admins maintaining lists by hand; leavers staying on distribution lists.",pros:"Zero maintenance; joiners and leavers handled automatically; makes teams usable in every share dialog.",cons:"Only as good as the directory data; broad rules can over-include people (e.g. sharing a sensitive doc with 'All staff').",why:"Zero-maintenance groups and automatic joiner/leaver handling; strong admin story. Rules on fields that the directory already holds."},
- {id:5,short:"RECIPIENT SAFETY CHECK",theme:"SECURITY & TRUST",title:"Recipient safety V1: Warnings for external and look-alike recipients",strong:1,diff:1,prio:"MVP",i:9,e:5,size:"M",wow:5,personas:["EMPLOYEE","ADMIN/SOC"],metrics:["Recipient warnings acted on","Misdirected sends prevented"],privacy:"Strong (on-device)",
-  what:"Warns before you send or share to someone outside the organisation or with a look-alike name.",problem:"Misdirected emails and shares leaking data.",pros:"Memorable signature feature; on-brand for privacy; measurable.",cons:"False positives cause warning fatigue.",why:"Signature feature: prevents data leaks, on-brand for privacy, easy to measure. On-device checks are moderate work; tuning false positives is the main cost."},
- {id:6,short:"FIELD VISIBILITY CONTROLS",theme:"ADMIN & GOVERNANCE",title:"Admin control over which directory fields colleagues can see",strong:0,diff:1,prio:"MVP",i:6,e:3,size:"S",wow:1,personas:["ADMIN/SOC"],metrics:["Admin setup time","Support tickets"],privacy:"Strong",
-  what:"Admins decide which profile fields are published and to whom, so the directory shares only what each organisation is comfortable with.",problem:"Over-sharing employee data inside the organisation.",pros:"Answers GDPR and works-council concerns; enterprise-ready.",cons:"More settings to design and support.",why:"Unblocks regulated buyers (GDPR, works councils) more than it delights users. Mostly settings in the existing admin panel.",
-  nudge:{di:-.2,de:-.2,note:"Sits below Expired address check (it unblocks buyers more than it helps users) and further left, since it is mostly settings in the existing admin panel."}},
- {id:7,short:"RELATIONSHIP CONTEXT",theme:"COLLABORATION",title:"Relationship context: Your recent history with a person",strong:1,diff:0,prio:"MVP",i:7,e:5,size:"M",wow:4,personas:["EMPLOYEE","SALES"],metrics:["Profile card opens","Feature adoption"],privacy:"Strong (on-device, your own data only)",
-  what:"The profile card shows your latest emails, past and upcoming meetings, and shared files with that person, built on your device from your own data.",problem:"Losing the thread with colleagues: digging through Mail, Calendar and Drive to remember what you last discussed or shared.",pros:"Useful every day, even in small teams where everyone already knows each other; no new data collected; turns the profile card into a working tool.",cons:"Needs on-device aggregation across Mail, Calendar and Drive; Microsoft and Google offer similar cards, so it is parity unless the privacy angle is made clear.",why:"Daily value even in small teams: picks up the thread with a colleague in one click. Moderate effort: on-device aggregation of your own Mail, Calendar and Drive history, with no new data collected.",
-  nudge:{di:-.2,de:.2,note:"Sits below and right of Team groups: on-device aggregation across three apps is a little more work, and it is closer to parity with Google and Microsoft."}},
- {id:8,short:"EXTERNAL ENRICHMENT",theme:"DATA QUALITY",title:"Contact enrichment V1: Fill in external contacts from email signatures",strong:1,diff:1,prio:"NEXT",i:6,e:6,size:"M",wow:4,personas:["EMPLOYEE","SALES"],metrics:["Contact completeness","Suggestion acceptance rate"],privacy:"Strong if on-device and suggest-only",
-  what:"Suggests name, title and company for external contacts from their email signatures and domain, worked out on your device. Suggests, never overwrites.",problem:"Vague external contacts nobody has time to fill in.",pros:"No manual data entry; private alternative to cloud enrichment tools.",cons:"Signature parsing can be wrong; touches the brief's out-of-scope external area.",why:"Valuable for client-facing teams and a private alternative to cloud enrichment, but external scope. Reliable on-device signature parsing is hard.",
-  nudge:{di:0,de:.25,note:"Sits below Suggested collaborators (external scope limits its reach) and to the right, since reliable on-device signature parsing is hard."}},
- {id:9,short:"DIRECTORY MERGE",theme:"DATA QUALITY",title:"Merge personal contacts with their directory entries",strong:0,diff:0,prio:"NEXT",i:4,e:3,size:"S",wow:2,personas:["EMPLOYEE"],metrics:["Duplicate contacts","Contact completeness"],privacy:"Strong (on-device)",
-  what:"Spots personal contacts that match a directory entry and offers to merge or update them.",problem:"Stale and duplicate contacts.",pros:"Builds on today's 'contacts look identical' banner; quick win.",cons:"Merge mistakes are hard to undo.",why:"Tidies address books but is rarely a top pain point. Builds on the existing duplicate-merge banner.",
-  nudge:{di:.2,de:-.2,note:"Sits above and left of LinkedIn paste-to-fill: it helps every employee, is internal scope, and builds on the existing merge banner."}},
- {id:10,short:"SUGGESTED COLLABORATORS",theme:"AI/ML",title:"Suggested people to share with, based on your past sharing",strong:1,diff:0,prio:"NEXT",i:6,e:6,size:"M",wow:4,personas:["EMPLOYEE"],metrics:["Suggestion acceptance rate","Share completion time"],privacy:"Strong if on-device",
-  what:"Share dialogs suggest the colleagues you usually share similar files with, worked out on your device.",problem:"Slow sharing; forgetting someone.",pros:"Visible AI-lite feature without generating content.",cons:"Needs usage signals; must stay on-device.",why:"Visible AI-lite win in high-frequency flows. Needs on-device usage signals across Drive, Docs and Sheets without breaking zero-access.",
-  nudge:{di:.25,de:0,note:"Sits on top of its cell: it lives in high-frequency share flows used by every employee."}},
- {id:11,short:"OFFBOARDING HANDOVER",theme:"ADMIN & GOVERNANCE",title:"Handover of a leaver's shared files, groups and vaults",strong:0,diff:0,prio:"NEXT",i:7,e:8,size:"L",wow:3,personas:["ADMIN/SOC"],metrics:["Offboarding time","Support tickets"],privacy:"Strong",
-  what:"When someone leaves, everything they owned or shared is listed for the admin to reassign, so nothing is orphaned or left open.",problem:"Orphaned files and access after people leave.",pros:"Strong security story; saves admin time.",cons:"Touches many apps' permission models.",why:"Real security and admin pain at every company. Touches the permission models of every app and encrypted ownership transfer."},
- {id:12,short:"VERIFIED BADGES",theme:"SECURITY & TRUST",title:"Verified badge for colleagues with trusted encryption keys",strong:0,diff:1,prio:"NEXT",i:5,e:4,size:"M",wow:3,personas:["EMPLOYEE"],metrics:["Verified contacts","Misdirected sends prevented"],privacy:"Strong",
-  what:"Shows a verified mark next to colleagues whose encryption keys are confirmed, so you know it's really them.",problem:"Uncertainty about who you're really talking to.",pros:"Unique to an end-to-end encrypted suite.",cons:"Users may not understand key verification.",why:"Unique trust signal, but most users won't notice or understand it. Builds on Proton's existing key-verification features.",
-  nudge:{di:0,de:0,note:"Sits between Company briefing and Device sync: a unique trust signal most users won't notice, built on existing key verification."}},
- {id:13,short:"NETWORK GRAPH",theme:"AI/ML",title:"Network graph: A personal map of who you work with",strong:1,diff:1,prio:"NEXT",i:6,e:4,size:"M",wow:4,personas:["EMPLOYEE","SALES"],metrics:["Feature adoption","Profile card opens"],privacy:"Strong (on-device, your own data only)",
-  what:"A visual map of your contacts, grouped by company and built on your device from your own email threads. Shows how strong and recent each connection is.",problem:"Seeing your clients and partners by company; spotting relationships that have gone quiet.",pros:"Strong visual for the doc and demos; reuses the groundwork for Relationship context and External enrichment; only your own data, so no privacy issue.",cons:"The graph view is new interface work; limited value for people with few external contacts.",why:"Strong visual that turns your own email history into a map of clients and partners. Moderate effort: data is already on the device; the graph view is the new work."},
- {id:14,short:"LUMO DIRECTORY Q&A",theme:"AI/ML",title:"Ask Lumo who in the company knows about a topic",strong:0,diff:1,prio:"LATER",i:6,e:7,size:"L",wow:5,personas:["EMPLOYEE"],metrics:["Time to find a colleague","Premium upgrades"],privacy:"Medium (zero-access processing)",
-  what:"Answers questions like 'Who in Legal handles Swiss contracts?' using only the directory fields your organisation publishes.",problem:"Finding expertise in large organisations.",pros:"Showcases private AI; ties to Lumo for Business.",cons:"Hallucination risk; Premium-only.",why:"Strong in larger organisations, less so in small ones. Needs a reliable directory first and zero-access AI processing."},
- {id:15,short:"MEETING PREP",theme:"AI/ML",title:"Summarised threads prior to scheduled calendar meetings",strong:0,diff:0,prio:"LATER",i:6,e:6,size:"M",wow:5,personas:["EMPLOYEE"],metrics:["Feature adoption","Premium upgrades"],privacy:"Medium",
-  what:"Before a meeting, summarises your recent emails and shared files with each attendee, so you walk in with context.",problem:"Walking into meetings without context.",pros:"Strong demo moment.",cons:"Needs cross-app data access.",why:"Useful before external and cross-team meetings. Much cheaper once Relationship context (F7) exists.",
-  nudge:{di:-.25,de:-.25,note:"Sits at the bottom left of its cell: it reuses Relationship context, so it is cheaper, but it is a LATER bet with less proven demand."}},
- {id:16,short:"PRESENCE STATUS",theme:"COLLABORATION",title:"Colleague availability from Calendar and Meet",strong:0,diff:0,prio:"LATER",i:5,e:5,size:"M",wow:3,personas:["EMPLOYEE"],metrics:["Feature adoption","Weekly active seats"],privacy:"Medium",
-  what:"Shows whether a colleague is free, in a meeting or away. Opt-in.",problem:"Wasted time reaching unavailable people.",pros:"Makes the suite feel connected.",cons:"Presence data is sensitive; must be opt-in.",why:"Nice to have rather than a pain point. Presence data is sensitive, so it must be opt-in."},
- {id:17,short:"SHARED ADDRESS BOOKS",theme:"COLLABORATION",title:"External contacts V1: Shared team address books",strong:0,diff:0,prio:"LATER",i:4,e:4,size:"M",wow:1,personas:["EMPLOYEE","SALES"],metrics:["Duplicate contacts","Feature adoption"],privacy:"Strong",
-  what:"One shared address book per team for clients and suppliers, instead of everyone keeping their own copy.",problem:"Each person keeping their own copy of client contacts.",pros:"Common request; bridge to external scope.",cons:"Brief says external is likely out of scope.",why:"Common request, but external scope. Straightforward extension of shared groups."},
- {id:18,short:"ORG CHART",theme:"DIRECTORY",title:"Org directory V3: Org chart",strong:0,diff:0,prio:"LATER",i:4,e:5,size:"M",wow:3,personas:["EMPLOYEE"],metrics:["Profile card opens","Time to find a colleague"],privacy:"Medium (exposes structure)",
-  what:"A visual chart of reporting lines, built from directory data.",problem:"Understanding who's who in larger organisations.",pros:"Easy to grasp; popular in Microsoft.",cons:"Needs reliable manager data; less valuable for small orgs.",why:"Matters less in small businesses where everyone knows the structure. Depends on reliable manager data."},
- {id:19,short:"HRIS SYNC",theme:"INTEGRATION",title:"Org directory V2: Sync people data from HR tools",strong:0,diff:0,prio:"LATER",i:4,e:7,size:"L",wow:1,personas:["ADMIN/SOC"],metrics:["Directory coverage","Contact completeness","Admin setup time"],privacy:"Medium (third-party data)",
-  what:"Keeps titles, teams and managers up to date from HR systems such as Personio or BambooHR.",problem:"Directory data going stale.",pros:"Single source of truth for people data.",cons:"Many connectors to maintain.",why:"Keeps data fresh for larger customers only. Many HR connectors to build and maintain."},
- {id:20,short:"DEVICE SYNC",theme:"INTEGRATION",title:"Directory on phones and desktop apps (CardDAV)",strong:0,diff:0,prio:"LATER",i:5,e:4,size:"M",wow:1,personas:["EMPLOYEE"],metrics:["Feature adoption","Weekly active seats"],privacy:"Weak-medium",
-  what:"Makes colleagues available in the phone's native contacts and in desktop mail apps.",problem:"Colleagues missing from the phone dialler.",pros:"Practical everyday value.",cons:"Data leaves Proton's encrypted apps on device.",why:"Practical everyday value, but data leaves Proton's encrypted apps on the device.",
-  nudge:{di:-.25,de:.25,note:"Sits at the bottom right of its cell: CardDAV clients vary a lot, and data leaving the encrypted apps limits who can turn it on."}},
- {id:21,short:"CRM INTEGRATION",theme:"INTEGRATION",title:"External contacts V2: CRM account history",strong:0,diff:1,prio:"VISION",i:4,e:9,size:"L",wow:3,personas:["SALES"],metrics:["Feature adoption","Seat retention"],privacy:"Weak",
-  what:"Shows account and conversation history from Salesforce or HubSpot next to a contact.",problem:"Sales context scattered across tools.",pros:"Strong for sales-heavy customers.",cons:"Out of scope per brief; sends data to third parties.",why:"Out of scope per the brief and sends data to third parties. Heavy integration work for a narrow audience."},
- {id:22,short:"LINKEDIN PASTE-TO-FILL",theme:"DATA QUALITY",title:"Contact enrichment V2: Fill in a contact from a pasted LinkedIn profile",strong:0,diff:0,prio:"LATER",i:4,e:3,size:"S",wow:2,personas:["SALES","EMPLOYEE"],metrics:["Contact completeness","Feature adoption"],privacy:"Medium (paste-only, on-device, no fetching)",
-  what:"Paste a LinkedIn profile's text and Proton suggests name, title, company and links, parsed on your device. Proton never fetches LinkedIn itself.",problem:"Typing in details by hand for new external contacts.",pros:"Fast way to build rich contacts for clients and partners; easy to demo.",cons:"External scope per the brief; fetching LinkedIn would breach its terms and reveal who you are researching, so it must be paste-only; storing third-party profile data raises GDPR questions for the person being added.",why:"Helps client-facing staff only; external scope and GDPR questions for the person added. Simple paste-and-parse on the device.",
-  nudge:{di:-.2,de:.2,note:"Sits below and right of Directory merge: it only helps client-facing staff, and parsing varied profile text is a little more work."}},
- {id:23,short:"COMPANY BRIEFING",theme:"AI/ML",title:"Lumo briefing on a contact's company and recent news",strong:1,diff:1,prio:"NEXT",i:5,e:4,size:"S",wow:4,personas:["SALES","EMPLOYEE"],metrics:["Feature adoption","Premium upgrades"],privacy:"Strong (company name only, sent to zero-log Lumo)",
-  what:"One click on a contact's company returns a short, sourced brief: what the business does, its size and recent news. Only the company name is sent.",problem:"Walking into calls with clients, partners or suppliers without context; switching to a search engine that tracks you.",pros:"Builds on Lumo 2.0's existing web search with citations; strong demo moment; gives a visible reason to upgrade to Workspace Premium (Lumo); no logs, no training on queries.",cons:"Mostly external contacts, which the brief puts largely out of scope; answers can be outdated or wrong, so citations must be shown; Premium-only.",why:"Showcases private AI on top of Lumo's existing web search and drives Premium upgrades. Low effort since Lumo does the work; impact capped because it mainly serves client-facing staff and external contacts.",
-  nudge:{di:.25,de:-.25,note:"Sits at the top left of its cell: it is the only small-effort item there, since Lumo already does the work, and it drives Premium upgrades."}},
- {id:24,short:"MISDIRECTION PROTECTION",theme:"SECURITY & TRUST",title:"Recipient safety V2: Catch the wrong recipient before you send",strong:1,diff:1,prio:"NEXT",i:8,e:7,size:"L",wow:5,personas:["EMPLOYEE","ADMIN/SOC"],metrics:["Misdirected sends prevented","Recipient warnings acted on"],privacy:"Strong (on-device, your own data only)",
-  what:"Flags a recipient who doesn't fit the thread, topic or attachment, such as the wrong Anna from autocomplete. Learns on your device from your own sending history.",problem:"Misdirected emails and shares, regularly reported as one of the most common causes of data breaches.",pros:"Catches the mistakes V1 can't see; strong security story for regulated buyers; measurable.",cons:"Needs a per-user model of who usually gets what; false positives cause warning fatigue; must stay on-device.",why:"Catches the misdirection mistakes that cause many real breaches. High effort: a per-user model of who usually receives what, run on-device and tuned to avoid warning fatigue."},
- {id:25,short:"EXPIRED ADDRESS CHECK",theme:"SECURITY & TRUST",title:"Flag expired addresses in your address book",strong:1,diff:1,prio:"NEXT",i:6,e:3,size:"S",wow:3,personas:["EMPLOYEE","ADMIN/SOC"],metrics:["Misdirected sends prevented","Contact completeness"],privacy:"Strong (bounce and leaver data stay on-device; only domain checks leave it)",
-  what:"Regularly flags addresses that are probably dead: bounced addresses, leavers, and company domains that no longer receive email. Suggests updating or removing them.",problem:"Sending to dead addresses; mail to an expired company domain that someone else has since bought and now receives.",pros:"Quiet, low-effort protection against a real leak path; keeps autocomplete clean; builds on data Proton already has.",cons:"Can't reliably test whether a mailbox exists without sending to it, so it relies on bounce, leaver and domain signals.",why:"Closes a quiet leak path (expired or re-registered domains) and keeps autocomplete clean. Low effort: bounce, leaver and domain signals already exist.",
-  nudge:{di:.2,de:.2,note:"Sits above Field visibility controls: it closes a real leak path for every user, while the domain checks add a little more work."}}
-];
+const F = window.FEATURES;
 
-const PRIOS = ["MVP","NEXT","LATER","VISION"];
+const PRIOS = ["MVP","NEXT","LATER","VISION","PARITY","EXISTING"];
 const QUADS = [
   {key:"QW",name:"QUICK WIN",desc:"High impact · low effort"},
   {key:"BB",name:"BIG BETS",desc:"High impact · high effort"},
@@ -356,8 +297,8 @@ const pill = p => `<span class="pill p-${p}">${p}</span>`;
 const qpill = k => `<span class="qpill q-${k}">${qName(k)}</span>`;
 const pips = n => `<span class="pips" aria-label="${n} of 5">${[1,2,3,4,5].map(x => `<i class="${x<=n?"on":""}"></i>`).join("")}</span>`;
 
-let store = {}; try { store = JSON.parse(localStorage.getItem("cim-state") || "{}"); } catch (e) {}
-const save = () => { try { localStorage.setItem("cim-state", JSON.stringify(state)); } catch (e) {} };
+let store = {}; try { store = JSON.parse(localStorage.getItem("cim-state-v2") || "{}"); } catch (e) {}
+const save = () => { try { localStorage.setItem("cim-state-v2", JSON.stringify(state)); } catch (e) {} };
 const state = {
   mPrio: new Set(store.mPrio || ["MVP","NEXT"]),
   bPrio: new Set(store.bPrio || PRIOS),
@@ -365,7 +306,7 @@ const state = {
   open: null, list: []
 };
 const toJSON = () => ({mPrio:[...state.mPrio], bPrio:[...state.bPrio], sort: state.sort});
-const persist = () => { try { localStorage.setItem("cim-state", JSON.stringify(toJSON())); } catch (e) {} };
+const persist = () => { try { localStorage.setItem("cim-state-v2", JSON.stringify(toJSON())); } catch (e) {} };
 
 /* ---------- Filters ---------- */
 function renderFilters(el, set, onChange) {
@@ -577,6 +518,8 @@ tabs.backlog.onclick = () => showTab("backlog");
 
 renderFilters(document.getElementById("m-filters"), state.mPrio, renderMatrix);
 renderFilters(document.getElementById("b-filters"), state.bPrio, renderBacklog);
+document.getElementById("n-features").textContent = F.length;
+document.getElementById("c-backlog").textContent = F.length;
 renderMatrix(); renderBacklog();
 showTab(location.hash === "#backlog" ? "backlog" : "matrix");
 </script>
