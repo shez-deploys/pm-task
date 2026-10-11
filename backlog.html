@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Backlog · Prioritisation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="assets/ds/ds.css">
+<link rel="stylesheet" href="assets/site.css">
+<link rel="stylesheet" href="assets/prioritisation.css">
+</head>
+<body>
+<script src="assets/site-nav.js"></script>
+<div class="wrap">
+  <header class="ds-system site-head">
+    <span class="ds-label">Prioritisation</span>
+    <h1 class="site-head__title">Backlog</h1>
+    <p class="site-head__sub">Click a row to open the feature's brief. Sort by any column, search, or filter by priority and theme.</p>
+    <hr class="site-head__divider">
+  </header>
+
+  <!-- BACKLOG VIEW -->
+  <section id="view-backlog">
+    <div class="toolbar">
+      <label class="search" for="b-search">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" style="color:var(--text-hint)"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="b-search" type="search" placeholder="Search features" autocomplete="off">
+      </label>
+      <div class="filters" id="b-filters"></div>
+      <select class="select" id="b-theme" aria-label="Theme"><option value="">All themes</option></select>
+    </div>
+    <div class="table-scroll">
+      <table>
+        <thead><tr id="b-head"></tr></thead>
+        <tbody id="b-table"></tbody>
+      </table>
+    </div>
+  </section>
+</div>
+
+<div class="scrim" id="scrim" hidden></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="d-title" aria-hidden="true">
+  <div class="d-head" id="d-head"></div>
+  <div class="d-body" id="d-body"></div>
+  <div class="d-nav">
+    <button class="btn" id="d-prev">← Previous</button>
+    <button class="btn right" id="d-next">Next →</button>
+  </div>
+</aside>
+
+<script src="data/features.js"></script>
+<script src="assets/prioritisation.js"></script>
+</body>
+</html>

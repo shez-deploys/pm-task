@@ -5,13 +5,14 @@ Supporting material for the Proton B2B PM take-home task.
 | Page | Path |
 |---|---|
 | Overview (home) | [`index.html`](index.html) |
-| Prioritisation › Impact / Effort matrix and backlog | [`matrix.html`](matrix.html) (data in [`data/features.js`](data/features.js)) |
+| Prioritisation › Impact / Effort matrix | [`matrix.html`](matrix.html) |
+| Prioritisation › Backlog (all feature ideas in one table) | [`backlog.html`](backlog.html) (old link `matrix.html#backlog` redirects here) |
 | Mockups › All mockups (landing page with screenshots) | [`mockups/index.html`](mockups/index.html) |
 | Trusted Contacts › Overview (contacts list: tabs, hover cards, suggested contacts) | [`mockups/contacts-list.html`](mockups/contacts-list.html) |
 | Trusted Contacts › Contact card (full-screen contact) | [`mockups/contacts.html`](mockups/contacts.html) |
 | Protection › Impersonation and Misdirection | [`mockups/protection.html#imp`](mockups/protection.html) / `#mis` |
 | Appendix › Sources | [`appendix/sources.html`](appendix/sources.html) |
-| Appendix › Context (sections cut from the main document) | [`appendix/context.html`](appendix/context.html) |
+| Appendix › Context (Additional Notes from the doc, every section with a link to copy, plus visuals) | [`appendix/context.html`](appendix/context.html) |
 | Design system (Proton Dark kit used in the mockups, not in the nav) | [`design-system/index.html`](design-system/index.html) |
 
 Static pages, no build step.
@@ -36,6 +37,7 @@ Every mockup page has the same plain header: a small label (the feature), a larg
 | [`assets/site-fx.js`](assets/site-fx.js) | Smooth scrolling, reveal on scroll, hover spotlight, back-to-top (off for reduced motion) |
 | [`assets/ds/`](assets/ds/) | DS Dark kit (CSS, optional JS, its README) |
 | [`data/features.js`](data/features.js) | Feature ideas with impact/effort scores |
+| [`assets/prioritisation.css`](assets/prioritisation.css) / [`assets/prioritisation.js`](assets/prioritisation.js) | Shared by the Impact / Effort and Backlog pages: matrix, table, filters and the feature drawer |
 | [`mockups/mockup.css`](mockups/mockup.css) / [`mockups/mockup.js`](mockups/mockup.js) | Shared mockup styles and mock data. `MK.live(root, selector)` marks what works in a mockup so it lights up on hover; clicking anything else flashes all of it |
 | [`data/contacts.vcf`](data/contacts.vcf) / [`data/contacts.js`](data/contacts.js) | Fictional sample contacts for mockups (vCard for import, JS for pages) |
 

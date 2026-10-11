@@ -11,12 +11,66 @@
 <link rel="stylesheet" href="../assets/ds/ds.css">
 <link rel="stylesheet" href="../assets/site.css">
 <style>
-/* Long-form text for sections moved out of the main document */
-.ds-system .ctx { max-width: 760px; }
-.ds-system .ctx h3 { font-size: 16px; font-weight: 600; margin: 24px 0 8px; }
+/* Two columns: contents on the left (sticky), sections on the right */
+.ds-system .ctx-layout { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 56px; align-items: start; }
+.ds-system .ctx-layout > * { min-width: 0; }
+@media (max-width: 960px) { .ds-system .ctx-layout { grid-template-columns: 1fr; gap: 32px; } }
+.ds-system .ctx-toc { position: sticky; top: 84px; display: flex; flex-direction: column; gap: 18px; font-size: 13px; }
+@media (max-width: 960px) { .ds-system .ctx-toc { position: static; padding: 16px 18px; border: 1px solid var(--ds-border); border-radius: var(--ds-radius); background: var(--ds-surface); } }
+.ds-system .ctx-toc .ds-label { margin: 0 0 6px; }
+.ds-system .ctx-toc ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+.ds-system .ctx-toc a { display: block; padding: 5px 10px; margin-left: -10px; border-radius: 6px; color: var(--ds-subtle); text-decoration: none; transition: background-color .14s, color .14s; }
+.ds-system .ctx-toc a:hover { color: var(--ds-text); background: var(--ds-raised); }
+.ds-system .ctx-toc a[aria-current="true"] { color: var(--ds-text); background: var(--ds-raised); box-shadow: inset 2px 0 0 var(--ds-text); }
+
+/* Sections: one heading size for all, a group label above each group */
+.ds-system .ctx { max-width: 820px; }
+.ds-system .ctx-group { margin: 56px 0 0; padding-top: 24px; border-top: 1px solid var(--ds-border); }
+.ds-system .ctx-group:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
+.ds-system .ctx-sec { margin-top: 36px; scroll-margin-top: 84px; }
+.ds-system .ctx-group + .ctx-sec { margin-top: 14px; }
+.ds-system .ctx-head { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.ds-system .ctx-head h2 { font-size: 22px; font-weight: 600; letter-spacing: -.025em; line-height: 1.25; }
+.ds-system .ctx-head h2 a { color: inherit; text-decoration: none; }
+.ds-system .ctx-head h2 a:hover { text-decoration: underline; text-decoration-color: var(--ds-border-strong); text-underline-offset: 4px; }
+.ds-system .ctx-copy { margin-left: auto; flex: none; display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 10px; border-radius: 6px; border: 1px solid var(--ds-border); background: transparent; color: var(--ds-subtle); font: 500 12px/1 var(--ds-font); cursor: pointer; transition: background-color .14s, border-color .14s, color .14s, box-shadow .2s; }
+.ds-system .ctx-copy:hover { color: var(--ds-text); background: var(--ds-raised); border-color: var(--ds-border-strong); box-shadow: 0 0 20px -8px #ffffff66; }
+.ds-system .ctx-copy .ms { font-size: 16px; }
+.ds-system .ctx-copy.is-done { color: var(--ds-success); border-color: #add7b766; }
+
 .ds-system .ctx p, .ds-system .ctx li { color: var(--ds-muted); font-size: 15px; line-height: 1.65; }
-.ds-system .ctx p + p { margin-top: 12px; }
-.ds-system .ctx ul { margin: 8px 0 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; }
+.ds-system .ctx p + p, .ds-system .ctx p + ul, .ds-system .ctx ul + p, .ds-system .ctx p + .site-table-wrap { margin-top: 12px; }
+.ds-system .ctx ul { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; }
+.ds-system .ctx strong { color: var(--ds-text); font-weight: 600; }
+.ds-system .ctx a.ext { color: var(--ds-text); text-decoration: underline; text-decoration-color: var(--ds-border-strong); text-underline-offset: 3px; }
+.ds-system .ctx a.ext:hover { text-decoration-color: var(--ds-text); }
+
+/* Tables */
+.ds-system .ctx .site-table td { font-size: 14px; }
+.ds-system .ctx .site-table td:first-child, .ds-system .ctx .site-table td:nth-child(2) { width: auto; white-space: normal; }
+.ds-system .ctx .site-table td:first-child { color: var(--ds-text); }
+.ds-system .ctx .site-table tr.sub td { padding-top: 18px; padding-bottom: 8px; font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--ds-subtle); background: var(--ds-black); }
+.ds-system .ctx .site-table tr.sub:hover { background: var(--ds-black); }
+.ds-system .ctx .site-table ul { padding-left: 16px; gap: 4px; }
+.ds-system .ctx .site-table li { font-size: 14px; line-height: 1.5; }
+.ds-system .ctx .site-table td ul.plain { list-style: none; padding-left: 0; }
+@media (max-width: 760px) { .ds-system .ctx .site-table td:nth-child(2), .ds-system .ctx .site-table th:nth-child(2) { display: table-cell; } }
+.ds-system .lvl { display: inline-flex; align-items: center; height: 22px; padding: 0 8px; border-radius: 999px; border: 1px solid var(--ds-border-strong); font-size: 11px; font-weight: 600; letter-spacing: .06em; white-space: nowrap; color: var(--ds-muted); }
+.ds-system .lvl--vh { background: var(--ds-text); color: var(--ds-on-primary); border-color: var(--ds-text); }
+.ds-system .lvl--h { color: var(--ds-text); border-color: #8a8a8a; }
+.ds-system .lvl--l { color: var(--ds-subtle); border-style: dashed; }
+.ds-system .ctx .site-table td .ds-badge { margin: 0 4px 4px 0; }
+
+/* Figures */
+.ds-system .ctx-fig { margin: 0; }
+.ds-system .ctx-fig + .ctx-fig { margin-top: 28px; }
+.ds-system .ctx-fig a.img { display: block; border-radius: var(--ds-radius); overflow: hidden; border: 1px solid var(--ds-border); background: #fff; transition: border-color .2s, box-shadow .25s; }
+.ds-system .ctx-fig a.img:hover { border-color: var(--ds-border-strong); box-shadow: 0 0 0 1px #ffffff14, 0 20px 50px -26px #ffffff40; }
+.ds-system .ctx-fig img { display: block; width: 100%; height: auto; }
+.ds-system .ctx-fig figcaption { margin-top: 10px; color: var(--ds-subtle); font-size: 13.5px; line-height: 1.55; }
+.ds-system .ctx-fig .ctx-head { margin-bottom: 10px; }
+.ds-system .ctx-fig h3 { font-size: 16px; font-weight: 600; letter-spacing: -.01em; }
+.ds-system .ctx-fig { scroll-margin-top: 84px; }
 </style>
 </head>
 <body class="ds-system">
@@ -25,28 +79,218 @@
   <header class="ds-system site-head">
     <span class="ds-label">Appendix</span>
     <h1 class="site-head__title">Context</h1>
-    <p class="site-head__sub">Background and detail cut from the main document to keep it short.</p>
     <hr class="site-head__divider">
   </header>
 
-  <!-- To add a section, copy this block, number it and fill it in:
-  <section class="site-section ctx" id="market">
-    <div class="ds-section-head"><h2 class="ds-heading">01 / Market</h2></div>
-    <p>First paragraph.</p>
-    <h3>Optional sub-heading</h3>
-    <ul><li>Point one</li><li>Point two</li></ul>
-  </section>
-  -->
+  <div class="ctx-layout">
+    <nav class="ctx-toc" aria-label="Contents">
+      <div><p class="ds-label">1 / Market</p><ul><li><a href="#introduction">Introduction</a></li><li><a href="#oligopoly">The market: why challenge an oligopoly?</a></li><li><a href="#b2b-vs-b2c">B2B vs B2C</a></li></ul></div>
+      <div><p class="ds-label">2 / Context and assumptions</p><ul><li><a href="#contacts-today">Where Contacts sits today</a></li><li><a href="#assumptions">General assumptions</a></li><li><a href="#wont-build">What we won't build</a></li></ul></div>
+      <div><p class="ds-label">3 / Scope</p><ul><li><a href="#contacts-in-context">Contacts in context</a></li><li><a href="#tablestakes">Tablestakes we won't focus on</a></li><li><a href="#out-of-scope">Out of scope for the MVP</a></li></ul></div>
+      <div><p class="ds-label">4 / Prioritisation</p><ul><li><a href="#pain-points">Pain points identified</a></li><li><a href="#roadmap">Roadmap</a></li></ul></div>
+      <div><p class="ds-label">5 / Visuals</p><ul><li><a href="#prioritisation-inputs">Prioritisation inputs</a></li><li><a href="#wireframe">Early contact card wireframe</a></li></ul></div>
+    </nav>
 
-  <section class="site-section">
-    <div class="site-empty">
-      <span class="ms" aria-hidden="true">article</span>
-      <b>Coming soon</b>
-      <span>Sections cut from the main document will be added here.</span>
-    </div>
-  </section>
+    <article class="ctx">
+      <!-- To add a section: copy one <section class="ctx-sec">, give it a new id, and add the same id to the contents list above. -->
+
+      <!-- ============ 1 / Market ============ -->
+      <p class="ds-label ctx-group">1 / Market</p>
+
+      <section class="ctx-sec" id="introduction">
+        <div class="ctx-head"><h2><a href="#introduction">Introduction</a></h2><button class="ctx-copy" type="button" data-copy="introduction"><span class="ms" aria-hidden="true">link</span><b>Copy link</b></button></div>
+        <p>Legacy organisations dominate the workspace suites on the market, with Google Workspace &amp; Microsoft 365 holding the majority of the market share. They are proven to be deeply integrated into their customers daily workflow, due to a combined offering of mail, document, hosting, directory and security services.</p>
+        <p>Proton, growing to an internationally respected player in the emailspace, has a long standing reputation of respecting user privacy. As their suite has expanded (Mail, Calendar, Drive, Docs, Sheets, Meet, Pass and VPN etc.) a transition into the B2B SaaS space is a natural result.</p>
+      </section>
+
+      <section class="ctx-sec" id="oligopoly">
+        <div class="ctx-head"><h2><a href="#oligopoly">The market: why challenge an oligopoly?</a></h2><button class="ctx-copy" type="button" data-copy="oligopoly"><span class="ms" aria-hidden="true">link</span><b>Copy link</b></button></div>
+        <p>Oligopolies in which a few players control the market, can be difficult to enter. However, when being selective on <em>which</em> market share and <em>which</em> user needs to target, it is not uncommon to disrupt the market share. For larger customers, considerations must be made of the <strong>cost of switching providers, making it often more reasonable to operate as an integrated solution, winning through differentiation</strong>.</p>
+        <p>The opportunity arises especially in markets in which market leading companies:</p>
+        <ul>
+          <li>Neglect their primary focus on customer experience</li>
+          <li>Compromised trust or otherwise reputational harm</li>
+          <li>Exploit their market position through excessive price increases or changes in terms of service</li>
+        </ul>
+        <p>An example of an ongoing challenged product is JIRA (Atlassian) vs Linear for software engineering. Whilst at USD 6.5 billion revenue, Linear has grown into a strong position in the SMB, recently passing USD100 million ARR, and <a class="ext" href="https://pulse2.com/linear-completes-99-million-tender-at-2-5-billion-valuation-as-arr-tops-100-million-and-net-retention-hits-177/" target="_blank" rel="noopener">doubled its evaluation from 2025 to 2026 (USD 2.5 billion)</a>. Whilst Atlassian is still holding the majority of the market share, it is difficult to tell whether system dependencies and cost of vendor switching are responsible for their enterprise retention.</p>
+      </section>
+
+      <section class="ctx-sec" id="b2b-vs-b2c">
+        <div class="ctx-head"><h2><a href="#b2b-vs-b2c">B2B vs B2C: differences in customer needs</a></h2><button class="ctx-copy" type="button" data-copy="b2b-vs-b2c"><span class="ms" aria-hidden="true">link</span><b>Copy link</b></button></div>
+        <p>Building for B2C only can limit the amount of consideration needed to be made to serve a great product. For a workspace suite, B2B must not only consider the product performance and user experience, but consider the overarching organisation.</p>
+        <div class="site-table-wrap"><table class="site-table">
+          <thead><tr><th scope="col">END USER</th><th scope="col">ORGANISATION</th></tr></thead>
+          <tbody>
+            <tr><td>Experience &amp; UX</td><td>Provisioning (On/Offboarding)</td></tr>
+            <tr><td>Performance &amp; Reliability</td><td>Integrations &amp; Administration</td></tr>
+            <tr><td>Protection &amp; Trust</td><td>Security / Data Policy Enforcement</td></tr>
+            <tr><td></td><td>Hosting, Performance &amp; Disaster Recovery</td></tr>
+            <tr class="sub"><td>SAMPLE METRICS</td><td>SAMPLE METRICS</td></tr>
+            <tr><td>Adoption &amp; Usage</td><td>Time saved (orchestration &amp; sync)</td></tr>
+            <tr><td>Uptime &amp; monitoring</td><td>SecOps incidents resolved</td></tr>
+            <tr><td></td><td>Reliability (Outage = Revenue lost)</td></tr>
+          </tbody>
+        </table></div>
+      </section>
+
+      <!-- ============ 2 / Context and assumptions ============ -->
+      <p class="ds-label ctx-group">2 / Context and assumptions</p>
+
+      <section class="ctx-sec" id="contacts-today">
+        <div class="ctx-head"><h2><a href="#contacts-today">Where Contacts sits today</a></h2><button class="ctx-copy" type="button" data-copy="contacts-today"><span class="ms" aria-hidden="true">link</span><b>Copy link</b></button></div>
+        <div class="site-table-wrap"><table class="site-table">
+          <thead><tr><th scope="col">VALUE</th><th scope="col">FEATURES</th></tr></thead>
+          <tbody>
+            <tr><td>Import</td><td><ul class="plain"><li>Manual / Import</li><li>Import from Outlook / Google</li><li>Contact merging</li></ul></td></tr>
+            <tr><td>Flexible data</td><td>Email, phone, postal addresses, birthday, notes, organisation, title, role, member, URL, anniversary, gender, language, time zone, photo and logo.</td></tr>
+            <tr><td>Security</td><td>Contact field encryption</td></tr>
+            <tr><td>Groups</td><td><ul class="plain"><li>Group identity (name, colour, 100 members max)</li><li>Multi group membership</li><li>Group sending</li><li>Private (creator only)</li></ul></td></tr>
+            <tr><td>API</td><td><a class="ext" href="https://api.proton.ai/#49b6e2fd-557b-4663-b304-54d9c85c5da3" target="_blank" rel="noopener">Contacts API</a> (no groups)</td></tr>
+          </tbody>
+        </table></div>
+      </section>
+
+      <section class="ctx-sec" id="assumptions">
+        <div class="ctx-head"><h2><a href="#assumptions">General assumptions</a></h2><button class="ctx-copy" type="button" data-copy="assumptions"><span class="ms" aria-hidden="true">link</span><b>Copy link</b></button></div>
+        <ul>
+          <li>Most customers are small and mid-sized, so every feature must be useful at 20 seats and still work at 10,000.</li>
+          <li>Customers will not accept Proton using their data to train or improve models. Customers may accept basic extraction upon decryption, but no long term storage of full text.</li>
+          <li>Contact data stays zero-access encrypted; any intelligence runs on the device or through Lumo's no-logs processing.</li>
+          <li>Internal and external contacts are treated the same. Impersonation mostly comes from outside, so external contacts are in scope for this feature.</li>
+        </ul>
+      </section>
+
+      <section class="ctx-sec" id="wont-build">
+        <div class="ctx-head"><h2><a href="#wont-build">What we won't build</a></h2><button class="ctx-copy" type="button" data-copy="wont-build"><span class="ms" aria-hidden="true">link</span><b>Copy link</b></button></div>
+        <ul>
+          <li>No AI-written emails or messages.</li>
+          <li>No training on customer data, and no sharing of contact data with third parties.</li>
+          <li>No inferred profiling of people, such as expertise or relationship scores across the organisation.</li>
+          <li>No fetching or scraping of third-party profiles such as LinkedIn.</li>
+        </ul>
+      </section>
+
+      <!-- ============ 3 / Scope ============ -->
+      <p class="ds-label ctx-group">3 / Scope</p>
+
+      <section class="ctx-sec" id="contacts-in-context">
+        <div class="ctx-head"><h2><a href="#contacts-in-context">Contacts in context</a></h2><button class="ctx-copy" type="button" data-copy="contacts-in-context"><span class="ms" aria-hidden="true">link</span><b>Copy link</b></button></div>
+        <div class="site-table-wrap"><table class="site-table">
+          <thead><tr><th scope="col">USAGE ACROSS ENTIRE SUITE</th><th scope="col">STANDALONE HUB</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><ul class="plain"><li><strong>Contacts:</strong> the contact page itself</li><li><strong>Mail:</strong> senders and recipients</li><li><strong>Calendar and Meet:</strong> attendees and invites</li><li><strong>Drive, Docs and Sheets:</strong> collaborators and incoming shares</li><li><strong>Pass:</strong> vault members</li></ul></td>
+              <td><ul class="plain"><li><strong>Context:</strong> one view of your history with a person, across all their addresses and every app.</li><li><strong>Protection:</strong> multi-signal protection when a sender isn't who they claim to be, or an email is about to reach the wrong person.</li><li><strong>No setup:</strong> useful from day one at 20 seats, with no directory, groups or admin work needed.</li></ul></td>
+            </tr>
+          </tbody>
+        </table></div>
+      </section>
+
+      <section class="ctx-sec" id="tablestakes">
+        <div class="ctx-head"><h2><a href="#tablestakes">Tablestakes we won't focus on</a></h2><button class="ctx-copy" type="button" data-copy="tablestakes"><span class="ms" aria-hidden="true">link</span><b>Copy link</b></button></div>
+        <p>Expected in any business suite and considered, but not where Proton wins:</p>
+        <ul>
+          <li>Organisation directory that fills itself from the admin panel</li>
+          <li>Groups usable in every app, including groups that update themselves</li>
+          <li>Admin control over which directory fields colleagues can see</li>
+          <li>Org chart, presence and HR system sync</li>
+          <li>Phone and desktop sync (CardDAV)</li>
+        </ul>
+      </section>
+
+      <section class="ctx-sec" id="out-of-scope">
+        <div class="ctx-head"><h2><a href="#out-of-scope">Out of scope for the MVP</a></h2><button class="ctx-copy" type="button" data-copy="out-of-scope"><span class="ms" aria-hidden="true">link</span><b>Copy link</b></button></div>
+        <ul>
+          <li>Policy-based sharing guardrails and information barriers</li>
+          <li>CRM integrations</li>
+          <li>HR system sync and org chart</li>
+          <li>AI-generated content of any kind</li>
+          <li>An organisation-wide relationship graph</li>
+        </ul>
+      </section>
+
+      <!-- ============ 4 / Prioritisation ============ -->
+      <p class="ds-label ctx-group">4 / Prioritisation</p>
+
+      <section class="ctx-sec" id="pain-points">
+        <div class="ctx-head"><h2><a href="#pain-points">Pain points identified</a></h2><button class="ctx-copy" type="button" data-copy="pain-points"><span class="ms" aria-hidden="true">link</span><b>Copy link</b></button></div>
+        <div class="site-table-wrap"><table class="site-table">
+          <thead><tr><th scope="col">PROBLEM (EXAMPLES)</th><th scope="col">IMPACTED</th><th scope="col">APPS</th><th scope="col">IMPACT</th><th scope="col">DIFFERENTIATION</th></tr></thead>
+          <tbody>
+            <tr><td>Context is scattered across apps and addresses</td><td><span class="ds-badge">EMPLOYEE</span></td><td>Mail, Drive, Calendar, Pass</td><td><span class="lvl">MEDIUM</span></td><td><span class="lvl lvl--h">HIGH</span></td></tr>
+            <tr><td>Can't tell a long-standing contact from a first-time sender</td><td><span class="ds-badge">EMPLOYEE</span></td><td>Mail, invites, shares</td><td><span class="lvl lvl--h">HIGH</span></td><td><span class="lvl lvl--h">HIGH</span></td></tr>
+            <tr><td>Senders impersonating real contacts</td><td><span class="ds-badge">EMPLOYEE</span><span class="ds-badge">ADMIN</span></td><td>Mail, Calendar invites, Drive shares</td><td><span class="lvl lvl--vh">VERY HIGH</span></td><td><span class="lvl lvl--h">HIGH</span></td></tr>
+            <tr><td>Outbound mistakes: wrong recipient, sharing too widely</td><td><span class="ds-badge">EMPLOYEE</span><span class="ds-badge">ADMIN</span></td><td>Mail, Drive</td><td><span class="lvl lvl--h">HIGH</span></td><td><span class="lvl">MEDIUM</span></td></tr>
+            <tr><td>Stale contacts</td><td><span class="ds-badge">EMPLOYEE</span></td><td>Contacts, autocomplete</td><td><span class="lvl lvl--l">LOW</span></td><td><span class="lvl lvl--l">LOW</span></td></tr>
+          </tbody>
+        </table></div>
+      </section>
+
+      <section class="ctx-sec" id="roadmap">
+        <div class="ctx-head"><h2><a href="#roadmap">Roadmap</a></h2><button class="ctx-copy" type="button" data-copy="roadmap"><span class="ms" aria-hidden="true">link</span><b>Copy link</b></button></div>
+        <div class="site-table-wrap"><table class="site-table">
+          <thead><tr><th scope="col">HORIZON</th><th scope="col">FEATURES</th><th scope="col">WHY THEN</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Now (MVP)</strong></td><td>Trusted Contacts (list, contact view, trust signals, suggested contacts)</td><td>Highest impact; the foundation everything else builds on</td></tr>
+            <tr><td><strong>Next</strong></td><td>Protection (impersonation and misdirection warnings); expired address check; secure reach indicator; organisation directory and groups in every app</td><td>Builds on contact data; closes parity gaps</td></tr>
+            <tr><td><strong>Next (Premium)</strong></td><td>Company/Contact briefing from Lumo; contact details suggested from email signatures</td><td>Private AI on top of Lumo; a reason to upgrade</td></tr>
+            <tr><td><strong>Later</strong></td><td>Sharing guardrails and information barriers inherited from Google or Microsoft; network graph; org chart; HR system sync; CardDAV</td><td>Needs admin policy; most valuable for larger organisations</td></tr>
+            <tr><td><strong>Vision</strong></td><td>Contact cards owned by the person; CRM integration (Salesforce, HubSpot)</td><td>Needs both sides on Proton; strict data controls</td></tr>
+          </tbody>
+        </table></div>
+      </section>
+
+      <!-- ============ 5 / Visuals ============ -->
+      <p class="ds-label ctx-group">5 / Visuals</p>
+
+      <section class="ctx-sec" id="visuals">
+        <figure class="ctx-fig" id="prioritisation-inputs">
+          <div class="ctx-head"><h2><a href="#prioritisation-inputs">Prioritisation inputs</a></h2><button class="ctx-copy" type="button" data-copy="prioritisation-inputs"><span class="ms" aria-hidden="true">link</span><b>Copy link</b></button></div>
+          <a class="img" href="img/prioritisation-inputs.png" target="_blank" rel="noopener"><img src="img/prioritisation-inputs.png" width="1600" height="939" loading="lazy" alt="Diagram: feedback (user pain points, win loss) at the top, growth (long-term strategy; net new offerings: region, products, target customers) on the left, foundations (building safe and scalable, code maintenance, bugs and support) on the right, balanced on a scale, with engineering and data science experience and experimentation below to avoid tunnel vision"></a>
+          <figcaption>Feedback (user pain points, win/loss) is weighed against growth (long-term strategy and net new offerings) and foundations (building safe and scalable, code maintenance, bugs and support). Engineering and data science experience, and experimentation, help avoid tunnel vision.</figcaption>
+        </figure>
+        <figure class="ctx-fig" id="wireframe">
+          <div class="ctx-head"><h2><a href="#wireframe">Early contact card wireframe</a></h2><button class="ctx-copy" type="button" data-copy="wireframe"><span class="ms" aria-hidden="true">link</span><b>Copy link</b></button></div>
+          <a class="img" href="img/wireframe-contact-card.png" target="_blank" rel="noopener"><img src="img/wireframe-contact-card.png" width="1600" height="1139" loading="lazy" alt="Wireframe of a full-screen contact card for Sasha Kingston: photo, External and Trusted tags, group chips and contact details on the left; history counts for Calendar, Email and Files, recent activity and a trust score panel on the right"></a>
+          <figcaption>A first wireframe of the full-screen contact card: details on the left; history counts, recent activity and a trust score on the right. The trust score later became the trust signals checklist in the mockup.</figcaption>
+        </figure>
+      </section>
+    </article>
+  </div>
 
   <footer class="site-foot"><span>Proton Contacts for Business · B2B PM task</span><span>All people and companies in the mockups are fictional</span></footer>
 </main>
+<script>
+/* Copy a link to any section, and highlight the current section in the contents */
+(function () {
+  function copy(text) {
+    if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(text);
+    return new Promise(function (ok, fail) {
+      var t = document.createElement("textarea"); t.value = text; t.setAttribute("readonly", ""); t.style.position = "fixed"; t.style.opacity = "0";
+      document.body.appendChild(t); t.select();
+      try { document.execCommand("copy") ? ok() : fail(); } catch (e) { fail(e); } finally { t.remove(); }
+    });
+  }
+  document.addEventListener("click", function (e) {
+    var b = e.target.closest("[data-copy]"); if (!b) return;
+    var id = b.getAttribute("data-copy"), url = location.origin + location.pathname + "#" + id, label = b.querySelector("b");
+    copy(url).then(function () {
+      b.classList.add("is-done"); label.textContent = "Copied"; b.querySelector(".ms").textContent = "check";
+      clearTimeout(b._t); b._t = setTimeout(function () { b.classList.remove("is-done"); label.textContent = "Copy link"; b.querySelector(".ms").textContent = "link"; }, 1600);
+    }, function () { label.textContent = "Press Ctrl+C"; window.prompt("Copy this link", url); label.textContent = "Copy link"; });
+    try { history.replaceState(null, "", "#" + id); } catch (err) {}
+  });
+  if (!("IntersectionObserver" in window)) return;
+  var links = {}; Array.prototype.forEach.call(document.querySelectorAll(".ctx-toc a"), function (a) { links[a.getAttribute("href").slice(1)] = a; });
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      if (!en.isIntersecting) return;
+      Object.keys(links).forEach(function (k) { links[k].removeAttribute("aria-current"); });
+      var a = links[en.target.id]; if (a) a.setAttribute("aria-current", "true");
+    });
+  }, { rootMargin: "-90px 0px -65% 0px" });
+  Object.keys(links).forEach(function (id) { var el = document.getElementById(id); if (el) io.observe(el); });
+})();
+</script>
 </body>
 </html>

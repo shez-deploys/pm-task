@@ -9,7 +9,8 @@
 (function () {
   var PAGES = [
     { href: "index.html",     label: "Overview",        icon: "home",      desc: "What's here and how it fits together." },
-    { href: "matrix.html",    label: "Impact / Effort", icon: "grid_view", section: "Prioritisation", desc: "27 feature ideas on an impact/effort matrix, with filters, feature details and the full backlog." },
+    { href: "matrix.html",    label: "Impact / Effort", icon: "grid_view", section: "Prioritisation", desc: "Feature ideas on an impact/effort matrix, with filters and a brief for each feature." },
+    { href: "backlog.html",   label: "Backlog",         icon: "table_rows", section: "Prioritisation", desc: "All 27 feature ideas in one sortable table." },
     { label: "Mockups", icon: "devices", children: [
       { href: "mockups/", label: "All mockups", icon: "dashboard", desc: "Both MVP features with screenshots of every view." },
       { section: "Trusted Contacts" },
@@ -157,7 +158,7 @@
   /* ---- Clear cache: re-download every file from the server, then reload ----
      fetch(..., {cache: "reload"}) skips the browser cache and stores the fresh copy,
      so the reload picks up new versions straight away (GitHub Pages caches for 10 minutes). */
-  var ASSETS = ["", "index.html", "matrix.html", "mockups/", "mockups/index.html", "mockups/contacts-list.html", "mockups/contacts.html", "mockups/protection.html",
+  var ASSETS = ["", "index.html", "matrix.html", "backlog.html", "assets/prioritisation.css", "assets/prioritisation.js", "appendix/img/prioritisation-inputs.png", "appendix/img/wireframe-contact-card.png", "mockups/", "mockups/index.html", "mockups/contacts-list.html", "mockups/contacts.html", "mockups/protection.html",
     "appendix/sources.html", "appendix/context.html", "design-system/", "design-system/index.html", "design-system/proton-dark.css", "assets/site-nav.js", "assets/site-fx.js", "assets/site.css", "assets/ds/ds.css",
     "data/features.js", "data/contacts.js", "mockups/mockup.css", "mockups/mockup.js"];
   document.getElementById("site-clear").addEventListener("click", function () {
