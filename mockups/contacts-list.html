@@ -3,10 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Contacts List Mockup</title>
+<title>Overview · Trusted Contacts</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/ds/ds.css">
+<link rel="stylesheet" href="../assets/site.css">
 <link rel="stylesheet" href="../design-system/proton-dark.css">
 <link rel="stylesheet" href="mockup.css">
 <style>
@@ -124,19 +126,11 @@ a.lrow { color: inherit; text-decoration: none; }
 <body>
 <script src="../assets/site-nav.js"></script>
 <div class="page-wrap">
-  <div class="page-h">
-    <div>
-      <div class="eyebrow">Mockups · Contacts list</div>
-      <h1>All your contacts, with context</h1>
-      <p>A full-page contacts list with four tabs. Hover a contact for a quick summary; open Suggested to see people you write to often but haven't saved, ranked by confidence.</p>
-    </div>
-    <div class="seg" role="group" aria-label="Jump to tab">
-      <button type="button" data-jump="contacts" aria-pressed="true"><span class="pt-icon">contacts</span>Contacts</button>
-      <button type="button" data-jump="suggested" aria-pressed="false"><span class="pt-icon">person_add</span>Suggested</button>
-      <button type="button" data-jump="groups" aria-pressed="false"><span class="pt-icon">groups</span>Groups</button>
-      <button type="button" data-jump="colleagues" aria-pressed="false"><span class="pt-icon">domain</span>Colleagues</button>
-    </div>
-  </div>
+  <header class="ds-system site-head">
+    <span class="ds-label">Trusted Contacts</span>
+    <h1 class="site-head__title">Overview</h1>
+    <hr class="site-head__divider">
+  </header>
 
   <div class="app app--list" id="app">
     <aside class="side" aria-label="Contacts navigation">
@@ -174,7 +168,10 @@ a.lrow { color: inherit; text-decoration: none; }
     <div class="hcard" id="hcard" role="tooltip"></div>
     <div class="toast" id="toast" role="status"></div>
   </div>
-  <p class="hint"><span class="pt-icon">touch_app</span>Hover a contact for its summary card. Click a row to open the full contact. Use + on a suggestion to save it.</p>
+  <div class="ds-system site-note">
+    <p><span class="ms" aria-hidden="true">touch_app</span>Hover a contact for its summary card. Click a row to open the full contact card. Use + on a suggestion to save it.</p>
+    <p><span class="ms" aria-hidden="true">ads_click</span>Everything that works lights up when you point at it. Click anywhere else in the mockup to see all of it at once.</p>
+  </div>
 </div>
 
 <script src="../data/contacts.js"></script>
@@ -203,7 +200,6 @@ a.lrow { color: inherit; text-decoration: none; }
   function renderTabs() {
     document.getElementById("ltabs").innerHTML = TABS.map(function (t) { return MK.ptab(t[0], t[1], t[2], state.tab === t[0], t[3], "data-jump"); }).join("");
     document.getElementById("l-title").textContent = TABS.find(function (t) { return t[0] === state.tab; })[1];
-    Array.prototype.forEach.call(document.querySelectorAll(".seg [data-jump]"), function (b) { b.setAttribute("aria-pressed", b.dataset.jump === state.tab); });
     Array.prototype.forEach.call(document.querySelectorAll(".side .nav-i[data-jump]"), function (b) { b.classList.toggle("on", b.dataset.jump === state.tab); });
   }
 
@@ -336,7 +332,6 @@ a.lrow { color: inherit; text-decoration: none; }
     }
     var d = e.target.closest("[data-dismiss]"); if (d) { var row = d.closest(".lrow"); row.style.transition = "opacity .2s, transform .2s"; row.style.opacity = 0; row.style.transform = "translateX(12px)"; setTimeout(function () { row.remove(); }, 200); return; }
   });
-  document.querySelector(".seg").addEventListener("click", function (e) { var j = e.target.closest("[data-jump]"); if (j) go(j.dataset.jump); });
   document.getElementById("q").addEventListener("input", function (e) { state.q = e.target.value; view.innerHTML = '<div>' + ({ contacts: contactsView, suggested: suggestedView, groups: groupsView, colleagues: colleaguesView }[state.tab])() + '</div>'; });
   app.addEventListener("change", function (e) { if (e.target.id === "sort") { state.sortIdx = e.target.value; render(); } });
 
@@ -387,6 +382,9 @@ a.lrow { color: inherit; text-decoration: none; }
     clearTimeout(showT); hideT = setTimeout(function () { hideCard(); }, 160);
   });
   document.getElementById("lbody").addEventListener("scroll", function () { if (cur) hideCard(); }, { passive: true });
+
+  /* What works in this mockup (lights up on hover) */
+  MK.live(app, "[data-jump], [data-filter], [data-clear], [data-add]:not(.done), [data-dismiss], a.lrow[href], .lsearch, #sort, .hcard a[href], .more-section summary, .toast button");
 
   function fromHash() { var h = (location.hash || "").slice(1); go(["contacts", "suggested", "groups", "colleagues"].indexOf(h) > -1 ? h : "contacts"); }
   window.addEventListener("hashchange", fromHash);

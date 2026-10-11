@@ -3,28 +3,32 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Contacts Mockup</title>
+<title>Contact card · Trusted Contacts</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/ds/ds.css">
+<link rel="stylesheet" href="../assets/site.css">
 <link rel="stylesheet" href="../design-system/proton-dark.css">
 <link rel="stylesheet" href="mockup.css">
 </head>
 <body>
 <script src="../assets/site-nav.js"></script>
 <div class="page-wrap">
-  <div class="page-h">
-    <div>
-      <div class="eyebrow">Mockups · Contact view</div>
-      <h1>A contact, full screen</h1>
-      <p>Opening a contact no longer shows a small modal. It opens a full-screen cover with tabs: who they are, your history with them across Mail, Calendar and Drive, and whether they really are who they claim to be.</p>
+  <header class="ds-system site-head">
+    <div class="site-head__row">
+      <div>
+        <span class="ds-label">Trusted Contacts</span>
+        <h1 class="site-head__title">Contact card</h1>
+      </div>
+      <div class="ds-tabs" role="group" aria-label="Scenario" id="scn">
+        <button class="ds-tab" type="button" data-scn="trusted" aria-pressed="true"><span class="ms" aria-hidden="true">verified_user</span>Trusted contact</button>
+        <button class="ds-tab" type="button" data-scn="fake" aria-pressed="false"><span class="ms" aria-hidden="true">gpp_maybe</span>Look-alike sender</button>
+        <button class="ds-tab" type="button" data-scn="inbox" aria-pressed="false"><span class="ms" aria-hidden="true">inbox</span>Inbox</button>
+      </div>
     </div>
-    <div class="seg" role="group" aria-label="Scenario">
-      <button type="button" data-scn="trusted" aria-pressed="true"><span class="pt-icon">verified_user</span>Trusted contact</button>
-      <button type="button" data-scn="fake" aria-pressed="false"><span class="pt-icon">gpp_maybe</span>Look-alike sender</button>
-      <button type="button" data-scn="inbox" aria-pressed="false"><span class="pt-icon">inbox</span>Inbox</button>
-    </div>
-  </div>
+    <hr class="site-head__divider">
+  </header>
 
   <div class="app" id="app">
     <!-- Sidebar -->
@@ -87,7 +91,10 @@
       <div class="cscroll" id="cscroll"><div class="cin" id="cin"></div></div>
     </section>
   </div>
-  <p class="hint"><span class="pt-icon">touch_app</span>Click an email or a contact to open it full screen. Use the tiles, tabs and trust rows to move around.</p>
+  <div class="ds-system site-note">
+    <p><span class="ms" aria-hidden="true">touch_app</span>Click an email or a contact to open it full screen. Use the tiles, tabs and trust rows to move around.</p>
+    <p><span class="ms" aria-hidden="true">ads_click</span>Everything that works lights up when you point at it. Click anywhere else in the mockup to see all of it at once.</p>
+  </div>
 </div>
 
 <script src="../data/contacts.js"></script>
@@ -268,7 +275,7 @@
   });
 
   /* Scenario switcher */
-  var seg = document.querySelectorAll(".seg button");
+  var seg = document.querySelectorAll("#scn [data-scn]");
   function syncSeg() {
     var cur = state.id === 8 ? "trusted" : state.id === 10 ? "fake" : state.id ? "" : "inbox";
     Array.prototype.forEach.call(seg, function (b) { b.setAttribute("aria-pressed", b.dataset.scn === cur); });
@@ -276,6 +283,9 @@
   Array.prototype.forEach.call(seg, function (b) {
     b.onclick = function () { b.dataset.scn === "inbox" ? closeContact() : openContact(b.dataset.scn === "trusted" ? 8 : 10); };
   });
+
+  /* What works in this mockup (lights up on hover) */
+  MK.live(document.getElementById("app"), "[data-open], [data-tab], [data-close], a[href]");
 
   var q = (location.hash || "").slice(1), m = /^c=(\d+)(?:&tab=(\w+))?/.exec(q);
   window.addEventListener("hashchange", function () { var q2 = location.hash.slice(1), m2 = /^c=(\d+)(?:&tab=(\w+))?/.exec(q2); if (m2 && byId[m2[1]]) openContact(m2[1], m2[2]); });

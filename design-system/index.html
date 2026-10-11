@@ -3,7 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Proton Dark Kit</title>
+<title>Design system · Reference</title>
+<link rel="stylesheet" href="../assets/ds/ds.css">
+<link rel="stylesheet" href="../assets/site.css">
 <style>
 /* ==========================================================================
    Proton Dark (mimic) Design System
@@ -354,7 +356,8 @@
 </style>
 <style>
   body { margin: 0; }
-  .doc { max-width: 1180px; margin: 0 auto; padding: 40px 16px 80px; }
+  .doc { width: min(var(--site-max, 1400px), 100%); margin: 0 auto; padding: 0 var(--site-pad, 16px) 80px; }
+  body.pt { background: #0a0a0a; }
   .doc section { margin-top: 48px; }
   .doc h2 { margin-bottom: 16px; }
   .grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
@@ -376,9 +379,12 @@
 <body class="pt">
 <script src="../assets/site-nav.js"></script>
 <div class="doc">
-
-  <div class="pt-row-flex"><span class="pt-logo__mark"></span><h1 class="pt-h1">Proton Dark Kit</h1></div>
-  <p class="pt-weak">Tokens and components mimicking Proton's dark theme, sampled from the Mail, Calendar and Contacts screens. For interview mockups, not an official Proton asset.</p>
+  <header class="ds-system site-head">
+    <span class="ds-label">Reference</span>
+    <h1 class="site-head__title">Design system</h1>
+    <p class="site-head__sub">The Proton Dark kit used inside the mockups: tokens and components mimicking Proton's dark theme, sampled from the Mail, Calendar and Contacts screens. Not an official Proton asset. The website around the mockups uses DS Dark (<code>assets/ds/</code>).</p>
+    <hr class="site-head__divider">
+  </header>
 
   <!-- ============ Colours ============ -->
   <section>

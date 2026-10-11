@@ -145,6 +145,22 @@
       (count != null ? '<span class="ptab-n">' + count + '</span>' : "") + '</button>';
   };
 
+  /* Interactive elements light up. Marks everything matching sel inside root with .mk-live
+     (again after every re-render) so it glows on hover. Clicking anything that does nothing
+     flashes all live elements for a second, like hotspots in a Figma prototype. */
+  var live = function (root, sel) {
+    if (!root) return;
+    var mark = function () { Array.prototype.forEach.call(root.querySelectorAll(sel), function (el) { el.classList.add("mk-live"); }); };
+    mark();
+    if (window.MutationObserver) new MutationObserver(mark).observe(root, { childList: true, subtree: true });
+    var t;
+    root.addEventListener("click", function (e) {
+      if (e.target.closest(".mk-live")) return;
+      root.classList.remove("mk-flash"); void root.offsetWidth; root.classList.add("mk-flash");
+      clearTimeout(t); t = setTimeout(function () { root.classList.remove("mk-flash"); }, 1200);
+    });
+  };
+
   window.MK = { C: C, byId: byId, ME: ME, esc: esc, ic: ic, st: st, initials: initials, avClass: avClass, stack: stack, primary: primary, domainOf: domainOf,
-    hist: hist, lastContact: lastContact, trustPill: trustPill, SUGGESTED: SUGGESTED, HELD: HELD, ring: ring, ptab: ptab };
+    hist: hist, lastContact: lastContact, trustPill: trustPill, SUGGESTED: SUGGESTED, HELD: HELD, ring: ring, ptab: ptab, live: live };
 })();

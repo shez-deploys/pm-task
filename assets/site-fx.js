@@ -20,7 +20,7 @@
 
     /* Header shadow once the page scrolls */
     '.site-nav{transition:box-shadow .25s,border-color .25s}' +
-    '.site-nav.is-scrolled{box-shadow:0 8px 24px -12px rgba(0,0,0,.7);border-bottom-color:#2d2b36}' +
+    '.site-nav.is-scrolled{box-shadow:0 8px 24px -12px rgba(0,0,0,.8);border-bottom-color:#2b2b2b}' +
 
     (reduce ? '' :
     /* Reveal on scroll */
@@ -29,25 +29,25 @@
 
     /* Lift on hover for link cards */
     '.page,[data-lift]{transition:transform .25s cubic-bezier(.2,.7,.2,1),border-color .2s,background-color .2s,box-shadow .25s}' +
-    '.page:hover,[data-lift]:hover{transform:translateY(-3px);box-shadow:0 14px 32px -18px rgba(109,74,255,.55)}' +
+    '.page:hover,[data-lift]:hover{transform:translateY(-3px);box-shadow:0 14px 32px -18px rgba(255,255,255,.22)}' +
 
     /* Press feedback */
     'button,.btn,.pt-btn,.tab,.fchip,.chip,.page{-webkit-tap-highlight-color:transparent}' +
     'button:active:not(:disabled),.btn:active,.pt-btn:active,.tab:active,.fchip:active{transform:scale(.97)}' +
     '.chip{transition:transform .15s,box-shadow .15s,filter .15s}' +
-    '.chip:hover{transform:translateY(-1px);box-shadow:0 6px 14px -8px rgba(109,74,255,.8);filter:brightness(1.08)}' +
+    '.chip:hover{transform:translateY(-1px);box-shadow:0 6px 14px -8px rgba(255,255,255,.35);filter:brightness(1.12)}' +
 
     /* Table rows */
     'tr.row{transition:background-color .15s}') +
 
-    /* Spotlight: a soft purple glow under the pointer */
-    '.fx-spot{background-image:radial-gradient(420px circle at var(--mx,50%) var(--my,50%),rgba(109,74,255,.11),transparent 60%)}' +
+    /* Spotlight: a soft white glow under the pointer */
+    '.fx-spot{background-image:radial-gradient(420px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.06),transparent 60%)}' +
 
     /* Back to top */
-    '.fx-top{position:fixed;right:20px;bottom:20px;z-index:25;width:42px;height:42px;border-radius:12px;border:1px solid #3f3d4d;background:rgba(22,20,27,.9);color:#fff;display:grid;place-items:center;cursor:pointer;opacity:0;pointer-events:none;transform:translateY(8px);transition:opacity .2s,transform .2s,background-color .15s,border-color .15s;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}' +
+    '.fx-top{position:fixed;right:20px;bottom:20px;z-index:25;width:44px;height:44px;border-radius:6px;border:1px solid #2b2b2b;background:rgba(22,22,22,.9);color:#f5f5f5;display:grid;place-items:center;cursor:pointer;opacity:0;pointer-events:none;transform:translateY(8px);transition:opacity .2s,transform .2s,background-color .15s,border-color .15s;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}' +
     '.fx-top.is-shown{opacity:1;pointer-events:auto;transform:none}' +
-    '.fx-top:hover{background:#292732;border-color:#6d4aff}' +
-    '.fx-top:focus-visible{outline:2px solid #947ff7;outline-offset:2px}' +
+    '.fx-top:hover{background:#222;border-color:#5f5f5f;box-shadow:0 0 24px -8px rgba(255,255,255,.4)}' +
+    '.fx-top:focus-visible{outline:2px solid #9acbea;outline-offset:2px}' +
     '@media print{.fx-top{display:none}}';
 
   document.head.insertAdjacentHTML("beforeend", "<style>" + css + "</style>");
@@ -86,7 +86,7 @@
     onScroll();
 
     /* ---- Spotlight on cards ---- */
-    var SPOT = ".page,.card,.pt-card,[data-spotlight]";
+    var SPOT = ".page,.card,.site-card,[data-spotlight]";
     document.addEventListener("pointermove", function (e) {
       var el = e.target.closest && e.target.closest(SPOT);
       if (!el) return;
@@ -103,7 +103,7 @@
     /* ---- Reveal on scroll ---- */
     if (reduce || !("IntersectionObserver" in window)) return;
     var targets = document.querySelectorAll(
-      "[data-reveal], main > section, .wrap > .head, .wrap > .tabs, .card, .section-h, .table-scroll, .pages > .page"
+      "[data-reveal], main > section, .wrap > .tabs, .card, .section-h, .table-scroll"
     );
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {
@@ -113,8 +113,7 @@
     Array.prototype.forEach.call(targets, function (el) {
       if (el.closest(".drawer, .pt-drawer, [role=dialog]")) return;
       var sib = el.parentElement ? Array.prototype.indexOf.call(el.parentElement.children, el) : 0;
-      if (el.matches(".pages > .page")) el.style.setProperty("--fx-delay", Math.min(sib, 6) * 60 + "ms");
-      el.classList.add("fx-reveal");
+            el.classList.add("fx-reveal");
       io.observe(el);
     });
   });

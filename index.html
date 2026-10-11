@@ -3,47 +3,74 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
 <title>Proton Contacts PM Task</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
-<style>
-:root { color-scheme: dark; --bg: #0e0d12; --card: #16141b; --raised: #292732; --border: #24242d; --border-strong: #3f3d4d; --text: #fff; --weak: #a7a4b5; --hint: #6d6b78; --primary: #6d4aff; --primary-soft: #947ff7; }
-* { box-sizing: border-box; }
-html, body { background: var(--bg); }
-body { margin: 0; font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 14px; line-height: 1.5; color: var(--text); -webkit-font-smoothing: antialiased; }
-.wrap { max-width: 1240px; margin: 0 auto; padding-inline: 24px; padding-block: 48px 72px; }
-@media (max-width: 640px) { .wrap { padding-inline: 16px; padding-block: 32px 56px; } }
-.eyebrow { font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--primary-soft); }
-h1 { font-size: 32px; font-weight: 700; letter-spacing: -.01em; margin: 8px 0 8px; text-wrap: balance; }
-.sub { color: var(--weak); max-width: 62ch; margin: 0; }
-.pages { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 12px; margin-top: 32px; }
-.page { display: flex; flex-direction: column; gap: 6px; padding: 20px; border-radius: 12px; background: var(--card); border: 1px solid var(--border); color: inherit; text-decoration: none; transition: border-color .15s, background .15s; }
-.page:hover { border-color: var(--primary); background: #1b1922; }
-.page:focus-visible { outline: 2px solid var(--primary-soft); outline-offset: 2px; }
-.page b { font-size: 16px; display: flex; align-items: center; gap: 10px; }
-.page b .ms { font-size: 22px; color: var(--primary-soft); width: 36px; height: 36px; display: grid; place-items: center; border-radius: 10px; background: rgba(109,74,255,.14); }
-.page b::after { margin-left: auto; transition: transform .2s; }
-.page:hover b::after { transform: translateX(3px); }
-.page b em { font-style: normal; font-weight: 500; color: var(--weak); margin-right: -4px; }
-.page b em::after { content: " /"; }
-.page b::after { content: "→"; color: var(--primary-soft); }
-.page span { color: var(--weak); font-size: 13px; }
-</style>
+<link rel="stylesheet" href="assets/ds/ds.css">
+<link rel="stylesheet" href="assets/site.css">
 </head>
-<body>
+<body class="ds-system">
 <script src="assets/site-nav.js"></script>
-<main class="wrap">
-  <div class="eyebrow">Proton Contacts for Business</div>
-  <h1>Take-home task workspace</h1>
-  <p class="sub">Supporting pages for the B2B Senior PM task: how feature ideas were prioritised, three mockups of the contacts experience, and the design system behind them.</p>
-  <div class="pages" id="pages"></div>
+<main class="site-wrap site-main">
+  <header class="site-hero">
+    <span class="ds-label">Proton Contacts for Business · B2B PM task</span>
+    <h1 class="ds-display">Take-home task workspace</h1>
+    <p class="ds-lead">How 27 feature ideas were prioritised, interactive mockups of the two MVP features, and the design system behind them.</p>
+    <div class="ds-row">
+      <a class="ds-button ds-button--primary" href="mockups/">View the mockups <span class="ms" aria-hidden="true">north_east</span></a>
+      <a class="ds-button" href="matrix.html">Impact / effort matrix</a>
+    </div>
+  </header>
+  <hr class="site-head__divider" style="margin:56px 0 48px">
+
+  <section class="site-section">
+    <div class="ds-section-head"><h2 class="ds-heading">01 / Start here</h2><span class="ds-muted ds-small">The prioritisation and the mockups</span></div>
+    <div class="site-grid site-grid--2">
+      <a class="site-card" href="matrix.html">
+        <div class="site-card__shot"><img src="assets/img/matrix.jpg" alt="Impact / effort matrix with the two MVP features in Big bets" loading="lazy"></div>
+        <div class="site-card__body"><span class="ds-label">Prioritisation</span><div class="site-card__title">Impact / effort</div><p class="site-card__desc">27 feature ideas scored 1–10 on impact and effort, with filters by priority, a brief for every feature and the full backlog.</p><span class="site-card__go">Open the matrix<span class="ms" aria-hidden="true">north_east</span></span></div>
+      </a>
+      <a class="site-card" href="mockups/">
+        <div class="site-card__shot"><img src="mockups/img/list-overview.jpg" alt="Contacts list mockup with a hover card" loading="lazy"></div>
+        <div class="site-card__body"><span class="ds-label">Mockups</span><div class="site-card__title">All mockups</div><p class="site-card__desc">The two MVP features, Trusted Contacts and Protection, with a screenshot and a short explanation of every view.</p><span class="site-card__go">Open the mockups<span class="ms" aria-hidden="true">north_east</span></span></div>
+      </a>
+    </div>
+  </section>
+
+  <section class="site-section">
+    <div class="ds-section-head"><h2 class="ds-heading">02 / Mockups</h2><span class="ds-muted ds-small">Interactive, with fictional data</span></div>
+    <div class="site-grid site-grid--4">
+      <a class="site-card" href="mockups/contacts-list.html">
+        <div class="site-card__shot"><img src="mockups/img/list-overview.jpg" alt="Contacts list" loading="lazy"></div>
+        <div class="site-card__body"><span class="ds-label">Trusted Contacts</span><div class="site-card__title">Overview</div><p class="site-card__desc">The contacts list with hover summaries, suggested contacts, groups and colleagues.</p><span class="site-card__go">Open<span class="ms" aria-hidden="true">north_east</span></span></div>
+      </a>
+      <a class="site-card" href="mockups/contacts.html">
+        <div class="site-card__shot"><img src="mockups/img/view-overview.jpg" alt="Full-screen contact card" loading="lazy"></div>
+        <div class="site-card__body"><span class="ds-label">Trusted Contacts</span><div class="site-card__title">Contact card</div><p class="site-card__desc">A contact opens full screen with your history, trust signals and connections.</p><span class="site-card__go">Open<span class="ms" aria-hidden="true">north_east</span></span></div>
+      </a>
+      <a class="site-card" href="mockups/protection.html#imp">
+        <div class="site-card__shot"><img src="mockups/img/prot-impersonation.jpg" alt="Impersonation warning" loading="lazy"></div>
+        <div class="site-card__body"><span class="ds-label">Protection</span><div class="site-card__title">Impersonation</div><p class="site-card__desc">Inbound: a look-alike sender asks to change bank details.</p><span class="site-card__go">Open<span class="ms" aria-hidden="true">north_east</span></span></div>
+      </a>
+      <a class="site-card" href="mockups/protection.html#mis">
+        <div class="site-card__shot"><img src="mockups/img/prot-misdirection.jpg" alt="Misdirection warning in the composer" loading="lazy"></div>
+        <div class="site-card__body"><span class="ds-label">Protection</span><div class="site-card__title">Misdirection</div><p class="site-card__desc">Outbound: an email about to go to the wrong Camille.</p><span class="site-card__go">Open<span class="ms" aria-hidden="true">north_east</span></span></div>
+      </a>
+    </div>
+  </section>
+
+  <section class="site-section">
+    <div class="ds-section-head"><h2 class="ds-heading">03 / Reference</h2></div>
+    <a class="site-card site-card--row" href="design-system/">
+      <span class="site-card__icon"><span class="ms" aria-hidden="true">palette</span></span>
+      <div class="site-card__body"><div class="site-card__title">Design system</div><p class="site-card__desc">The Proton Dark kit used inside the mockups: tokens, components and icons. The website itself uses DS Dark.</p></div>
+      <span class="site-card__go">Open<span class="ms" aria-hidden="true">north_east</span></span>
+    </a>
+  </section>
+
+  <footer class="site-foot"><span>Proton Contacts for Business · B2B PM task</span><span>All people and companies are fictional</span></footer>
 </main>
-<script>
-document.getElementById("pages").innerHTML = (window.SITE_PAGES || [])
-  .filter(function (p) { return !/index\.html$/.test(p.href); })
-  .map(function (p) { return '<a class="page" href="' + p.href + '"><b><span class="ms" aria-hidden="true">' + (p.icon || "arrow_forward") + '</span>' + (p.group ? '<em>' + p.group + '</em>' : '') + p.label + '</b><span>' + p.desc + '</span></a>'; })
-  .join("");
-</script>
 </body>
 </html>
