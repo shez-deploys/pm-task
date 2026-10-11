@@ -10,7 +10,7 @@
     { href: "index.html",     label: "Overview",        icon: "home",      desc: "What's here and how it fits together." },
     { href: "matrix.html",    label: "Impact / Effort", icon: "grid_view", desc: "27 feature ideas on an impact/effort matrix, with filters, feature details and the full backlog." },
     { label: "Mockups", icon: "devices", children: [
-      { href: "mockups/", label: "Overview", icon: "dashboard", desc: "All mockups in two parts, trusted contacts and protection, with screenshots of every view." },
+      { href: "mockups/", label: "Overview", icon: "dashboard", desc: "Both MVP features, Trusted Contacts and Protection, with screenshots of every view." },
       { href: "mockups/contacts-list.html", label: "Contacts list", icon: "contacts", desc: "All contacts with hover summaries, suggested contacts with confidence scores, groups and colleagues." },
       { href: "mockups/contacts.html", label: "Contact view", icon: "contact_page", desc: "A contact opens full screen with history, trust signals and impersonation warnings." },
       { href: "mockups/protection.html", label: "Protection", icon: "shield_person", desc: "An impersonation attempt in the inbox, and a misdirected email caught before sending." }
