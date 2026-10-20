@@ -21,7 +21,8 @@
     ]},
     { label: "Appendix", icon: "menu_book", children: [
       { href: "appendix/sources.html", label: "Sources", icon: "link", desc: "Research behind the write-up, the feature ideas and the mockups." },
-      { href: "appendix/context.html", label: "Context", icon: "article", desc: "Background and detail cut from the main document." }
+      { href: "appendix/context.html", label: "Context", icon: "article", desc: "Background and detail cut from the main document." },
+      { href: "appendix/wireframes.html", label: "Wireframes", icon: "dashboard", desc: "Rough wireframes drawn before the mockups." }
     ]}
     /* The design system page (design-system/) still exists, it just isn't in the nav. */
   ];

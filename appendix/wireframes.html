@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="color-scheme" content="dark">
+<title>Wireframes · Appendix</title>
+<link rel="preload" href="../assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/material-symbols-rounded.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<link rel="stylesheet" href="../assets/ds/ds.css">
+<link rel="stylesheet" href="../assets/site.css">
+<style>
+.ds-system .wf-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; margin-bottom: 24px; }
+.ds-system .wf-bar .ds-tabs { max-width: 100%; }
+.ds-system .wf-fig { margin: 0; scroll-margin-top: 84px; }
+.ds-system .wf-fig[hidden] { display: none; }
+.ds-system .wf-fig a.img { display: block; border-radius: var(--ds-radius); overflow: hidden; border: 1px solid var(--ds-border); background: #fff; transition: border-color .2s, box-shadow .25s; }
+.ds-system .wf-fig a.img:hover { border-color: var(--ds-border-strong); box-shadow: 0 0 0 1px #ffffff14, 0 20px 50px -26px #ffffff40; }
+.ds-system .wf-fig img { display: block; width: 100%; height: auto; }
+.ds-system .wf-cap { display: flex; flex-wrap: wrap; gap: 10px 24px; align-items: flex-start; justify-content: space-between; margin-top: 14px; }
+.ds-system .wf-cap h2 { font-size: 18px; font-weight: 600; letter-spacing: -.015em; margin: 0 0 4px; }
+.ds-system .wf-cap p { margin: 0; color: var(--ds-muted); font-size: 14.5px; line-height: 1.6; max-width: 72ch; }
+.ds-system .wf-cap .ds-button { flex: none; }
+.ds-system .wf-note { color: var(--ds-subtle); font-size: 13px; }
+</style>
+</head>
+<body class="ds-system">
+<script src="../assets/site-nav.js"></script>
+<main class="site-wrap site-main">
+  <header class="ds-system site-head">
+    <span class="ds-label">Appendix</span>
+    <h1 class="site-head__title">Wireframes</h1>
+    <p class="site-head__sub">Rough low-fidelity wireframes for Trusted Contacts and Protection, drawn before the Proton-styled mockups. Placeholder names and lines stand in for real content.</p>
+    <hr class="site-head__divider">
+  </header>
+
+  <div class="wf-bar">
+    <div class="ds-tabs" role="group" aria-label="Wireframe" id="wf-tabs">
+      <button class="ds-tab" type="button" data-wf="overview" aria-pressed="true"><span class="ms" aria-hidden="true">contacts</span>Contacts overview</button>
+      <button class="ds-tab" type="button" data-wf="card" aria-pressed="false"><span class="ms" aria-hidden="true">contact_page</span>Contact card</button>
+      <button class="ds-tab" type="button" data-wf="impersonation" aria-pressed="false"><span class="ms" aria-hidden="true">gpp_maybe</span>Impersonation</button>
+      <button class="ds-tab" type="button" data-wf="misdirection" aria-pressed="false"><span class="ms" aria-hidden="true">alt_route</span>Misdirection</button>
+    </div>
+    <span class="wf-note">Click an image to open it full size</span>
+  </div>
+
+  <figure class="wf-fig" id="overview">
+    <a class="img" href="img/wf-01-contacts-overview.png" target="_blank" rel="noopener"><img src="img/wf-01-contacts-overview.png" width="2560" height="1600" alt="Wireframe of the contacts list: sidebar with All contacts, Suggested, Groups and Colleagues; tabs, search, filters and a table of contacts with groups, last contact, history counts and a trust badge; a hover summary card shows role, company, email, meeting and file counts, and Message and Open buttons"></a>
+    <figcaption class="wf-cap">
+      <div><h2>01 / Contacts overview</h2><p>The contacts list with tabs for Suggested, Groups and Colleagues, internal and external filters, history counts and a trust badge on every row. Hovering a row opens a quick summary card.</p></div>
+      <a class="ds-button" href="../mockups/contacts-list.html">See the mockup <span class="ms" aria-hidden="true">north_east</span></a>
+    </figcaption>
+  </figure>
+
+  <figure class="wf-fig" id="card" hidden>
+    <a class="img" href="img/wf-02-contact-card.png" target="_blank" rel="noopener"><img src="img/wf-02-contact-card.png" width="2560" height="1600" loading="lazy" alt="Wireframe of a full-screen contact card: photo, External, Type and Trusted tags, name, role and groups; tabs for Overview, Notes, Email, Calendar, Files and Connections; details on the left; email, calendar and file counts and recent activity across Mail, Calendar and Drive on the right"></a>
+    <figcaption class="wf-cap">
+      <div><h2>02 / Contact card</h2><p>A contact opens full screen, not as a modal. Details sit on the left; history counts and recent activity across Mail, Calendar and Drive sit on the right.</p></div>
+      <a class="ds-button" href="../mockups/contacts.html">See the mockup <span class="ms" aria-hidden="true">north_east</span></a>
+    </figcaption>
+  </figure>
+
+  <figure class="wf-fig" id="impersonation" hidden>
+    <a class="img" href="img/wf-03-impersonation.png" target="_blank" rel="noopener"><img src="img/wf-03-impersonation.png" width="2560" height="1600" loading="lazy" alt="Wireframe of Proton Mail with an email flagged as possible impersonation: a warning panel lists a look-alike domain, a name matching a trusted contact and a payment request, and compares the known contact with this sender on domain, verification, known since and email history; actions to report and delete, mark as safe, or say not sure"></a>
+    <figcaption class="wf-cap">
+      <div><h2>03 / Protection: impersonation</h2><p>Inbound. A look-alike sender is flagged in the inbox and the open email. The warning compares the sender with the real contact on domain, authentication, how long they have been known and email history.</p></div>
+      <a class="ds-button" href="../mockups/protection.html#imp">See the mockup <span class="ms" aria-hidden="true">north_east</span></a>
+    </figcaption>
+  </figure>
+
+  <figure class="wf-fig" id="misdirection" hidden>
+    <a class="img" href="img/wf-04-misdirection.png" target="_blank" rel="noopener"><img src="img/wf-04-misdirection.png" width="2560" height="1600" loading="lazy" alt="Wireframe of a new message where autocomplete picked a look-alike contact: a warning panel compares the recipient you are sending to with the usual contact you probably meant, on company, history and groups, with actions to switch to the usual contact, send anyway or remove the recipient"></a>
+    <figcaption class="wf-cap">
+      <div><h2>04 / Protection: misdirection</h2><p>Outbound. Autocomplete picked a look-alike contact, so the composer asks you to check the recipient before Send and shows who you probably meant.</p></div>
+      <a class="ds-button" href="../mockups/protection.html#mis">See the mockup <span class="ms" aria-hidden="true">north_east</span></a>
+    </figcaption>
+  </figure>
+
+  <footer class="site-foot"><span>Proton Contacts for Business · B2B PM task</span><span>All people and companies in the mockups are fictional</span></footer>
+</main>
+<script>
+/* One wireframe at a time; the hash (#card etc.) picks the tab so each can be linked */
+(function () {
+  var tabs = Array.prototype.slice.call(document.querySelectorAll("#wf-tabs [data-wf]"));
+  var ids = tabs.map(function (t) { return t.getAttribute("data-wf"); });
+  function show(id, push) {
+    if (ids.indexOf(id) < 0) id = ids[0];
+    tabs.forEach(function (t) { t.setAttribute("aria-pressed", t.getAttribute("data-wf") === id ? "true" : "false"); });
+    ids.forEach(function (k) { document.getElementById(k).hidden = k !== id; });
+    if (push) { try { history.replaceState(null, "", "#" + id); } catch (e) {} }
+  }
+  tabs.forEach(function (t) { t.addEventListener("click", function () { show(t.getAttribute("data-wf"), true); }); });
+  window.addEventListener("hashchange", function () { show(location.hash.slice(1)); });
+  show(location.hash.slice(1));
+})();
+</script>
+</body>
+</html>
