@@ -146,32 +146,43 @@
   };
 
   /* Intro hint: when a mockup opens, pulse the elements matching sel inside root and show a
-     short callout under them, so it's clear where to go next. Goes away after a few seconds
-     or on the first click, key press or scroll. Skipped if the targets aren't on screen. */
+     short callout under them, so it's clear where to go next. If they start below the fold
+     it waits until they scroll into view. Goes away after a few seconds or on the first
+     click or key press. */
   var hint = function (root, sel, text, opts) {
     opts = opts || {};
     setTimeout(function () {
-      var els = Array.prototype.filter.call(root.querySelectorAll(sel), function (el) { var r = el.getBoundingClientRect(); return r.width && r.height && r.top >= 0 && r.bottom <= window.innerHeight; });
+      var els = Array.prototype.filter.call(root.querySelectorAll(sel), function (el) { return el.getClientRects().length; });
       if (opts.limit) els = els.slice(0, opts.limit);
       if (!els.length) return;
-      var box = els.reduce(function (b, el) { var r = el.getBoundingClientRect(); return { l: Math.min(b.l, r.left), r: Math.max(b.r, r.right), b: Math.max(b.b, r.bottom) }; }, { l: Infinity, r: -Infinity, b: -Infinity });
-      els.forEach(function (el) { el.classList.add("mk-hint"); });
-      var tip = document.createElement("div");
-      tip.className = "mk-tip"; tip.setAttribute("role", "status");
-      tip.innerHTML = '<span class="pt-icon pt-icon--sm" aria-hidden="true">touch_app</span>' + text;
-      document.body.appendChild(tip);
-      var w = tip.offsetWidth, cx = (box.l + box.r) / 2, left = Math.max(12, Math.min(cx - w / 2, window.innerWidth - w - 12));
-      tip.style.left = left + "px"; tip.style.top = (box.b + 12) + "px";
-      tip.style.setProperty("--arrow", Math.max(14, Math.min(cx - left, w - 14)) + "px");
-      requestAnimationFrame(function () { tip.classList.add("show"); });
-      var done = false, end = function () {
-        if (done) return; done = true;
-        els.forEach(function (el) { el.classList.remove("mk-hint"); });
-        tip.classList.remove("show"); setTimeout(function () { tip.remove(); }, 250);
-        ["pointerdown", "keydown", "wheel", "touchmove"].forEach(function (ev) { window.removeEventListener(ev, end, true); });
+      var started = false, start = function () {
+        if (started) return; started = true;
+        var box = els.reduce(function (b, el) { var r = el.getBoundingClientRect(); return { l: Math.min(b.l, r.left), r: Math.max(b.r, r.right), b: Math.max(b.b, r.bottom) }; }, { l: Infinity, r: -Infinity, b: -Infinity });
+        els.forEach(function (el) { el.classList.add("mk-hint"); });
+        var tip = document.createElement("div");
+        tip.className = "mk-tip"; tip.setAttribute("role", "status");
+        tip.innerHTML = '<span class="pt-icon pt-icon--sm" aria-hidden="true">touch_app</span>' + text;
+        document.body.appendChild(tip);
+        var w = tip.offsetWidth, cx = (box.l + box.r) / 2, left = Math.max(12, Math.min(cx - w / 2, window.innerWidth - w - 12));
+        tip.style.left = (left + window.scrollX) + "px"; tip.style.top = (box.b + 12 + window.scrollY) + "px";
+        tip.style.setProperty("--arrow", Math.max(14, Math.min(cx - left, w - 14)) + "px");
+        requestAnimationFrame(function () { tip.classList.add("show"); });
+        var done = false, end = function () {
+          if (done) return; done = true;
+          els.forEach(function (el) { el.classList.remove("mk-hint"); });
+          tip.classList.remove("show"); setTimeout(function () { tip.remove(); }, 250);
+          window.removeEventListener("pointerdown", end, true); window.removeEventListener("keydown", end, true); window.removeEventListener("scroll", inner, true);
+        };
+        /* Scrolling the page keeps the callout in place; scrolling a list inside the mockup ends it. */
+        var inner = function (e) { if (e.target !== document) end(); };
+        window.addEventListener("pointerdown", end, true); window.addEventListener("keydown", end, true); window.addEventListener("scroll", inner, true);
+        setTimeout(end, opts.duration || 5000);
       };
-      ["pointerdown", "keydown", "wheel", "touchmove"].forEach(function (ev) { window.addEventListener(ev, end, true); });
-      setTimeout(end, opts.duration || 5000);
+      if (!("IntersectionObserver" in window)) { start(); return; }
+      var io = new IntersectionObserver(function (entries) {
+        if (entries.some(function (en) { return en.intersectionRatio >= 0.9; })) { io.disconnect(); setTimeout(start, 250); }
+      }, { threshold: [0.9] });
+      els.forEach(function (el) { io.observe(el); });
     }, opts.delay || 600);
   };
 
