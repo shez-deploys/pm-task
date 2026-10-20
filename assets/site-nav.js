@@ -4,8 +4,7 @@
      <script src="assets/site-nav.js"></script>        (page at the root)
      <script src="../assets/site-nav.js"></script>     (page in a subfolder)
    A group ({ label, children: [...] }) has no page of its own; it shows as a
-   dropdown. Inside a group, { section: "Name" } starts a labelled block.
-   Also adds the Clear cache button (reloads every file from the server). */
+   dropdown. Inside a group, { section: "Name" } starts a labelled block. */
 (function () {
   var PAGES = [
     { href: "index.html",     label: "Overview",        icon: "home",      desc: "What's here and how it fits together." },
@@ -58,12 +57,6 @@
     '.site-nav__links>a[aria-current="page"],.site-nav__group.is-current{background:#2b2b2b;color:#f5f5f5}' +
     '.site-nav__group .ms{font-size:18px;transition:transform .2s}' +
     '.site-nav__group[aria-expanded="true"] .ms{transform:rotate(180deg)}' +
-    '.site-nav__clear{flex:none;display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 12px;border-radius:6px;border:1px solid #2b2b2b;background:#161616;color:#f5f5f5;font:500 12.5px/1 inherit;font-family:inherit;cursor:pointer;white-space:nowrap;transition:background-color .14s,border-color .14s,box-shadow .2s}' +
-    '.site-nav__clear:hover{background:#222;border-color:#5f5f5f;box-shadow:0 0 0 1px #ffffff12,0 0 22px -8px #ffffff66}' +
-    '.site-nav__clear .ms{font-size:17px}' +
-    '.site-nav__clear.is-busy{opacity:.7;cursor:progress}' +
-    '.site-nav__clear.is-busy .ms{animation:site-spin .8s linear infinite}' +
-    '@keyframes site-spin{to{transform:rotate(360deg)}}' +
     '.site-nav__menu{position:fixed;z-index:40;min-width:280px;padding:6px;border-radius:12px;background:#161616;border:1px solid #2b2b2b;box-shadow:0 16px 48px #0008;opacity:0;transform:translateY(-4px);pointer-events:none;transition:opacity .15s,transform .15s;color:#f5f5f5}' +
     '.site-nav__menu.is-open{opacity:1;transform:none;pointer-events:auto}' +
     '.site-nav__sec{display:block;padding:12px 10px 4px;font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#929292}' +
@@ -75,7 +68,7 @@
     '.site-nav__menu a[aria-current="page"] .ms,.site-nav__menu a:hover .ms{color:#f5f5f5}' +
     '.site-nav a:focus-visible,.site-nav button:focus-visible,.site-nav__menu a:focus-visible{outline:2px solid #9acbea;outline-offset:2px}' +
     '.ms{font-family:"Material Symbols Rounded";font-weight:normal;font-style:normal;font-size:20px;line-height:1;letter-spacing:normal;text-transform:none;display:inline-block;white-space:nowrap;direction:ltr;overflow:hidden;-webkit-font-smoothing:antialiased;font-variation-settings:"FILL" 0,"wght" 400,"GRAD" 0,"opsz" 20;vertical-align:middle;user-select:none}' +
-    '@media (max-width:760px){.site-nav__in{gap:10px}.site-nav__brand span{display:none}.site-nav__clear b{display:none}.site-nav__clear{padding:0 9px}}';
+    '@media (max-width:760px){.site-nav__in{gap:10px}.site-nav__brand span{display:none}}';
 
   var menus = "";
   var links = PAGES.map(function (p, i) {
@@ -90,10 +83,7 @@
     return '<a href="' + root + p.href + '" data-nav-href="' + p.href + '">' + p.label + '</a>';
   }).join("");
 
-  /* Material Symbols (icon font) and the shared motion script load on every page. */
-  if (!document.querySelector('link[href*="Material+Symbols"]')) {
-    document.head.insertAdjacentHTML("beforeend", '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,300..600,0..1,-25..0&display=block">');
-  }
+  /* The shared motion script loads on every page (fonts come from assets/fonts/fonts.css). */
   var fx = document.createElement("script"); fx.src = root + "assets/site-fx.js"; fx.defer = true; document.head.appendChild(fx);
 
   document.head.insertAdjacentHTML("beforeend", "<style>" + css + "</style>");
@@ -101,7 +91,6 @@
     '<header class="site-nav ds-system"><div class="site-nav__in">' +
       '<a class="site-nav__brand" href="' + root + 'index.html">Proton Contacts <span>/ PM task</span></a>' +
       '<nav class="site-nav__links" aria-label="Pages">' + links + '</nav>' +
-      '<button type="button" class="site-nav__clear" id="site-clear" title="Reload every file from the server and reset saved filters"><span class="ms" aria-hidden="true">refresh</span><b>Clear cache</b></button>' +
     '</div></header>' + menus);
 
   /* Current page markers (re-run when the hash changes, e.g. Impersonation ↔ Misdirection) */
@@ -157,27 +146,4 @@
     });
   });
   window.SITE_PAGES = flat;
-
-  /* ---- Clear cache: re-download every file from the server, then reload ----
-     fetch(..., {cache: "reload"}) skips the browser cache and stores the fresh copy,
-     so the reload picks up new versions straight away (GitHub Pages caches for 10 minutes). */
-  var ASSETS = ["", "index.html", "assets/SherryBond-B2B-Proton.pdf", "assets/img/writeup-page1.jpg", "matrix.html", "backlog.html", "assets/prioritisation.css", "assets/prioritisation.js", "appendix/img/prioritisation-inputs.png", "appendix/img/wireframe-contact-card.png", "mockups/", "mockups/index.html", "mockups/contacts-list.html", "mockups/contacts.html", "mockups/protection.html",
-    "appendix/sources.html", "appendix/context.html", "design-system/", "design-system/index.html", "design-system/proton-dark.css", "assets/site-nav.js", "assets/site-fx.js", "assets/site.css", "assets/ds/ds.css",
-    "data/features.js", "data/contacts.js", "mockups/mockup.css", "mockups/mockup.js"];
-  document.getElementById("site-clear").addEventListener("click", function () {
-    var btn = this; if (btn.classList.contains("is-busy")) return;
-    btn.classList.add("is-busy"); btn.querySelector("b").textContent = "Clearing…";
-    var urls = {};
-    urls[location.href.split("#")[0]] = 1;
-    ASSETS.forEach(function (a) { urls[root + a] = 1; });
-    try { (performance.getEntriesByType("resource") || []).forEach(function (e) { if (e.name.indexOf(location.origin) === 0) urls[e.name.split("#")[0]] = 1; }); } catch (e) {}
-    var jobs = Object.keys(urls).map(function (u) { return fetch(u, { cache: "reload", credentials: "same-origin" }).catch(function () {}); });
-    if (window.caches && caches.keys) jobs.push(caches.keys().then(function (ks) { return Promise.all(ks.map(function (k) { return caches.delete(k); })); }).catch(function () {}));
-    if (navigator.serviceWorker && navigator.serviceWorker.getRegistrations) jobs.push(navigator.serviceWorker.getRegistrations().then(function (rs) { return Promise.all(rs.map(function (r) { return r.unregister(); })); }).catch(function () {}));
-    try { localStorage.clear(); } catch (e) {}
-    try { sessionStorage.clear(); } catch (e) {}
-    var done = false, finish = function () { if (done) return; done = true; location.reload(); };
-    Promise.all(jobs).then(finish, finish);
-    setTimeout(finish, 5000);
-  });
 })();

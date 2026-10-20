@@ -145,6 +145,36 @@
       (count != null ? '<span class="ptab-n">' + count + '</span>' : "") + '</button>';
   };
 
+  /* Intro hint: when a mockup opens, pulse the elements matching sel inside root and show a
+     short callout under them, so it's clear where to go next. Goes away after a few seconds
+     or on the first click, key press or scroll. Skipped if the targets aren't on screen. */
+  var hint = function (root, sel, text, opts) {
+    opts = opts || {};
+    setTimeout(function () {
+      var els = Array.prototype.filter.call(root.querySelectorAll(sel), function (el) { var r = el.getBoundingClientRect(); return r.width && r.height && r.top >= 0 && r.bottom <= window.innerHeight; });
+      if (opts.limit) els = els.slice(0, opts.limit);
+      if (!els.length) return;
+      var box = els.reduce(function (b, el) { var r = el.getBoundingClientRect(); return { l: Math.min(b.l, r.left), r: Math.max(b.r, r.right), b: Math.max(b.b, r.bottom) }; }, { l: Infinity, r: -Infinity, b: -Infinity });
+      els.forEach(function (el) { el.classList.add("mk-hint"); });
+      var tip = document.createElement("div");
+      tip.className = "mk-tip"; tip.setAttribute("role", "status");
+      tip.innerHTML = '<span class="pt-icon pt-icon--sm" aria-hidden="true">touch_app</span>' + text;
+      document.body.appendChild(tip);
+      var w = tip.offsetWidth, cx = (box.l + box.r) / 2, left = Math.max(12, Math.min(cx - w / 2, window.innerWidth - w - 12));
+      tip.style.left = left + "px"; tip.style.top = (box.b + 12) + "px";
+      tip.style.setProperty("--arrow", Math.max(14, Math.min(cx - left, w - 14)) + "px");
+      requestAnimationFrame(function () { tip.classList.add("show"); });
+      var done = false, end = function () {
+        if (done) return; done = true;
+        els.forEach(function (el) { el.classList.remove("mk-hint"); });
+        tip.classList.remove("show"); setTimeout(function () { tip.remove(); }, 250);
+        ["pointerdown", "keydown", "wheel", "touchmove"].forEach(function (ev) { window.removeEventListener(ev, end, true); });
+      };
+      ["pointerdown", "keydown", "wheel", "touchmove"].forEach(function (ev) { window.addEventListener(ev, end, true); });
+      setTimeout(end, opts.duration || 5000);
+    }, opts.delay || 600);
+  };
+
   /* Interactive elements light up. Marks everything matching sel inside root with .mk-live
      (again after every re-render) so it glows on hover. Clicking anything that does nothing
      flashes all live elements for a second, like hotspots in a Figma prototype. */
@@ -162,5 +192,5 @@
   };
 
   window.MK = { C: C, byId: byId, ME: ME, esc: esc, ic: ic, st: st, initials: initials, avClass: avClass, stack: stack, primary: primary, domainOf: domainOf,
-    hist: hist, lastContact: lastContact, trustPill: trustPill, SUGGESTED: SUGGESTED, HELD: HELD, ring: ring, ptab: ptab, live: live };
+    hist: hist, lastContact: lastContact, trustPill: trustPill, SUGGESTED: SUGGESTED, HELD: HELD, ring: ring, ptab: ptab, live: live, hint: hint };
 })();

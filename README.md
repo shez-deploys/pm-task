@@ -34,7 +34,7 @@ Every mockup page has the same plain header: a small label (the feature), a larg
 
 | File | What it does |
 |---|---|
-| [`assets/site-nav.js`](assets/site-nav.js) | Header nav (Mockups dropdown grouped by feature), Clear cache button, loads Material Symbols and the motion script |
+| [`assets/site-nav.js`](assets/site-nav.js) | Header nav (Mockups dropdown grouped by feature) and loads the motion script |
 | [`assets/site.css`](assets/site.css) | Page container, page headers, cards and grids on top of DS Dark |
 | [`assets/site-fx.js`](assets/site-fx.js) | Smooth scrolling, reveal on scroll, hover spotlight, back-to-top (off for reduced motion) |
 | [`assets/ds/`](assets/ds/) | DS Dark kit (CSS, optional JS, its README) |
@@ -42,8 +42,7 @@ Every mockup page has the same plain header: a small label (the feature), a larg
 | [`assets/prioritisation.css`](assets/prioritisation.css) / [`assets/prioritisation.js`](assets/prioritisation.js) | Shared by the Impact / Effort and Backlog pages: matrix, table, filters and the feature drawer |
 | [`mockups/mockup.css`](mockups/mockup.css) / [`mockups/mockup.js`](mockups/mockup.js) | Shared mockup styles and mock data. `MK.live(root, selector)` marks what works in a mockup so it lights up on hover; clicking anything else flashes all of it |
 | [`data/contacts.vcf`](data/contacts.vcf) / [`data/contacts.js`](data/contacts.js) | Fictional sample contacts for mockups (vCard for import, JS for pages) |
-
-**Clear cache** (top right on every page) re-downloads every file from the server, clears saved filters and reloads, so new versions show up straight away instead of after GitHub Pages' 10-minute cache.
+| [`assets/fonts/`](assets/fonts/) | Self-hosted Inter and Material Symbols Rounded (`fonts.css`). The icon font is subset to the icons the site uses, so a new icon name needs the subset rebuilt |
 
 Screenshots in `mockups/img/` and `assets/img/` (matrix, backlog) are captures for the home page and mockups overview; retake them after changing a mockup.
 

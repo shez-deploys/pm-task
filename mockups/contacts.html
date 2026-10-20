@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow, noarchive">
 <title>Contact card · Trusted Contacts</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<link rel="preload" href="../assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/material-symbols-rounded.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
 <link rel="stylesheet" href="../assets/ds/ds.css">
 <link rel="stylesheet" href="../assets/site.css">
 <link rel="stylesheet" href="../design-system/proton-dark.css">
@@ -291,6 +291,9 @@
   var q = (location.hash || "").slice(1), m = /^c=(\d+)(?:&tab=(\w+))?/.exec(q);
   window.addEventListener("hashchange", function () { var q2 = location.hash.slice(1), m2 = /^c=(\d+)(?:&tab=(\w+))?/.exec(q2); if (m2 && byId[m2[1]]) openContact(m2[1], m2[2]); });
   if (q === "inbox") syncSeg(); else if (m && byId[m[1]]) openContact(m[1], m[2]); else openContact(q === "fake" ? 10 : 8);
+
+  /* On open: point out the tabs (Email, Calendar, Files, Connections...) */
+  if (state.id) MK.hint(document.getElementById("app"), ".ptabs--cover .ptab", "Use these tabs to see Notes, Email, Calendar, Files and Connections", { delay: 900 });
 })();
 </script>
 </body>

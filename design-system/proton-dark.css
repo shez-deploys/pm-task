@@ -5,8 +5,8 @@
    Not an official Proton asset. For interview mockups only.
    ========================================================================== */
 
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,300..600,0..1,-25..0&display=block");
+
+/* Fonts: pages load ../assets/fonts/fonts.css (Inter + Material Symbols Rounded). */
 
 :root {
   /* ---------- Surfaces (sampled) ---------- */
