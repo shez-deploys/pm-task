@@ -13,6 +13,7 @@ Supporting material for the Proton B2B PM take-home task.
 | Protection › Impersonation and Misdirection | [`mockups/protection.html#imp`](mockups/protection.html) / `#mis` |
 | Appendix › Sources | [`appendix/sources.html`](appendix/sources.html) |
 | Appendix › Context (Additional Notes from the doc, every section with a link to copy, plus visuals) | [`appendix/context.html`](appendix/context.html) |
+| Appendix › Scoring (RICE and WSJF against the backlog and inside the MVP; inputs editable, edits stay in the browser) | [`appendix/scoring.html`](appendix/scoring.html) |
 | Appendix › Wireframes (rough wireframes of the four views, one tab each) | [`appendix/wireframes.html`](appendix/wireframes.html) |
 | Design system (Proton Dark kit used in the mockups, not in the nav) | [`design-system/index.html`](design-system/index.html) |
 

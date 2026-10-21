@@ -249,3 +249,7 @@ td.t-title b, .d-short { color: var(--text-weak); }
 .p-LATER { --pc-bg: #2b2b2b; --pc-bd: #5f5f5f; }
 .btn:hover, .icon-btn:hover { box-shadow: 0 0 18px -8px rgba(255,255,255,.5); }
 tbody tr.row:hover { box-shadow: inset 2px 0 0 var(--text); }
+
+/* Quieter quadrants: neutral backgrounds (Quick Win a touch lighter), colour kept on the labels only */
+:root { --q-qw: rgba(255,255,255,.045); --q-bb: rgba(255,255,255,.025); --q-in: rgba(255,255,255,.012); --q-mp: rgba(255,255,255,.012); }
+.zone { border: 1px solid rgba(255,255,255,.05); }
